@@ -117,8 +117,8 @@ ${C.bold}EXAMPLES${C.reset}
 
 ${C.bold}LIVE WEB WORKBENCH & SINGLE-APP FIX UNLOCK${C.reset}
   Free 6-Phase Online Scanner: ${WEB_APP}
-  Single-App Fix Unlock ($9):  ${PRO_GUMROAD}
-  4-in-1 Launch Stack ($29):   ${STACK_GUMROAD}
+  Single-App Fix Unlock ($2 Launch, reg. $9):  ${PRO_GUMROAD}
+  3-in-1 Complete Suite ($5 Launch, reg. $29):   ${STACK_GUMROAD}
 `);
 }
 
@@ -220,7 +220,7 @@ function renderMarkdown(d, gateFailures) {
   }
 
   lines.push(
-    `> **Need tailored copy-paste patches (Cursor/Lovable prompt, Vercel/Cloudflare/Nginx headers, Supabase RLS SQL & Firebase Rules)?** [Open Interactive 6-Phase Report](${WEB_APP}/?url=${encodeURIComponent(d.url)}) · [Unlock Single-App Fix Pack ($9 Once)](${PRO_GUMROAD})`
+    `> **Need tailored copy-paste patches (Cursor/Lovable prompt, Vercel/Cloudflare/Nginx headers, Supabase RLS SQL & Firebase Rules)?** [Open Interactive 6-Phase Report](${WEB_APP}/?url=${encodeURIComponent(d.url)}) · [Unlock Single-App Fix Pack ($2 Launch Special, reg. $9)](${PRO_GUMROAD})`
   );
   lines.push(``);
   return lines.join("\n");
@@ -329,7 +329,7 @@ async function main() {
   }
 
   console.log(`${C.cyan}Interactive 6-Phase Report:${C.reset} ${WEB_APP}/?url=${encodeURIComponent(data.url)}`);
-  console.log(`${C.cyan}Single-App Fix Pack ($9):${C.reset}  ${PRO_GUMROAD}\n`);
+  console.log(`${C.cyan}Single-App Fix Pack ($2 Launch):${C.reset}  ${PRO_GUMROAD}\n`);
 
   if (gateFailures.length > 0) process.exit(1);
 }

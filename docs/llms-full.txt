@@ -1,31 +1,18 @@
-# VibeShield — Complete LLM & Developer Reference
+# VibeShield v7.0 — Complete Technical Reference (llms-full.txt)
 
-> Zero-dependency security scanner CLI, GitHub Action, and Web Pro workbench for AI-built web applications.
+## Overview
+VibeShield v7.0 is a zero-dependency Node.js 20+ security scanner and online workbench designed for pre-launch verification of AI-built web applications (Lovable, Bolt.new, Cursor, v0, Next.js, Vite, Supabase, Firebase).
 
-## Capabilities
+## 6 Real Read-Only Audit Phases
+1. **TLS Port 443 & DNS CNAME Takeover:** Direct `node:tls` handshake (TLSv1.3 vs weak TLS 1.0/1.1, cipher suite, CA issuer, expiry countdown, SANs) and DNS `CNAME` dangling subdomain checks across 12 cloud providers.
+2. **Multi-Route Crawl & Uncapped JS Bundles:** Crawls `/`, `/robots.txt`, `/sitemap.xml`, Next.js `_buildManifest.js`, and core app routes; unpacks up to 24 JS chunks (up to 2.5MB each); discovers `/api/*`, `/trpc/*`, `/graphql`; scans 52 high-precision credential signatures.
+3. **28 SPA-Filtered Nuclei-Grade Probes & SourceMaps:** Probes `/.env*`, `/.git/HEAD`, `/.git/config`, `/.DS_Store`, `/swagger.json`, `/openapi.json`, `/api-docs`, `/graphql` & `/api/graphql` Introspection, `/wp-json/wp/v2/users`, `/actuator/health`, `/actuator/env`, `/phpinfo.php`, `/server-status`, `/.well-known/security.txt`, `/firebase.json`, `/next.config.js`, `/package.json`, `/backup.sql`, `/dump.sql`, `/debug/vars`, `/metrics`, Open Redirect, CORS credential reflection, and `.js.map` SourceMaps while filtering SPA fake-200 HTML responses.
+4. **Supabase (up to 20 Tables) & Firebase DB Probes:** Read-only PostgREST `HEAD Prefer: count=exact` checks (zero PII downloaded) + RPC & Storage bucket inventory; read-only Firebase RTDB (`/.json?shallow=true`) & Cloud Firestore (`documents?pageSize=1`) exposure checks.
+5. **Mozilla Observatory Headers, CSP AST & Passive CVEs:** Parses CSP directives (`unsafe-inline`, `unsafe-eval`, wildcard `*`, `frame-ancestors`, `object-src`, `base-uri`), HSTS (`max-age >= 31536000`, `includeSubDomains`, `preload`), COOP/CORP, Cookies, and passive framework CVE advisories (`CVE-2025-29927`, `CVE-2025-48757`, legacy jQuery/Apache/Nginx/WordPress/PHP).
+6. **Live Execution Trace & Calibrated Score:** Emits full `executionTrace[]` telemetry and calibrated 0-100 score.
 
-1. **Client JavaScript Bundle Unpacking:** Fetches and inspects live Next.js (`/_next/static/chunks/*.js`) and Vite (`/assets/*.js`) chunks across 38 secret signatures (OpenAI, Anthropic, Stripe, AWS, GitHub, Resend, Slack, private keys).
-2. **Supabase & PostgREST RLS Verification:** Detects public `SUPABASE_URL` endpoints, checks for leaked `service_role` JWTs, and verifies read-only PostgREST Row-Level Security posture.
-3. **Sensitive Endpoints & Security Headers:** Checks `.env`, `.git`, `.js.map` exposure, cookie attributes (`Secure`, `HttpOnly`, `SameSite`), CORS configuration, and 7 HTTP security headers.
-
-## Usage
-
-```bash
-npx github:zColdWater/vibeshield-cli scan https://yourapp.com --min-score 80 --fail-on-secrets
-```
-
-```yaml
-- uses: zColdWater/vibeshield-cli@v1
-  with:
-    url: https://yourapp.com
-    min-score: "80"
-    fail-on-secrets: "true"
-    fail-on-supabase-rls: "true"
-```
-
-## Links
-
-- Live Web Workbench: https://vibe-checker.appwrite.network
-- GitHub Repository (MIT): https://github.com/zColdWater/vibeshield-cli
-- VibeShield Web Pro ($9 One-Time): https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield
-- OmniForge 4-in-1 Launch Stack ($29 One-Time): https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack
+## Pricing (Launch Special — Zero Subscriptions)
+- Free Online 6-Phase Scanner & MIT CLI: $0 (https://vibe-checker.appwrite.network/)
+- Single-App Fix Unlock: $2 Launch Special (regularly $9, one-time) — https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield
+- OmniForge Complete 3-in-1 Suite: $5 Launch Special (regularly $29, one-time) — https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack
+- BrandShield v6.2 (78 TLDs + 17 Aftermarket Marketplaces): 100% Free Forever — https://brand-checker.appwrite.network/

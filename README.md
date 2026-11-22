@@ -9,8 +9,8 @@
 [![Dependencies: 0](https://img.shields.io/badge/dependencies-0-success.svg)](./package.json)
 
 - **Free 6-Phase Online Deep Scanner (Live Console, Zero Signup):** [https://vibe-checker.appwrite.network](https://vibe-checker.appwrite.network)
-- **Single-App Fix Unlock ($9 One-Time — Exact File/Line Evidence + 5-Platform Copy-Paste Patches):** [Gumroad Checkout](https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield) · [Direct Checkout](https://omnipulse-x402.appwrite.network/checkout/vibeshield)
-- **Feature & TCO Comparison (VibeAppScanner $348/yr vs. VibeShield $9 Once):** [https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html](https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html)
+- **Single-App Fix Unlock ($2 Launch Special, reg. $9 — One-Time — Exact File/Line Evidence + 5-Platform Copy-Paste Patches):** [Gumroad Checkout](https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield) · [Direct Checkout](https://omnipulse-x402.appwrite.network/checkout/vibeshield)
+- **Feature & TCO Comparison (VibeAppScanner $348/yr vs. VibeShield $2 Launch Special):** [https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html](https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html)
 - **Companion Free Tools:** [BrandShield v6.2 (100% Free 78-TLD & Aftermarket Check)](https://brand-checker.appwrite.network) · [InboxShield v7.0 (Email Deliverability & DMARC Linter)](https://inbox-checker.appwrite.network) · [CiteReady (AI Search / llms.txt)](https://citeready-checker.appwrite.network)
 
 ---
@@ -88,9 +88,9 @@ Show users your app passed a live 6-phase pre-launch security check:
 
 ---
 
-## Free Online Scanner vs. Single-App Fix Unlock ($9 One-Time)
+## Free Online Scanner vs. Single-App Fix Unlock ($2 Launch Special, reg. $9 — One-Time)
 
-| Capability | Free Online Scanner | Single-App Fix Unlock ($9 Once) | 4-in-1 Launch Stack ($29 Once) |
+| Capability | Free Online Scanner | Single-App Fix Unlock ($2 Launch, ~~$9~~) | 3-in-1 Complete Suite ($5 Launch, ~~$29~~) |
 | :--- | :---: | :---: | :---: |
 | **Full 6-Phase Deep Scan (100+ Checks + Live Trace)** | Included | **Included + 50-URL Batch CSV** | **All 4 OmniForge Web Tools** |
 | **Score, Grade, TLS Cert & Finding Summaries** | Full transparency | **Exact Leaked File / Line & Evidence** | **VibeShield + InboxShield + CiteReady** |
@@ -98,8 +98,8 @@ Show users your app passed a live 6-phase pre-launch security check:
 | **Printable Client A4 PDF Audit Report** | Summary only | **Branded A4 PDF Export** | **Included Across All Suites** |
 
 - **Run Free Deep Scan:** [https://vibe-checker.appwrite.network](https://vibe-checker.appwrite.network)
-- **Unlock Single-App Fix Pack ($9 One-Time, $0/mo, 14-Day Refund):** [https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield](https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield)
-- **Need a Clean Domain or Email DNS Check?** [BrandShield v6.2 (100% Free)](https://brand-checker.appwrite.network) · [InboxShield v7.0 ($9 Emergency Fix)](https://inbox-checker.appwrite.network)
+- **Unlock Single-App Fix Pack ($2 Launch Special, ~~$9~~, One-Time, $0/mo, 14-Day Refund):** [https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield](https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield)
+- **Need a Clean Domain or Email DNS Check?** [BrandShield v6.2 (100% Free)](https://brand-checker.appwrite.network) · [InboxShield v7.0 ($2 Launch Special)](https://inbox-checker.appwrite.network)
 
 ## Ethical Scope
 

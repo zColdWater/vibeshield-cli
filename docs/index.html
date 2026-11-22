@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>VibeShield — Supabase RLS, Frontend JS Secret &amp; Web App Security Scanner</title>
-  <meta name="description" content="Scan AI-built web apps (Next.js, Vite, Cursor, Lovable, Bolt, Supabase) in 2 seconds for leaked API keys across 38 patterns, exposed Supabase RLS tables, and missing security headers." />
+  <title>VibeShield v7.0 — 6-Phase Deep Web, Secret, Supabase/Firebase &amp; CVE Security Scanner</title>
+  <meta name="description" content="6-phase read-only security audit for AI-built web apps (Lovable, Bolt, Cursor, Next.js, Vite, Supabase, Firebase): TLS 443, CNAME takeover, 24x2.5MB JS bundles, 52 secret patterns, 28 SPA-filtered probes, Observatory CSP &amp; CVE-2025-29927. Free online scanner + $2 launch special fix unlock." />
   <link rel="canonical" href="https://zcoldwater.github.io/vibeshield-cli/" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="VibeShield — 2-Second Supabase RLS &amp; Frontend Secret Scanner" />
-  <meta property="og:description" content="Unpack client JS chunks, detect 38 secret patterns, verify Supabase Row-Level Security, and enforce CI gates with VibeShield." />
+  <meta property="og:title" content="VibeShield v7.0 — 6-Phase Deep Security Scanner for AI-Built Apps" />
+  <meta property="og:description" content="52 secret rules, 28 SPA-filtered probes, TLS 443, Supabase 20-table RLS, Firebase RTDB/Firestore, CSP AST &amp; passive CVEs. Free scanner; $2 Launch Special fix pack." />
   <meta property="og:url" content="https://zcoldwater.github.io/vibeshield-cli/" />
 
   <script type="application/ld+json">
@@ -19,13 +19,13 @@
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        "name": "VibeShield Web Pro & CLI",
+        "name": "VibeShield v7.0 Web & CLI Security Scanner",
         "applicationCategory": "SecurityApplication",
         "operatingSystem": "Web, macOS, Linux, Windows",
         "url": "https://vibe-checker.appwrite.network",
         "offers": {
           "@type": "Offer",
-          "price": "9.00",
+          "price": "2.00",
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock",
           "url": "https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield"
@@ -36,18 +36,18 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "What vulnerabilities does VibeShield detect in AI-built apps?",
+            "name": "What does VibeShield v7.0 audit in 6 phases?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "VibeShield concurrently unpacks client JavaScript bundles to detect 38 API key and token signatures, leaked Supabase service_role JWTs, unguarded PostgREST tables missing Row-Level Security (RLS), exposed .env and source map files, weak cookies, and missing HTTP security headers."
+              "text": "VibeShield v7.0 runs real port 443 TLS certificate and DNS CNAME takeover checks, crawls core routes and unpacks up to 24 full JS bundles (up to 2.5MB each) across 52 secret signatures, probes 28 SPA-filtered sensitive endpoints including GraphQL introspection and open redirects, checks up to 20 Supabase PostgREST tables and Firebase RTDB/Firestore read rules, parses Mozilla Observatory headers and CSP syntax, and matches passive framework CVEs including CVE-2025-29927 and CVE-2025-48757."
             }
           },
           {
             "@type": "Question",
-            "name": "Does VibeShield modify data or run intrusive exploits?",
+            "name": "How much does VibeShield Single-App Fix Unlock cost?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. VibeShield performs strictly read-only HTTP header, public bundle, and schema metadata inspection with SSRF safeguards."
+              "text": "The full 6-phase online scan and MIT CLI are free. Unlocking exact file locations, redacted proof snippets, and 5-platform copy-paste remediation patches (Cursor/Lovable prompt, Vercel, Cloudflare, Nginx, Supabase RLS SQL, Firebase rules) is $2 one-time Launch Special (regularly $9, $0/month subscription) or $5 for the 3-in-1 OmniForge Complete Suite."
             }
           }
         ]
@@ -97,89 +97,79 @@
     }
     .btn-mint { background: var(--mint); color: #052e16; }
     .btn-outline { background: var(--panel); color: var(--text); border-color: var(--border); }
-    .hero { padding: 62px 0 36px; text-align: center; }
+    .hero { padding: 56px 0 34px; text-align: center; }
     .pill {
       display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.78rem;
       font-weight: 600; background: var(--mint-dim); border: 1px solid rgba(74,222,128,0.3); color: var(--mint); margin-bottom: 16px;
     }
-    h1 { font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.12; letter-spacing: -0.03em; margin: 0 auto 14px; max-width: 820px; }
-    .sub { color: var(--muted); font-size: 1.05rem; max-width: 700px; margin: 0 auto 28px; }
+    h1 { font-size: clamp(2rem, 4.4vw, 3.05rem); line-height: 1.12; letter-spacing: -0.03em; margin: 0 auto 14px; max-width: 840px; }
+    .sub { color: var(--muted); font-size: 1.04rem; max-width: 720px; margin: 0 auto 26px; }
     .scanner {
       background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
-      padding: 20px; max-width: 780px; margin: 0 auto 22px; text-align: left;
+      padding: 20px; max-width: 800px; margin: 0 auto 22px; text-align: left;
     }
     .scan-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .scan-input {
       flex: 1; min-width: 220px; padding: 12px 15px; border-radius: 8px;
       border: 1px solid var(--border); background: #080a08; color: #fff; font-size: 0.96rem;
     }
-    #scanOut { display: none; margin-top: 16px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 10px; margin-top: 10px; }
-    .stat { background: #090c0a; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 0.86rem; }
-    .ok { color: var(--mint); font-weight: 700; }
-    .bad { color: var(--danger); font-weight: 700; }
-    .warn { color: var(--warn); font-weight: 700; }
     pre {
       background: #080a08; border: 1px solid var(--border); border-radius: 10px;
-      padding: 14px 16px; overflow-x: auto; font-size: 0.85rem; color: #d1fae5; max-width: 780px; margin: 0 auto; text-align: left;
+      padding: 14px 16px; overflow-x: auto; font-size: 0.85rem; color: #d1fae5; max-width: 800px; margin: 0 auto; text-align: left;
     }
-    section { padding: 42px 0; }
+    section { padding: 38px 0; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
     .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
-    .card h3 { margin-top: 0; font-size: 1.08rem; }
+    .card h3 { margin-top: 0; font-size: 1.06rem; }
+    .strike { text-decoration: line-through; opacity: 0.65; margin-right: 4px; }
     footer { border-top: 1px solid var(--border); padding: 30px 0 44px; color: var(--muted); font-size: 0.86rem; text-align: center; }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap nav">
-      <a class="brand" href="./index.html"><span class="shield-dot"></span><span>VibeShield</span></a>
+      <a class="brand" href="./index.html"><span class="shield-dot"></span><span>VibeShield v7.0</span></a>
       <nav class="nav-links">
-        <a href="https://vibe-checker.appwrite.network" target="_blank" rel="noopener">Full Web Workbench</a>
+        <a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener">Live 6-Phase Scanner</a>
         <a href="https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html" target="_blank" rel="noopener">Compare Scanners</a>
-        <a href="https://github.com/zColdWater/vibeshield-cli" target="_blank" rel="noopener">GitHub Action (@v1)</a>
-        <a class="btn btn-mint" href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield" target="_blank" rel="noopener">Unlock Web Pro ($9)</a>
+        <a href="https://github.com/zColdWater/vibeshield-cli" target="_blank" rel="noopener">GitHub CLI &amp; Action (@v7)</a>
+        <a class="btn btn-mint" href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield" target="_blank" rel="noopener">Unlock Fix Pack $2 <span class="strike">$9</span></a>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
     <section class="hero">
-      <span class="pill">38 Secret Signatures · Supabase RLS Probe · Next.js &amp; Vite Bundle Unpacker</span>
-      <h1>Audit AI-Built Web Apps Before Attackers Scrape Your Client Bundles</h1>
+      <span class="pill">v7.0 Deep Engine · 52 Secret Rules · 28 SPA-Filtered Probes · TLS 443 · Supabase &amp; Firebase · CSP AST</span>
+      <h1>Audit AI-Built Web Apps Across 6 Real Security Phases Before Launch</h1>
       <p class="sub">
-        Scan live JavaScript chunks in under 2 seconds for leaked API keys, exposed Supabase <code>service_role</code> tokens, unguarded PostgREST tables, and missing browser security headers.
+        Strictly read-only scanner for Lovable, Bolt, Cursor, Next.js, Vite, Supabase, and Firebase deployments. Free online deep scan with live console; unlock exact file locations and 5-platform fixes for <strong>$2 Launch Special</strong> (<span class="strike">$9</span>, one-time, $0/mo).
       </p>
 
       <div class="scanner">
         <form id="scanForm" class="scan-row">
-          <input id="targetInput" class="scan-input" type="text" placeholder="https://yourapp.vercel.app or supabase.com" required />
-          <button type="submit" class="btn btn-mint" id="scanBtn">Run Free Security Scan</button>
-          <a class="btn btn-outline" id="fullReportBtn" href="https://vibe-checker.appwrite.network" target="_blank" rel="noopener">Open Full Workbench</a>
+          <input id="targetInput" class="scan-input" type="text" placeholder="https://yourapp.vercel.app or yourapp.lovable.app" required />
+          <button type="submit" class="btn btn-mint">Launch Free 6-Phase Scan</button>
+          <a class="btn btn-outline" href="https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack" target="_blank" rel="noopener">3-in-1 Suite $5 <span class="strike">$29</span></a>
         </form>
-        <div id="scanOut">
-          <div id="scanTitle" style="font-weight:700;"></div>
-          <div id="scanStats" class="grid-4"></div>
-          <div id="scanNote" style="margin-top:10px;font-size:0.86rem;color:var(--muted);"></div>
-        </div>
       </div>
 
-      <pre>$ npx github:zColdWater/vibeshield-cli scan https://supabase.com --min-score 80 --fail-on-secrets</pre>
+      <pre>$ npx github:zColdWater/vibeshield-cli scan https://yourapp.vercel.app --min-score 80 --fail-on-secrets --fail-on-supabase-rls</pre>
     </section>
 
     <section>
       <div class="grid-3">
         <div class="card">
-          <h3>1. Client JS Bundle Secret Unpacker</h3>
-          <p style="color:var(--muted);margin:0;">Inspects up to 12 live Next.js and Vite chunks in parallel across 38 credential patterns (OpenAI, Anthropic, Stripe, AWS, GitHub, Resend) before users or bots extract them.</p>
+          <h3>1. TLS 443, CNAME &amp; 24 Full JS Bundles</h3>
+          <p style="color:var(--muted);margin:0;">Direct <code>node:tls</code> port 443 handshake, 12-provider dangling CNAME takeover checks, multi-route crawling, and up to 24 uncapped JS chunks (2.5MB each) across 52 secret patterns.</p>
         </div>
         <div class="card">
-          <h3>2. Supabase &amp; PostgREST RLS Verification</h3>
-          <p style="color:var(--muted);margin:0;">Detects exposed Supabase project URLs, flags catastrophic <code>service_role</code> JWT leaks, checks unguarded PostgREST tables, and generates copy-ready RLS SQL policies.</p>
+          <h3>2. 28 Probes, Supabase (20 Tables) &amp; Firebase</h3>
+          <p style="color:var(--muted);margin:0;">SPA fake-200 immune probes (<code>/.env</code>, <code>/.git</code>, GraphQL introspection, Open Redirect, SourceMaps), read-only Supabase PostgREST RLS &amp; Firebase RTDB/Firestore rule checks.</p>
         </div>
         <div class="card">
-          <h3>3. 1-Line GitHub Action &amp; Web Pro ($9)</h3>
-          <p style="color:var(--muted);margin:0;">Enforce <code>uses: zColdWater/vibeshield-cli@v1</code> on every PR, or unlock VibeShield Web Pro ($9 one-time) for Cursor/Lovable fix wizards, 50-domain batch CSV scans, and A4 PDF reports.</p>
+          <h3>3. Observatory CSP, CVEs &amp; $2 Fix Unlock</h3>
+          <p style="color:var(--muted);margin:0;">Directive-level CSP AST parser, 10 Observatory headers, passive CVE matching (<code>CVE-2025-29927</code>), and $2 Launch Special (<span class="strike">$9</span>) 5-platform copy-paste patches.</p>
         </div>
       </div>
     </section>
@@ -188,11 +178,11 @@
   <footer>
     <div class="wrap">
       <p>
-        <a href="https://vibe-checker.appwrite.network">Live Web Scanner</a> ·
-        <a href="https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html">VibeAppScanner vs. VibeShield</a> ·
-        <a href="https://github.com/zColdWater/vibeshield-cli">GitHub CLI &amp; Action</a> ·
-        <a href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield">VibeShield Web Pro ($9)</a> ·
-        <a href="https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack">4-in-1 Launch Stack ($29)</a> ·
+        <a href="https://vibe-checker.appwrite.network/">VibeShield v7.0 ($2 Launch Special)</a> ·
+        <a href="https://inbox-checker.appwrite.network/">InboxShield v7.0 ($2 Launch Special)</a> ·
+        <a href="https://brand-checker.appwrite.network/">BrandShield v6.2 (100% Free)</a> ·
+        <a href="https://citeready-checker.appwrite.network/">CiteReady v6.0 ($2 Launch Special)</a> ·
+        <a href="https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack">Complete Suite ($5 Once)</a> ·
         <a href="./llms.txt">llms.txt</a>
       </p>
       <p>OmniForge · Agent Arena Studio · Support: <a href="mailto:agentarenastudio@proton.me">agentarenastudio@proton.me</a> · <a href="https://x.com/agentarenastudi">@agentarenastudi</a></p>
@@ -200,56 +190,12 @@
   </footer>
 
   <script>
-    document.getElementById("scanForm").addEventListener("submit", async function (e) {
+    document.getElementById("scanForm").addEventListener("submit", function (e) {
       e.preventDefault();
       var raw = document.getElementById("targetInput").value.trim();
       if (!raw) return;
       if (!/^https?:\/\//i.test(raw)) raw = "https://" + raw;
-      var btn = document.getElementById("scanBtn");
-      var out = document.getElementById("scanOut");
-      var title = document.getElementById("scanTitle");
-      var stats = document.getElementById("scanStats");
-      var note = document.getElementById("scanNote");
-      var fullBtn = document.getElementById("fullReportBtn");
-      fullBtn.href = "https://vibe-checker.appwrite.network/?url=" + encodeURIComponent(raw);
-
-      btn.disabled = true;
-      btn.textContent = "Scanning Bundles...";
-      out.style.display = "block";
-      title.textContent = "Auditing " + raw + "...";
-      stats.innerHTML = "";
-      note.textContent = "";
-
-      try {
-        var r = await fetch("https://vibe-checker.appwrite.network/api/free-scan?url=" + encodeURIComponent(raw));
-        if (r.ok) {
-          var d = await r.json();
-          var a = d.assessment || {};
-          var b = d.bundles || {};
-          var s = d.secrets || {};
-          var sb = d.supabase || {};
-          var sc = typeof a.score === "number" ? a.score : 0;
-          var openTbls = Array.isArray(sb.exposedTables) ? sb.exposedTables.length : 0;
-          title.textContent = "Security Posture: " + (d.hostname || raw) + " (" + (d.scanDurationMs || 0) + "ms)";
-          var items = [
-            { k: "Security Score", v: sc + "/100 (" + (a.grade || "-") + ")", c: sc >= 80 ? "ok" : (sc >= 55 ? "warn" : "bad") },
-            { k: "JS Chunks Scanned", v: (b.inspected || 0) + " chunks", c: "ok" },
-            { k: "Leaked Secrets", v: (s.count || 0) === 0 ? "0 Detected" : (s.count + " Exposed"), c: (s.count || 0) === 0 ? "ok" : "bad" },
-            { k: "Supabase RLS", v: sb.serviceRoleLeaked ? "service_role Leak" : (openTbls > 0 ? openTbls + " Open Tables" : "Protected"), c: (sb.serviceRoleLeaked || openTbls > 0) ? "bad" : "ok" }
-          ];
-          stats.innerHTML = items.map(function (it) {
-            return '<div class="stat"><div style="color:var(--muted);font-size:0.76rem;">' + it.k + '</div><div class="' + it.c + '">' + it.v + '</div></div>';
-          }).join("");
-          note.innerHTML = 'Open the <a href="' + fullBtn.href + '" target="_blank" rel="noopener">Full Interactive Workbench</a> for Cursor/Lovable fix prompts, RLS SQL policies, 50-site CSV batch audits, and A4 PDF reports.';
-          btn.disabled = false;
-          btn.textContent = "Run Free Security Scan";
-          return;
-        }
-      } catch (err) {}
-      title.textContent = "Continue in Full Web Workbench";
-      note.innerHTML = 'Click <a href="' + fullBtn.href + '" target="_blank" rel="noopener">Open Full Workbench</a> to inspect cross-origin bundles and Supabase RLS posture.';
-      btn.disabled = false;
-      btn.textContent = "Run Free Security Scan";
+      window.open("https://vibe-checker.appwrite.network/?url=" + encodeURIComponent(raw), "_blank", "noopener");
     });
   </script>
 </body>

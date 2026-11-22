@@ -1,10 +1,10 @@
-# VibeShield — Supabase RLS, Frontend JS Secret & Web App Security Scanner
+# VibeShield v7.0 — 6-Phase Deep Security Scanner for AI-Built Web Apps
 
-> Audit Next.js, Vite, Cursor, Lovable, Bolt, and Supabase web applications in under 2 seconds for leaked client-side API keys, exposed Supabase RLS tables, and missing browser security headers.
+> Strictly read-only 6-phase security auditor for Lovable, Bolt, Cursor, Next.js, Vite, Supabase, and Firebase deployments: TLS 443 & CNAME takeover, up to 24 full JS bundles (2.5MB each) across 52 secret patterns, 28 SPA-filtered sensitive endpoint probes, Supabase (up to 20 tables) & Firebase RTDB/Firestore read checks, 10 Mozilla Observatory headers + CSP AST parser, and passive framework CVE matching (CVE-2025-29927, CVE-2025-48757).
 
-- Free Online Interactive Scanner: https://vibe-checker.appwrite.network
+- Free 6-Phase Online Scanner: https://vibe-checker.appwrite.network/
 - Documentation & CLI Landing Page: https://zcoldwater.github.io/vibeshield-cli/
-- VibeAppScanner vs. VibeShield Comparison: https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html
-- Open-Source MIT CLI & GitHub Action (`uses: zColdWater/vibeshield-cli@v1`): https://github.com/zColdWater/vibeshield-cli
-- VibeShield Web Pro ($9 One-Time — Cursor/Lovable/Supabase RLS Fix Wizard, 50-Site Batch CSV & Printable A4 PDF Reports): https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield
-- OmniForge 4-in-1 Launch Stack ($29 One-Time): https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack
+- Open-Source MIT CLI & GitHub Action (`uses: zColdWater/vibeshield-cli@v7`): https://github.com/zColdWater/vibeshield-cli
+- Single-App Fix Unlock ($2 Launch Special, regularly $9 — Exact File/Line Evidence + 5-Platform Copy-Paste Patches): https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield
+- OmniForge Complete Suite ($5 Launch Special, regularly $29 — Unlocks VibeShield + InboxShield + CiteReady): https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack
+- Companion Free Tool — BrandShield v6.2 (100% Free 78-TLD & 17 Aftermarket Checker): https://brand-checker.appwrite.network/
