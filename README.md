@@ -9,6 +9,7 @@
 
 - **Free Online Scanner (2-Second Live Audit):** [https://vibe-checker.appwrite.network](https://vibe-checker.appwrite.network)
 - **Documentation & Live Demo:** [https://zcoldwater.github.io/vibeshield-cli/](https://zcoldwater.github.io/vibeshield-cli/)
+- **Feature & TCO Comparison (VibeAppScanner vs. VibeShield):** [https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html](https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html)
 - **VibeShield Web Pro ($9 One-Time — 5-Platform Fix Wizard, 50-Site Batch CSV & Client A4 PDF Reports):** [https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield](https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield)
 - **OmniForge 4-in-1 Launch Stack ($29 One-Time):** [https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack](https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack)
 
