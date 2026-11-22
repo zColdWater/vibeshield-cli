@@ -1,0 +1,31 @@
+# VibeShield — Complete LLM & Developer Reference
+
+> Zero-dependency security scanner CLI, GitHub Action, and Web Pro workbench for AI-built web applications.
+
+## Capabilities
+
+1. **Client JavaScript Bundle Unpacking:** Fetches and inspects live Next.js (`/_next/static/chunks/*.js`) and Vite (`/assets/*.js`) chunks across 38 secret signatures (OpenAI, Anthropic, Stripe, AWS, GitHub, Resend, Slack, private keys).
+2. **Supabase & PostgREST RLS Verification:** Detects public `SUPABASE_URL` endpoints, checks for leaked `service_role` JWTs, and verifies read-only PostgREST Row-Level Security posture.
+3. **Sensitive Endpoints & Security Headers:** Checks `.env`, `.git`, `.js.map` exposure, cookie attributes (`Secure`, `HttpOnly`, `SameSite`), CORS configuration, and 7 HTTP security headers.
+
+## Usage
+
+```bash
+npx github:zColdWater/vibeshield-cli scan https://yourapp.com --min-score 80 --fail-on-secrets
+```
+
+```yaml
+- uses: zColdWater/vibeshield-cli@v1
+  with:
+    url: https://yourapp.com
+    min-score: "80"
+    fail-on-secrets: "true"
+    fail-on-supabase-rls: "true"
+```
+
+## Links
+
+- Live Web Workbench: https://vibe-checker.appwrite.network
+- GitHub Repository (MIT): https://github.com/zColdWater/vibeshield-cli
+- VibeShield Web Pro ($9 One-Time): https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield
+- OmniForge 4-in-1 Launch Stack ($29 One-Time): https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack

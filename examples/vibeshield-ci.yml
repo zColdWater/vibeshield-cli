@@ -1,0 +1,25 @@
+name: VibeShield Deployment Security Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  vibeshield:
+    name: Audit JS Chunks, Supabase RLS & Security Headers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Scan Live Deployment with VibeShield
+        id: audit
+        uses: zColdWater/vibeshield-cli@v1
+        with:
+          url: "https://yourapp.example.com"
+          min-score: "80"
+          fail-on-secrets: "true"
+          fail-on-supabase-rls: "true"

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VibeShield — Supabase RLS, Frontend JS Secret &amp; Web App Security Scanner</title>
+  <meta name="description" content="Scan AI-built web apps (Next.js, Vite, Cursor, Lovable, Bolt, Supabase) in 2 seconds for leaked API keys across 38 patterns, exposed Supabase RLS tables, and missing security headers." />
+  <link rel="canonical" href="https://zcoldwater.github.io/vibeshield-cli/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="VibeShield — 2-Second Supabase RLS &amp; Frontend Secret Scanner" />
+  <meta property="og:description" content="Unpack client JS chunks, detect 38 secret patterns, verify Supabase Row-Level Security, and enforce CI gates with VibeShield." />
+  <meta property="og:url" content="https://zcoldwater.github.io/vibeshield-cli/" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "VibeShield Web Pro & CLI",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Web, macOS, Linux, Windows",
+        "url": "https://vibe-checker.appwrite.network",
+        "offers": {
+          "@type": "Offer",
+          "price": "9.00",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What vulnerabilities does VibeShield detect in AI-built apps?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "VibeShield concurrently unpacks client JavaScript bundles to detect 38 API key and token signatures, leaked Supabase service_role JWTs, unguarded PostgREST tables missing Row-Level Security (RLS), exposed .env and source map files, weak cookies, and missing HTTP security headers."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does VibeShield modify data or run intrusive exploits?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. VibeShield performs strictly read-only HTTP header, public bundle, and schema metadata inspection with SSRF safeguards."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #0d0f0d;
+      --panel: #131714;
+      --border: #222b24;
+      --text: #f1f5f2;
+      --muted: #94a398;
+      --mint: #4ade80;
+      --mint-dim: rgba(74, 222, 128, 0.12);
+      --danger: #f87171;
+      --warn: #fbbf24;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 50% 0%, rgba(74, 222, 128, 0.09) 0%, var(--bg) 52%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: var(--mint); text-decoration: none; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 22px; }
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(13, 15, 13, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 14px; flex-wrap: wrap; }
+    .brand { font-weight: 800; font-size: 1.08rem; color: #fff; display: flex; align-items: center; gap: 10px; letter-spacing: -0.02em; }
+    .shield-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 12px var(--mint); }
+    .nav-links { display: flex; align-items: center; gap: 18px; font-size: 0.9rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 18px; border-radius: 8px; font-weight: 700; font-size: 0.92rem;
+      cursor: pointer; border: 1px solid transparent; transition: opacity 0.15s ease;
+    }
+    .btn-mint { background: var(--mint); color: #052e16; }
+    .btn-outline { background: var(--panel); color: var(--text); border-color: var(--border); }
+    .hero { padding: 62px 0 36px; text-align: center; }
+    .pill {
+      display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.78rem;
+      font-weight: 600; background: var(--mint-dim); border: 1px solid rgba(74,222,128,0.3); color: var(--mint); margin-bottom: 16px;
+    }
+    h1 { font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.12; letter-spacing: -0.03em; margin: 0 auto 14px; max-width: 820px; }
+    .sub { color: var(--muted); font-size: 1.05rem; max-width: 700px; margin: 0 auto 28px; }
+    .scanner {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+      padding: 20px; max-width: 780px; margin: 0 auto 22px; text-align: left;
+    }
+    .scan-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .scan-input {
+      flex: 1; min-width: 220px; padding: 12px 15px; border-radius: 8px;
+      border: 1px solid var(--border); background: #080a08; color: #fff; font-size: 0.96rem;
+    }
+    #scanOut { display: none; margin-top: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 10px; margin-top: 10px; }
+    .stat { background: #090c0a; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 0.86rem; }
+    .ok { color: var(--mint); font-weight: 700; }
+    .bad { color: var(--danger); font-weight: 700; }
+    .warn { color: var(--warn); font-weight: 700; }
+    pre {
+      background: #080a08; border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; overflow-x: auto; font-size: 0.85rem; color: #d1fae5; max-width: 780px; margin: 0 auto; text-align: left;
+    }
+    section { padding: 42px 0; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+    .card h3 { margin-top: 0; font-size: 1.08rem; }
+    footer { border-top: 1px solid var(--border); padding: 30px 0 44px; color: var(--muted); font-size: 0.86rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="./index.html"><span class="shield-dot"></span><span>VibeShield</span></a>
+      <nav class="nav-links">
+        <a href="https://vibe-checker.appwrite.network" target="_blank" rel="noopener">Full Web Workbench</a>
+        <a href="https://github.com/zColdWater/vibeshield-cli" target="_blank" rel="noopener">GitHub Action (@v1)</a>
+        <a class="btn btn-mint" href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield" target="_blank" rel="noopener">Unlock Web Pro ($9)</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="pill">38 Secret Signatures · Supabase RLS Probe · Next.js &amp; Vite Bundle Unpacker</span>
+      <h1>Audit AI-Built Web Apps Before Attackers Scrape Your Client Bundles</h1>
+      <p class="sub">
+        Scan live JavaScript chunks in under 2 seconds for leaked API keys, exposed Supabase <code>service_role</code> tokens, unguarded PostgREST tables, and missing browser security headers.
+      </p>
+
+      <div class="scanner">
+        <form id="scanForm" class="scan-row">
+          <input id="targetInput" class="scan-input" type="text" placeholder="https://yourapp.vercel.app or supabase.com" required />
+          <button type="submit" class="btn btn-mint" id="scanBtn">Run Free Security Scan</button>
+          <a class="btn btn-outline" id="fullReportBtn" href="https://vibe-checker.appwrite.network" target="_blank" rel="noopener">Open Full Workbench</a>
+        </form>
+        <div id="scanOut">
+          <div id="scanTitle" style="font-weight:700;"></div>
+          <div id="scanStats" class="grid-4"></div>
+          <div id="scanNote" style="margin-top:10px;font-size:0.86rem;color:var(--muted);"></div>
+        </div>
+      </div>
+
+      <pre>$ npx github:zColdWater/vibeshield-cli scan https://supabase.com --min-score 80 --fail-on-secrets</pre>
+    </section>
+
+    <section>
+      <div class="grid-3">
+        <div class="card">
+          <h3>1. Client JS Bundle Secret Unpacker</h3>
+          <p style="color:var(--muted);margin:0;">Inspects up to 12 live Next.js and Vite chunks in parallel across 38 credential patterns (OpenAI, Anthropic, Stripe, AWS, GitHub, Resend) before users or bots extract them.</p>
+        </div>
+        <div class="card">
+          <h3>2. Supabase &amp; PostgREST RLS Verification</h3>
+          <p style="color:var(--muted);margin:0;">Detects exposed Supabase project URLs, flags catastrophic <code>service_role</code> JWT leaks, checks unguarded PostgREST tables, and generates copy-ready RLS SQL policies.</p>
+        </div>
+        <div class="card">
+          <h3>3. 1-Line GitHub Action &amp; Web Pro ($9)</h3>
+          <p style="color:var(--muted);margin:0;">Enforce <code>uses: zColdWater/vibeshield-cli@v1</code> on every PR, or unlock VibeShield Web Pro ($9 one-time) for Cursor/Lovable fix wizards, 50-domain batch CSV scans, and A4 PDF reports.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>
+        <a href="https://vibe-checker.appwrite.network">Live Web Scanner</a> ·
+        <a href="https://github.com/zColdWater/vibeshield-cli">GitHub CLI &amp; Action</a> ·
+        <a href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield">VibeShield Web Pro ($9)</a> ·
+        <a href="https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack">4-in-1 Launch Stack ($29)</a> ·
+        <a href="./llms.txt">llms.txt</a>
+      </p>
+      <p>OmniForge · Agent Arena Studio · Support: <a href="mailto:agentarenastudio@proton.me">agentarenastudio@proton.me</a> · <a href="https://x.com/agentarenastudi">@agentarenastudi</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("scanForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      var raw = document.getElementById("targetInput").value.trim();
+      if (!raw) return;
+      if (!/^https?:\/\//i.test(raw)) raw = "https://" + raw;
+      var btn = document.getElementById("scanBtn");
+      var out = document.getElementById("scanOut");
+      var title = document.getElementById("scanTitle");
+      var stats = document.getElementById("scanStats");
+      var note = document.getElementById("scanNote");
+      var fullBtn = document.getElementById("fullReportBtn");
+      fullBtn.href = "https://vibe-checker.appwrite.network/?url=" + encodeURIComponent(raw);
+
+      btn.disabled = true;
+      btn.textContent = "Scanning Bundles...";
+      out.style.display = "block";
+      title.textContent = "Auditing " + raw + "...";
+      stats.innerHTML = "";
+      note.textContent = "";
+
+      try {
+        var r = await fetch("https://vibe-checker.appwrite.network/api/free-scan?url=" + encodeURIComponent(raw));
+        if (r.ok) {
+          var d = await r.json();
+          var a = d.assessment || {};
+          var b = d.bundles || {};
+          var s = d.secrets || {};
+          var sb = d.supabase || {};
+          var sc = typeof a.score === "number" ? a.score : 0;
+          var openTbls = Array.isArray(sb.exposedTables) ? sb.exposedTables.length : 0;
+          title.textContent = "Security Posture: " + (d.hostname || raw) + " (" + (d.scanDurationMs || 0) + "ms)";
+          var items = [
+            { k: "Security Score", v: sc + "/100 (" + (a.grade || "-") + ")", c: sc >= 80 ? "ok" : (sc >= 55 ? "warn" : "bad") },
+            { k: "JS Chunks Scanned", v: (b.inspected || 0) + " chunks", c: "ok" },
+            { k: "Leaked Secrets", v: (s.count || 0) === 0 ? "0 Detected" : (s.count + " Exposed"), c: (s.count || 0) === 0 ? "ok" : "bad" },
+            { k: "Supabase RLS", v: sb.serviceRoleLeaked ? "service_role Leak" : (openTbls > 0 ? openTbls + " Open Tables" : "Protected"), c: (sb.serviceRoleLeaked || openTbls > 0) ? "bad" : "ok" }
+          ];
+          stats.innerHTML = items.map(function (it) {
+            return '<div class="stat"><div style="color:var(--muted);font-size:0.76rem;">' + it.k + '</div><div class="' + it.c + '">' + it.v + '</div></div>';
+          }).join("");
+          note.innerHTML = 'Open the <a href="' + fullBtn.href + '" target="_blank" rel="noopener">Full Interactive Workbench</a> for Cursor/Lovable fix prompts, RLS SQL policies, 50-site CSV batch audits, and A4 PDF reports.';
+          btn.disabled = false;
+          btn.textContent = "Run Free Security Scan";
+          return;
+        }
+      } catch (err) {}
+      title.textContent = "Continue in Full Web Workbench";
+      note.innerHTML = 'Click <a href="' + fullBtn.href + '" target="_blank" rel="noopener">Open Full Workbench</a> to inspect cross-origin bundles and Supabase RLS posture.';
+      btn.disabled = false;
+      btn.textContent = "Run Free Security Scan";
+    });
+  </script>
+</body>
+</html>

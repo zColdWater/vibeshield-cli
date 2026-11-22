@@ -1,0 +1,9 @@
+# VibeShield — Supabase RLS, Frontend JS Secret & Web App Security Scanner
+
+> Audit Next.js, Vite, Cursor, Lovable, Bolt, and Supabase web applications in under 2 seconds for leaked client-side API keys, exposed Supabase RLS tables, and missing browser security headers.
+
+- Free Online Interactive Scanner: https://vibe-checker.appwrite.network
+- Documentation & CLI Landing Page: https://zcoldwater.github.io/vibeshield-cli/
+- Open-Source MIT CLI & GitHub Action (`uses: zColdWater/vibeshield-cli@v1`): https://github.com/zColdWater/vibeshield-cli
+- VibeShield Web Pro ($9 One-Time — Cursor/Lovable/Supabase RLS Fix Wizard, 50-Site Batch CSV & Printable A4 PDF Reports): https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield
+- OmniForge 4-in-1 Launch Stack ($29 One-Time): https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack

@@ -1,0 +1,42 @@
+{
+  "name": "vibeshield-cli",
+  "version": "1.0.0",
+  "description": "Zero-dependency security scanner CLI and GitHub Action for AI-built web apps (Next.js, Vite, Cursor, Lovable, Bolt, Supabase) — detects leaked frontend secrets across 38 patterns, exposed Supabase service_role JWTs, unguarded PostgREST RLS tables, exposed .env/.map files, and missing security headers.",
+  "type": "module",
+  "bin": {
+    "vibeshield": "./bin/vibeshield.mjs"
+  },
+  "scripts": {
+    "start": "node ./bin/vibeshield.mjs",
+    "test": "node ./bin/vibeshield.mjs scan https://supabase.com --min-score 75"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "security",
+    "supabase",
+    "rls",
+    "secret-scanner",
+    "nextjs",
+    "vite",
+    "appsec",
+    "devsecops",
+    "github-action",
+    "github-actions",
+    "vibe-coding",
+    "cursor",
+    "lovable",
+    "cli"
+  ],
+  "homepage": "https://zcoldwater.github.io/vibeshield-cli/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zColdWater/vibeshield-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zColdWater/vibeshield-cli/issues"
+  },
+  "author": "OmniForge Studio",
+  "license": "MIT"
+}

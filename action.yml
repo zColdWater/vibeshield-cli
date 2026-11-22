@@ -1,0 +1,65 @@
+name: "VibeShield — Supabase RLS, JS Secret & Web Security Audit"
+author: "OmniForge Studio"
+description: "Scan live Next.js/Vite JS chunks for 38 secret patterns, exposed Supabase RLS tables, and missing headers in CI/CD."
+
+branding:
+  icon: "shield"
+  color: "green"
+
+inputs:
+  url:
+    description: "Live production or preview deployment URL to scan (e.g. https://yourapp.vercel.app)"
+    required: true
+  min-score:
+    description: "Minimum security score (0-100) before failing the CI check (default: 0 = report only)"
+    required: false
+    default: "0"
+  fail-on-secrets:
+    description: "Set to 'true' to fail CI if leaked client-side API keys or tokens are found in JS bundles"
+    required: false
+    default: "true"
+  fail-on-supabase-rls:
+    description: "Set to 'true' to fail CI if exposed Supabase service_role keys or open PostgREST tables are detected"
+    required: false
+    default: "true"
+
+outputs:
+  score:
+    description: "Computed security posture score (0-100)"
+    value: ${{ steps.scan.outputs.score }}
+  grade:
+    description: "Security grade (A+ to F)"
+    value: ${{ steps.scan.outputs.grade }}
+  secrets-count:
+    description: "Number of leaked client-side secrets detected across JS chunks"
+    value: ${{ steps.scan.outputs.secrets-count }}
+  supabase-exposed-tables:
+    description: "Number of unguarded Supabase PostgREST tables accessible without RLS"
+    value: ${{ steps.scan.outputs.supabase-exposed-tables }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run VibeShield Security Audit
+      id: scan
+      shell: bash
+      env:
+        INPUT_URL: ${{ inputs.url }}
+        INPUT_MIN_SCORE: ${{ inputs.min-score }}
+        INPUT_FAIL_SECRETS: ${{ inputs.fail-on-secrets }}
+        INPUT_FAIL_SB: ${{ inputs.fail-on-supabase-rls }}
+      run: |
+        FLAGS=()
+        if [ -n "${INPUT_MIN_SCORE}" ] && [ "${INPUT_MIN_SCORE}" != "0" ]; then
+          FLAGS+=(--min-score "${INPUT_MIN_SCORE}")
+        fi
+        if [ "${INPUT_FAIL_SECRETS}" = "true" ]; then
+          FLAGS+=(--fail-on-secrets)
+        fi
+        if [ "${INPUT_FAIL_SB}" = "true" ]; then
+          FLAGS+=(--fail-on-supabase-rls)
+        fi
+        node "${{ github.action_path }}/bin/vibeshield.mjs" scan "${INPUT_URL}" \
+          --summary-file "${GITHUB_STEP_SUMMARY}" \
+          --github-output "${GITHUB_OUTPUT}" \
+          "${FLAGS[@]}"
