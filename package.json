@@ -1,35 +1,45 @@
 {
   "name": "vibeshield-cli",
-  "version": "1.0.0",
-  "description": "Zero-dependency security scanner CLI and GitHub Action for AI-built web apps (Next.js, Vite, Cursor, Lovable, Bolt, Supabase) — detects leaked frontend secrets across 38 patterns, exposed Supabase service_role JWTs, unguarded PostgREST RLS tables, exposed .env/.map files, and missing security headers.",
+  "version": "7.0.0",
+  "description": "Zero-dependency 6-phase deep security scanner CLI and GitHub Action for AI-built web apps (Next.js, Vite, Cursor, Lovable, Bolt, Supabase, Firebase) — TLS 443 + CNAME takeover, 24x2.5MB JS bundle unpacking, 52 secret patterns, 28 SPA-filtered Nuclei probes, Supabase 20-table RLS & Firebase RTDB/Firestore checks, Observatory CSP/HSTS parser & passive CVE matching.",
   "type": "module",
   "bin": {
     "vibeshield": "./bin/vibeshield.mjs"
   },
+  "files": [
+    "bin",
+    "src",
+    "action.yml",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "start": "node ./bin/vibeshield.mjs",
-    "test": "node ./bin/vibeshield.mjs scan https://supabase.com --min-score 75"
+    "test": "node ./bin/vibeshield.mjs --version && node --check ./src/scanner-engine.mjs && node --check ./bin/vibeshield.mjs"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "keywords": [
     "security",
     "supabase",
     "rls",
+    "firebase-security",
     "secret-scanner",
     "nextjs",
-    "vite",
+    "cve-2025-29927",
+    "cve-2025-48757",
+    "csp",
+    "tls",
     "appsec",
     "devsecops",
     "github-action",
-    "github-actions",
     "vibe-coding",
     "cursor",
     "lovable",
     "cli"
   ],
-  "homepage": "https://zcoldwater.github.io/vibeshield-cli/",
+  "homepage": "https://vibe-checker.appwrite.network/",
   "repository": {
     "type": "git",
     "url": "https://github.com/zColdWater/vibeshield-cli.git"

@@ -1,6 +1,6 @@
-name: "VibeShield — Supabase RLS, JS Secret & Web Security Audit"
+name: "VibeShield v7.0 — 6-Phase Web, Secret, Supabase/Firebase & CVE Audit"
 author: "OmniForge Studio"
-description: "Scan live Next.js/Vite JS chunks for 38 secret patterns, exposed Supabase RLS tables, and missing headers in CI/CD."
+description: "Zero-dependency 6-phase security gate for Next.js, Vite, Lovable, Bolt, Supabase & Firebase apps (52 secrets, 28 probes, TLS 443, CSP AST & CVEs)."
 
 branding:
   icon: "shield"
@@ -8,39 +8,64 @@ branding:
 
 inputs:
   url:
-    description: "Live production or preview deployment URL to scan (e.g. https://yourapp.vercel.app)"
+    description: "Live production or preview deployment URL to audit (e.g. https://yourapp.vercel.app)"
     required: true
   min-score:
-    description: "Minimum security score (0-100) before failing the CI check (default: 0 = report only)"
+    description: "Minimum security score (0-100) before failing CI (default: 0 = report only)"
     required: false
     default: "0"
   fail-on-secrets:
-    description: "Set to 'true' to fail CI if leaked client-side API keys or tokens are found in JS bundles"
+    description: "Fail CI if high/critical leaked client-side API keys or tokens are found in JS bundles"
     required: false
     default: "true"
   fail-on-supabase-rls:
-    description: "Set to 'true' to fail CI if exposed Supabase service_role keys or open PostgREST tables are detected"
+    description: "Fail CI if exposed Supabase service_role keys or open PostgREST tables are detected"
     required: false
     default: "true"
+  fail-on-firebase:
+    description: "Fail CI if open Firebase RTDB or Cloud Firestore read rules are detected"
+    required: false
+    default: "true"
+  fail-on-cves:
+    description: "Fail CI if high/critical passive framework CVEs (e.g. CVE-2025-29927) match"
+    required: false
+    default: "false"
+  fail-on-endpoints:
+    description: "Fail CI if critical/high exposed endpoints (/.env, /.git, GraphQL introspection) are detected"
+    required: false
+    default: "true"
+  fast:
+    description: "Set to 'true' for fast <6s triage mode instead of full 6-phase deep scan"
+    required: false
+    default: "false"
 
 outputs:
   score:
-    description: "Computed security posture score (0-100)"
+    description: "Computed 6-phase security score (0-100)"
     value: ${{ steps.scan.outputs.score }}
   grade:
     description: "Security grade (A+ to F)"
     value: ${{ steps.scan.outputs.grade }}
   secrets-count:
-    description: "Number of leaked client-side secrets detected across JS chunks"
+    description: "Number of client-side secret matches detected across JS chunks"
     value: ${{ steps.scan.outputs.secrets-count }}
   supabase-exposed-tables:
     description: "Number of unguarded Supabase PostgREST tables accessible without RLS"
     value: ${{ steps.scan.outputs.supabase-exposed-tables }}
+  firebase-exposed:
+    description: "Whether open Firebase RTDB or Firestore read access was detected (true/false)"
+    value: ${{ steps.scan.outputs.firebase-exposed }}
+  cves-count:
+    description: "Number of passive framework CVE advisories matched"
+    value: ${{ steps.scan.outputs.cves-count }}
+  exposed-endpoints:
+    description: "Number of exposed sensitive endpoints detected across 28 probes"
+    value: ${{ steps.scan.outputs.exposed-endpoints }}
 
 runs:
   using: "composite"
   steps:
-    - name: Run VibeShield Security Audit
+    - name: Run VibeShield v7.0 Security Audit
       id: scan
       shell: bash
       env:
@@ -48,17 +73,21 @@ runs:
         INPUT_MIN_SCORE: ${{ inputs.min-score }}
         INPUT_FAIL_SECRETS: ${{ inputs.fail-on-secrets }}
         INPUT_FAIL_SB: ${{ inputs.fail-on-supabase-rls }}
+        INPUT_FAIL_FB: ${{ inputs.fail-on-firebase }}
+        INPUT_FAIL_CVES: ${{ inputs.fail-on-cves }}
+        INPUT_FAIL_EP: ${{ inputs.fail-on-endpoints }}
+        INPUT_FAST: ${{ inputs.fast }}
       run: |
         FLAGS=()
         if [ -n "${INPUT_MIN_SCORE}" ] && [ "${INPUT_MIN_SCORE}" != "0" ]; then
           FLAGS+=(--min-score "${INPUT_MIN_SCORE}")
         fi
-        if [ "${INPUT_FAIL_SECRETS}" = "true" ]; then
-          FLAGS+=(--fail-on-secrets)
-        fi
-        if [ "${INPUT_FAIL_SB}" = "true" ]; then
-          FLAGS+=(--fail-on-supabase-rls)
-        fi
+        if [ "${INPUT_FAIL_SECRETS}" = "true" ]; then FLAGS+=(--fail-on-secrets); fi
+        if [ "${INPUT_FAIL_SB}" = "true" ]; then FLAGS+=(--fail-on-supabase-rls); fi
+        if [ "${INPUT_FAIL_FB}" = "true" ]; then FLAGS+=(--fail-on-firebase); fi
+        if [ "${INPUT_FAIL_CVES}" = "true" ]; then FLAGS+=(--fail-on-cves); fi
+        if [ "${INPUT_FAIL_EP}" = "true" ]; then FLAGS+=(--fail-on-endpoints); fi
+        if [ "${INPUT_FAST}" = "true" ]; then FLAGS+=(--fast); fi
         node "${{ github.action_path }}/bin/vibeshield.mjs" scan "${INPUT_URL}" \
           --summary-file "${GITHUB_STEP_SUMMARY}" \
           --github-output "${GITHUB_OUTPUT}" \
