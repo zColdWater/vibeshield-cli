@@ -4,6 +4,8 @@
 
 - Free 6-Phase Online Scanner: https://vibe-checker.appwrite.network/
 - Documentation & CLI Landing Page: https://zcoldwater.github.io/vibeshield-cli/
+- 2026 Indie SaaS Security Headers & TLS Benchmark (N=60 Passive Study): https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html (Raw JSON: https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.json)
+- 40 AI Agent Skills Pack (Claude Code, Cursor, Codex): https://www.skills.sh/zColdWater/omniforge-skills
 - Open-Source MIT CLI & GitHub Action (`uses: zColdWater/vibeshield-cli@v7`): https://github.com/zColdWater/vibeshield-cli
 - Single-App Fix Unlock ($2 Launch Special, regularly $9 — Exact File/Line Evidence + 5-Platform Copy-Paste Patches): https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield
 - OmniForge Complete Suite ($5 Launch Special, regularly $29 — Unlocks VibeShield + InboxShield + CiteReady): https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack

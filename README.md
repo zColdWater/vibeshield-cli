@@ -11,6 +11,8 @@
 - **Free 6-Phase Online Deep Scanner (Live Console, Zero Signup):** [https://vibe-checker.appwrite.network](https://vibe-checker.appwrite.network)
 - **Single-App Fix Unlock ($2 Launch Special, reg. $9 — One-Time — Exact File/Line Evidence + 5-Platform Copy-Paste Patches):** [Gumroad Checkout](https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield) · [Direct Checkout](https://omnipulse-x402.appwrite.network/checkout/vibeshield)
 - **Feature & TCO Comparison (VibeAppScanner $348/yr vs. VibeShield $2 Launch Special):** [https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html](https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html)
+- **2026 Empirical Benchmark (N=60 Indie SaaS Security Headers & TLS Study — 46.7% No CSP, 31.7% No Clickjacking Defense, 28.3% Grade F):** [https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html](https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html) · [JSON Dataset](./docs/web-security-headers-benchmark-2026.json)
+- **40 Zero-Dependency AI Agent Skills (`skills.sh`):** `npx skills add zColdWater/omniforge-skills` ([Registry](https://www.skills.sh/zColdWater/omniforge-skills))
 - **Companion Free Tools:** [BrandShield v6.2 (100% Free 78-TLD & Aftermarket Check)](https://brand-checker.appwrite.network) · [InboxShield v7.0 (Email Deliverability & DMARC Linter)](https://inbox-checker.appwrite.network) · [CiteReady (AI Search / llms.txt)](https://citeready-checker.appwrite.network)
 
 ---

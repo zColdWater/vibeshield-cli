@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2026 Indie SaaS Security Headers &amp; TLS Benchmark (N=60) | VibeShield v7.0</title>
+  <meta name="description" content="Passive HTTPS header and TLS 443 study of 60 active Indie SaaS and AI web apps (Nov 2026): 46.7% lack CSP, 31.7% lack clickjacking defense, 28.3% score Grade F despite 100% TLS 1.3." />
+  <link rel="canonical" href="https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "2026 Indie SaaS & AI Web App Security Headers & TLS Benchmark (N=60)",
+      "description": "Passive HTTPS security header and TLS 443 audit of 60 active Indie SaaS and AI web apps in November 2026: 46.7% ship no CSP, 85% lack strict CSP, 31.7% lack clickjacking defense, and 28.3% score Grade F despite 100% TLS 1.3 adoption.",
+      "datePublished": "2026-11-23",
+      "dateModified": "2026-11-23",
+      "author": {
+        "@type": "Organization",
+        "name": "OmniForge · Agent Arena Studio"
+      },
+      "mainEntityOfPage": "https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html"
+    },
+    {
+      "@type": "Dataset",
+      "name": "OmniForge 2026 Indie SaaS Web Security Headers & TLS Dataset (N=60)",
+      "description": "Strictly passive single HTTPS GET / response header + TLS 443 handshake inspection across N=60 recently active (Oct-Nov 2026) public GitHub Indie SaaS & AI custom domains. Zero active vulnerability probing; 100% anonymized aggregate telemetry.",
+      "license": "https://opensource.org/licenses/MIT",
+      "distribution": [
+        {
+          "@type": "DataDownload",
+          "encodingFormat": "application/json",
+          "contentUrl": "https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.json"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+  <style>
+    :root { --bg:#0b0f0d; --card:#121815; --border:#223028; --text:#f3f7f4; --muted:#97a89e; --mint:#4ade80; --red:#f87171; --amber:#fbbf24; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif; background:var(--bg); color:var(--text); line-height:1.62; }
+    a { color:var(--mint); text-decoration:none; }
+    .wrap { max-width:960px; margin:0 auto; padding:34px 20px 68px; }
+    .eyebrow { color:var(--mint); font-size:0.8rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px; }
+    h1 { font-size:clamp(1.7rem,3.8vw,2.45rem); line-height:1.15; margin:0 0 12px; }
+    h2 { font-size:1.28rem; margin:32px 0 12px; }
+    .lead { color:var(--muted); max-width:780px; margin:0 0 22px; }
+    .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin:20px 0 26px; }
+    .kpi { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px; }
+    .kpi-val { font-size:1.75rem; font-weight:800; line-height:1.1; }
+    .kpi-lbl { color:var(--muted); font-size:0.84rem; margin-top:6px; }
+    .box { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px; margin:18px 0; }
+    .run-form { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .run-form input { flex:1; min-width:230px; padding:11px 14px; border-radius:8px; border:1px solid var(--border); background:#090c0a; color:var(--text); font-size:0.95rem; }
+    .btn { display:inline-block; padding:10px 16px; border-radius:8px; font-weight:700; background:var(--mint); color:#052e16; border:0; cursor:pointer; font-size:0.92rem; }
+    .btn-out { background:var(--card); color:var(--text); border:1px solid var(--border); }
+    .bar-row { margin:12px 0; }
+    .bar-head { display:flex; justify-content:space-between; font-size:0.88rem; margin-bottom:4px; }
+    .bar-track { height:10px; background:#1b241f; border-radius:99px; overflow:hidden; }
+    .bar-fill { height:100%; border-radius:99px; }
+    table { width:100%; border-collapse:collapse; margin-top:10px; font-size:0.9rem; }
+    th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); }
+    th { color:var(--muted); font-weight:600; }
+    pre { background:#090c0a; border:1px solid var(--border); border-radius:10px; padding:16px; overflow-x:auto; color:#d1fae5; font-size:0.84rem; }
+    .two-col { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="eyebrow">OPEN EMPIRICAL RESEARCH · NOVEMBER 2026 · N=60 ACTIVE SAAS DOMAINS</div>
+    <h1>2026 State of Indie SaaS Web Security Headers &amp; TLS Benchmark</h1>
+    <p class="lead">Cloud hosting defaults give 100% of modern SaaS apps TLS 1.3 automatically — yet <strong>85%</strong> ship without a strict Content-Security-Policy, <strong>31.7%</strong> remain exposed to clickjacking, and <strong>28.3%</strong> score Grade F on passive security headers.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-val" style="color:var(--amber);">68.9/100</div><div class="kpi-lbl">Mean Security Header &amp; TLS Score (N=60)</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:var(--red);">46.7%</div><div class="kpi-lbl">Zero Content-Security-Policy (28/60)</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:var(--red);">31.7%</div><div class="kpi-lbl">No Clickjacking Defense (19/60)</div></div>
+      <div class="kpi"><div class="kpi-val" style="color:var(--mint);">100%</div><div class="kpi-lbl">TLS 1.3 + Valid Trusted Cert (60/60)</div></div>
+    </div>
+
+    <section class="box">
+      <div style="font-weight:700;font-size:1.05rem;">Test Your Own Production App in 15 Seconds (Free, Read-Only 6-Phase Audit)</div>
+      <div style="color:var(--muted);font-size:0.88rem;margin-top:4px;">VibeShield v7.0 inspects TLS 443, CNAME takeover, 24 JS bundles (52 secret rules), 28 SPA-filtered paths, Supabase/Firebase read-only rules, and CSP AST directives.</div>
+      <form class="run-form" action="https://vibe-checker.appwrite.network/" method="get" target="_blank" rel="noopener">
+        <input type="text" name="url" placeholder="https://yourapp.com" required aria-label="Target URL" />
+        <input type="hidden" name="ref" value="benchmark-headers-2026" />
+        <button class="btn" type="submit">Scan My Site Free</button>
+      </form>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn btn-out" href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield" target="_blank" rel="noopener">Unlock Copy-Paste Fixes ($2 Launch, reg. $9)</a>
+        <a class="btn btn-out" href="https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack" target="_blank" rel="noopener">3-in-1 Complete Suite ($5 Launch, reg. $29)</a>
+        <a class="btn btn-out" href="./web-security-headers-benchmark-2026.json">Download Raw JSON Dataset</a>
+      </div>
+    </section>
+
+    <h2>Key Exposure Breakdown (N=60 Live SaaS &amp; AI Custom Domains)</h2>
+    <div class="box">
+      <div class="bar-row"><div class="bar-head"><span>Missing Cross-Origin-Opener-Policy (COOP)</span><strong>81.7% (49/60)</strong></div><div class="bar-track"><div class="bar-fill" style="width:81.7%;background:#f59e0b;"></div></div></div>
+      <div class="bar-row"><div class="bar-head"><span>Missing Content-Security-Policy (CSP)</span><strong>46.7% (28/60)</strong></div><div class="bar-track"><div class="bar-fill" style="width:46.7%;background:#ef4444;"></div></div></div>
+      <div class="bar-row"><div class="bar-head"><span>Missing Permissions-Policy</span><strong>46.7% (28/60)</strong></div><div class="bar-track"><div class="bar-fill" style="width:46.7%;background:#f59e0b;"></div></div></div>
+      <div class="bar-row"><div class="bar-head"><span>CSP Present but Allows 'unsafe-inline'</span><strong>38.3% (23/60)</strong></div><div class="bar-track"><div class="bar-fill" style="width:38.3%;background:#f97316;"></div></div></div>
+      <div class="bar-row"><div class="bar-head"><span>Missing Referrer-Policy</span><strong>33.3% (20/60)</strong></div><div class="bar-track"><div class="bar-fill" style="width:33.3%;background:#f59e0b;"></div></div></div>
+      <div class="bar-row"><div class="bar-head"><span>Missing Clickjacking Defense (XFO / frame-ancestors)</span><strong>31.7% (19/60)</strong></div><div class="bar-track"><div class="bar-fill" style="width:31.7%;background:#ef4444;"></div></div></div>
+      <div class="bar-row"><div class="bar-head"><span>Missing X-Content-Type-Options: nosniff</span><strong>28.3% (17/60)</strong></div><div class="bar-track"><div class="bar-fill" style="width:28.3%;background:#f97316;"></div></div></div>
+      <div class="bar-row"><div class="bar-head"><span>Leaking X-Powered-By Stack Fingerprint</span><strong>25% (15/60)</strong></div><div class="bar-track"><div class="bar-fill" style="width:25%;background:#f59e0b;"></div></div></div>
+      <div class="bar-row"><div class="bar-head"><span>Weak or Missing HSTS (max-age < 1yr or absent)</span><strong>21.7% (13/60)</strong></div><div class="bar-track"><div class="bar-fill" style="width:21.7%;background:#ef4444;"></div></div></div>
+      <div class="bar-row"><div class="bar-head"><span>CSP Present with 'unsafe-eval'</span><strong>13.3% (8/60)</strong></div><div class="bar-track"><div class="bar-fill" style="width:13.3%;background:#ef4444;"></div></div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="box">
+        <h2 style="margin-top:0;">Observatory-Aligned Grade Distribution</h2>
+        <table>
+          <thead><tr><th>Grade</th><th>Domains</th><th>Share</th></tr></thead>
+          <tbody>
+            <tr><td><strong>A</strong></td><td>20</td><td>33.3%</td></tr>
+            <tr><td><strong>B</strong></td><td>16</td><td>26.7%</td></tr>
+            <tr><td><strong>C</strong></td><td>5</td><td>8.3%</td></tr>
+            <tr><td><strong>D</strong></td><td>2</td><td>3.3%</td></tr>
+            <tr><td><strong>F</strong></td><td>17</td><td>28.3%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box">
+        <h2 style="margin-top:0;">Edge Hosting &amp; TLS Certificate Issuers</h2>
+        <table>
+          <thead><tr><th>Edge / CA</th><th>Count</th><th>Share</th></tr></thead>
+          <tbody>
+            <tr><td>Edge: Cloudflare</td><td>25</td><td>41.7%</td></tr>
+            <tr><td>Edge: Vercel</td><td>24</td><td>40%</td></tr>
+            <tr><td>Edge: Other / Self-Hosted</td><td>9</td><td>15%</td></tr>
+            <tr><td>Edge: nginx</td><td>1</td><td>1.7%</td></tr>
+            <tr><td>Edge: AWS / CloudFront</td><td>1</td><td>1.7%</td></tr>
+            <tr><td>CA: Let's Encrypt</td><td>35</td><td>58.3%</td></tr>
+            <tr><td>CA: Google Trust Services</td><td>23</td><td>38.3%</td></tr>
+            <tr><td>CA: Amazon Trust Services</td><td>2</td><td>3.3%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h2>Why 85.0% Still Fail Strict CSP Despite 100% TLS 1.3</h2>
+    <div class="box">
+      <p style="margin-top:0;">Cloudflare (41.7%) and Vercel (40%) now power over 81% of newly launched indie SaaS custom domains and provision automated Let's Encrypt or Google Trust Services TLS 1.3 certificates by default. However, edge platforms intentionally do <strong>not</strong> inject application-specific <code>Content-Security-Policy</code>, <code>X-Frame-Options</code>, <code>Permissions-Policy</code>, or <code>Cross-Origin-Opener-Policy</code> headers because naive defaults can break embedded scripts.</p>
+      <p style="margin-bottom:0;">As a result, 46.7% ship with zero CSP, and among the 32 domains that do configure CSP, <strong>71.9%</strong> (23/32) include <code>'unsafe-inline'</code>, neutralizing core XSS script-injection protection.</p>
+    </div>
+
+    <h2>Copy-Paste Grade A+ Baseline for <code>vercel.json</code> / Next.js</h2>
+    <pre>{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" }
+      ]
+    }
+  ]
+}</pre>
+
+    <h2>Methodology &amp; Companion Benchmarks</h2>
+    <div class="box" style="color:var(--muted);font-size:0.9rem;">
+      <p style="margin-top:0;"><strong>Methodology:</strong> Strictly passive single HTTPS GET / response header + TLS 443 handshake inspection across N=60 recently active (Oct-Nov 2026) public GitHub Indie SaaS & AI custom domains. Zero active vulnerability probing; 100% anonymized aggregate telemetry. Collected on 2026-11-23 using Node.js native <code>fetch</code> and <code>node:tls</code>. Individual target domains are intentionally omitted to protect site owners.</p>
+      <p style="margin-bottom:0;"><strong>Companion Open Benchmarks &amp; Agent Skills:</strong> <a href="https://zcoldwater.github.io/inboxshield-cli/email-deliverability-benchmark-2026.html">2026 Indie SaaS Email Deliverability Benchmark (N=60)</a> · <a href="https://zcoldwater.github.io/omniforge-skills/">40 Pre-Launch Agent Skills (skills.sh)</a> · <a href="https://github.com/zColdWater/vibeshield-cli">VibeShield CLI (MIT)</a> · <a href="https://brand-checker.appwrite.network/?ref=benchmark-headers-2026">BrandShield v6.2 (100% Free 78-TLD Search)</a></p>
+    </div>
+
+    <footer style="margin-top:32px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:0.84rem;">
+      MIT (c) OmniForge · Agent Arena Studio · <a href="./">VibeShield CLI Docs</a> · <a href="./web-security-headers-benchmark-2026.json">JSON Dataset</a> · <a href="https://vibe-checker.appwrite.network/?ref=benchmark-headers-2026">Live Scanner</a>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,179 @@
+{
+  "generatedAt": "2026-11-23T02:02:53.986Z",
+  "engine": "OmniForge Passive HTTPS Header & TLS Analyzer (VibeShield v7.0 methodology)",
+  "methodology": "Strictly passive single HTTPS GET / response header + TLS 443 handshake inspection across N=60 recently active (Oct-Nov 2026) public GitHub Indie SaaS & AI custom domains. Zero active vulnerability probing; 100% anonymized aggregate telemetry.",
+  "sampleSize": 60,
+  "averageScore": 68.9,
+  "metrics": {
+    "missingCsp": {
+      "count": 28,
+      "pct": 46.7
+    },
+    "cspPresentButUnsafeInline": {
+      "count": 23,
+      "pctOfAll": 38.3,
+      "pctOfCsp": 71.9
+    },
+    "cspPresentButUnsafeEval": {
+      "count": 8,
+      "pctOfAll": 13.3
+    },
+    "missingHsts": {
+      "count": 9,
+      "pct": 15
+    },
+    "weakOrMissingHsts": {
+      "count": 13,
+      "pct": 21.7
+    },
+    "missingClickjackingDefense": {
+      "count": 19,
+      "pct": 31.7
+    },
+    "missingNosniff": {
+      "count": 17,
+      "pct": 28.3
+    },
+    "missingReferrerPolicy": {
+      "count": 20,
+      "pct": 33.3
+    },
+    "missingPermissionsPolicy": {
+      "count": 28,
+      "pct": 46.7
+    },
+    "missingCoop": {
+      "count": 49,
+      "pct": 81.7
+    },
+    "leakingXPoweredBy": {
+      "count": 15,
+      "pct": 25
+    },
+    "tls13Adoption": {
+      "count": 60,
+      "pct": 100
+    },
+    "validTrustedCert": {
+      "count": 60,
+      "pct": 100
+    },
+    "expiringWithin30d": {
+      "count": 0,
+      "pct": 0
+    }
+  },
+  "gradeDistribution": [
+    {
+      "grade": "A",
+      "count": 20,
+      "pct": 33.3
+    },
+    {
+      "grade": "B",
+      "count": 16,
+      "pct": 26.7
+    },
+    {
+      "grade": "C",
+      "count": 5,
+      "pct": 8.3
+    },
+    {
+      "grade": "D",
+      "count": 2,
+      "pct": 3.3
+    },
+    {
+      "grade": "F",
+      "count": 17,
+      "pct": 28.3
+    }
+  ],
+  "edgeBreakdown": [
+    {
+      "name": "Cloudflare",
+      "count": 25,
+      "pct": 41.7
+    },
+    {
+      "name": "Vercel",
+      "count": 24,
+      "pct": 40
+    },
+    {
+      "name": "Other / Self-Hosted",
+      "count": 9,
+      "pct": 15
+    },
+    {
+      "name": "nginx",
+      "count": 1,
+      "pct": 1.7
+    },
+    {
+      "name": "AWS / CloudFront",
+      "count": 1,
+      "pct": 1.7
+    }
+  ],
+  "caBreakdown": [
+    {
+      "name": "Let's Encrypt",
+      "count": 35,
+      "pct": 58.3
+    },
+    {
+      "name": "Google Trust Services",
+      "count": 23,
+      "pct": 38.3
+    },
+    {
+      "name": "Amazon Trust Services",
+      "count": 2,
+      "pct": 3.3
+    }
+  ],
+  "tldBreakdown": [
+    {
+      "name": "com",
+      "count": 30,
+      "pct": 50
+    },
+    {
+      "name": "dev",
+      "count": 8,
+      "pct": 13.3
+    },
+    {
+      "name": "app",
+      "count": 6,
+      "pct": 10
+    },
+    {
+      "name": "ai",
+      "count": 5,
+      "pct": 8.3
+    },
+    {
+      "name": "io",
+      "count": 3,
+      "pct": 5
+    },
+    {
+      "name": "xyz",
+      "count": 2,
+      "pct": 3.3
+    },
+    {
+      "name": "org",
+      "count": 2,
+      "pct": 3.3
+    },
+    {
+      "name": "net",
+      "count": 1,
+      "pct": 1.7
+    }
+  ]
+}
