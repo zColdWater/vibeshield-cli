@@ -2,7 +2,8 @@
 
 **Zero-dependency, read-only 6-phase security auditor built for AI-coded web apps (Lovable, Bolt.new, Cursor, v0, Next.js, Vite, Supabase & Firebase).**
 
-[![Audited by VibeShield](https://vibe-checker.appwrite.network/api/badge.svg?domain=vibeshield-cli&score=98&grade=A%2B)](https://vibe-checker.appwrite.network/)
+[![Live VibeShield Score](https://vibe-checker.appwrite.network/api/badge.svg?url=zcoldwater.github.io)](https://vibe-checker.appwrite.network/?url=https://zcoldwater.github.io/vibeshield-cli/)
+[![AI Search Readiness](https://citeready-checker.appwrite.network/api/badge?url=zcoldwater.github.io/vibeshield-cli)](https://citeready-checker.appwrite.network/?url=https://zcoldwater.github.io/vibeshield-cli/)
 [![GitHub Action](https://img.shields.io/badge/GitHub%20Action-zColdWater%2Fvibeshield--cli%40v7-16a34a?logo=githubactions&logoColor=white)](./action.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Node.js >= 20](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)](https://nodejs.org)
