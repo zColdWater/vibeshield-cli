@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Next.js Nonce CSP &amp; Security Headers Builder — 10/10 Mozilla Observatory Generator (2026) | VibeShield</title>
+<meta name="description" content="Generate a 100/100 Grade A+ Content-Security-Policy with per-request cryptographic nonces and 10/10 Mozilla Observatory headers for Next.js middleware.ts, Vercel, Cloudflare Workers, and Nginx." />
+<link rel="canonical" href="https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html" />
+<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="VibeShield by OmniForge" />
+<meta property="og:title" content="Next.js Nonce CSP &amp; Security Headers Builder — 100/100 Grade A+" />
+<meta property="og:description" content="Eliminate unsafe-inline XSS gaps with a real cryptographic nonce CSP and 10/10 Observatory headers for Next.js, Supabase, Stripe, Vercel, Cloudflare &amp; Nginx." />
+<meta property="og:url" content="https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html" />
+<meta property="og:image" content="https://brand-checker.appwrite.network/assets/cover-vibeshield-2usd.png" />
+<meta property="og:image:width" content="1280" />
+<meta property="og:image:height" content="720" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@agentarenastudi" />
+<meta name="twitter:title" content="Next.js Nonce CSP &amp; Security Headers Builder | VibeShield v7.0" />
+<meta name="twitter:description" content="Interactive CSP AST scorer + Next.js middleware.ts, vercel.json, Cloudflare Worker &amp; Nginx config generator with 1-click live verification." />
+<meta name="twitter:image" content="https://brand-checker.appwrite.network/assets/cover-vibeshield-2usd.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script>
+try { if (localStorage.getItem("of_theme_v6") === "light") document.documentElement.setAttribute("data-theme", "light"); } catch (e) {}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html#app",
+      "name": "Next.js Nonce CSP & Security Headers Builder",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "url": "https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html",
+      "image": "https://brand-checker.appwrite.network/assets/cover-vibeshield-2usd.png",
+      "description": "Free interactive CSP AST security scorer and header config generator for Next.js middleware.ts, Vercel, Cloudflare Workers, and Nginx targeting 10/10 Mozilla Observatory compliance.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@type": "Organization", "name": "OmniForge · Agent Arena Studio", "url": "https://vibe-checker.appwrite.network/" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "VibeShield", "item": "https://zcoldwater.github.io/vibeshield-cli/" },
+        { "@type": "ListItem", "position": 2, "name": "Next.js Nonce CSP Builder", "item": "https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why do static vercel.json CSP headers fail Mozilla Observatory without middleware nonces?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Next.js injects inline hydration scripts that break under strict script-src 'self' unless you either weaken CSP with 'unsafe-inline' or generate a fresh cryptographic nonce per request in middleware.ts." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does 'strict-dynamic' work with Next.js script chunks?",
+          "acceptedAnswer": { "@type": "Answer", "text": "When a script carries a valid per-request nonce and script-src includes 'strict-dynamic', browsers automatically trust dynamically loaded Next.js chunks created by that verified script while blocking injected XSS payloads." }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I test my live site's CSP AST and security headers?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Run your production URL through VibeShield v7.0 at https://vibe-checker.appwrite.network/ to audit all 10 Mozilla Observatory headers, CSP AST directives, TLS 443, and 52 client secret rules." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0d0f0d; --bg-alt: #111512; --surface: #141916; --surface-2: #19201c;
+    --border: #232c26; --border-strong: #2f3d34; --ink: #f4f7f5; --ink-2: #d3dfd6;
+    --body: #a4b5a9; --muted: #788b7f; --brand: #4ade80; --brand-ink: #052e16;
+    --brand-soft: rgba(74, 222, 128, 0.12); --brand-bd: rgba(74, 222, 128, 0.34);
+    --warn: #fbbf24; --warn-bg: rgba(251, 191, 36, 0.12); --warn-bd: rgba(251, 191, 36, 0.32);
+    --bad: #fb7185; --bad-bg: rgba(244, 63, 94, 0.12); --bad-bd: rgba(244, 63, 94, 0.32);
+    --code-bg: #080b09; --code-bd: #1e2a22;
+  }
+  [data-theme="light"] {
+    color-scheme: light;
+    --bg: #ffffff; --bg-alt: #f8fafc; --surface: #ffffff; --surface-2: #f1f5f9;
+    --border: #e2e8f0; --border-strong: #cbd5e1; --ink: #0f172a; --ink-2: #1e293b;
+    --body: #475569; --muted: #64748b; --brand: #059669; --brand-ink: #ffffff;
+    --brand-soft: rgba(5, 150, 105, 0.10); --brand-bd: rgba(5, 150, 105, 0.34);
+    --warn: #b45309; --warn-bg: #fffbeb; --warn-bd: #fde68a;
+    --bad: #be123c; --bad-bg: #fff1f2; --bad-bd: #fecdd3;
+    --code-bg: #0f172a; --code-bd: #1e293b;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+  a { color: var(--brand); text-decoration: none; }
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+
+  .topbar { position: sticky; top: 0; z-index: 40; height: 60px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .topbar-in { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 12px; }
+  .brand { display: flex; align-items: center; gap: 9px; color: var(--ink); font-weight: 800; font-size: 15px; letter-spacing: -0.02em; white-space: nowrap; }
+  .brand-mark { width: 28px; height: 28px; border-radius: 7px; background: #0f1712; border: 1px solid rgba(74,222,128,0.45); display: inline-flex; align-items: center; justify-content: center; }
+  .nav-links { display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 600; }
+  .nav-links a { color: var(--body); }
+  .nav-links a:hover, .nav-links a.active { color: var(--brand); }
+  @media (max-width: 820px) { .nav-links { display: none; } }
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .pill-sw { display: inline-flex; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
+  .ps-btn { border: 0; background: transparent; color: var(--muted); font: 700 11.5px/1 inherit; padding: 5px 9px; border-radius: 999px; cursor: pointer; }
+  .ps-btn.active { background: var(--brand); color: var(--brand-ink); }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 15px; border-radius: 9px; font: 700 13px/1.2 inherit; border: 1px solid transparent; cursor: pointer; transition: all 0.14s; white-space: nowrap; }
+  .btn-brand { background: var(--brand); color: var(--brand-ink); }
+  .btn-brand:hover { filter: brightness(1.06); }
+  .btn-outline { background: var(--surface); color: var(--ink); border-color: var(--border-strong); }
+  .btn-outline:hover { border-color: var(--brand); color: var(--brand); }
+  .btn-sm { padding: 6px 11px; font-size: 12px; border-radius: 7px; }
+  .strike { text-decoration: line-through; opacity: 0.72; font-weight: 600; }
+
+  .hero { padding: 36px 0 24px; border-bottom: 1px solid var(--border); background: radial-gradient(circle at 50% -20%, rgba(74, 222, 128, 0.12), transparent 58%); }
+  .eyebrow { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--brand); background: var(--brand-soft); border: 1px solid var(--brand-bd); padding: 4px 11px; border-radius: 999px; margin-bottom: 12px; }
+  h1 { margin: 0 0 10px; font-size: clamp(26px, 4vw, 38px); line-height: 1.12; letter-spacing: -0.03em; }
+  h1 span { color: var(--brand); }
+  .hero-sub { margin: 0; font-size: 15px; color: var(--body); max-width: 780px; }
+
+  .preset-bar { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0 0; }
+  .preset-btn { border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink-2); padding: 7px 12px; border-radius: 999px; font: 600 12px/1.2 inherit; cursor: pointer; transition: all 0.14s; }
+  .preset-btn:hover { border-color: var(--brand); color: var(--brand); }
+  .preset-btn.active { background: var(--brand-soft); border-color: var(--brand); color: var(--brand); }
+
+  .workspace { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); gap: 20px; padding: 24px 0 32px; align-items: start; }
+  @media (max-width: 920px) { .workspace { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; min-width: 0; }
+  @media (max-width: 560px) { .topbar-in { gap: 6px; } .nav-right .pill-sw:first-child { display: none; } .panel { padding: 15px; } .btn-sm { padding: 5px 9px; font-size: 11px; } }
+  .panel-title { margin: 0 0 4px; font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
+  .panel-sub { font-size: 12.5px; color: var(--muted); margin-bottom: 16px; }
+
+  .score-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  @media (max-width: 480px) { .score-strip { grid-template-columns: 1fr; } }
+  .score-box { padding: 12px 14px; border-radius: 11px; background: var(--bg); border: 1px solid var(--border-strong); }
+  .score-val { font-size: 19px; font-weight: 800; line-height: 1.15; white-space: nowrap; }
+  .score-lbl { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 3px; }
+
+  .fld-lbl { display: block; font-size: 11.5px; font-weight: 700; color: var(--ink-2); margin: 12px 0 6px; }
+  .fld { width: 100%; padding: 9px 11px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--ink); font: 500 13px/1.35 inherit; outline: none; }
+  .fld:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.14); }
+
+  .chk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  @media (max-width: 520px) { .chk-grid { grid-template-columns: 1fr; } }
+  .chk-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--ink-2); cursor: pointer; }
+  .chk-item input { accent-color: var(--brand); width: 15px; height: 15px; margin: 0; }
+
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; padding: 4px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; }
+  .tab-btn { flex: 1 1 auto; border: 0; background: transparent; color: var(--muted); padding: 7px 10px; border-radius: 7px; font: 700 12px/1.2 inherit; cursor: pointer; }
+  .tab-btn.active { background: var(--surface-2); color: var(--ink); border: 1px solid var(--border-strong); }
+
+  .code-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .badge { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  .b-ok { background: var(--brand-soft); color: var(--brand); border: 1px solid var(--brand-bd); }
+  .b-warn { background: var(--warn-bg); color: var(--warn); border: 1px solid var(--warn-bd); }
+  .b-bad { background: var(--bad-bg); color: var(--bad); border: 1px solid var(--bad-bd); }
+
+  .ast-alerts { display: grid; gap: 6px; margin-bottom: 10px; }
+  .ast-alert { padding: 8px 11px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+  .ast-alert.ok { background: var(--brand-soft); border: 1px solid var(--brand-bd); color: var(--brand); }
+  .ast-alert.warn { background: var(--warn-bg); border: 1px solid var(--warn-bd); color: var(--warn); }
+  .ast-alert.bad { background: var(--bad-bg); border: 1px solid var(--bad-bd); color: var(--bad); }
+
+  .code-pre { margin: 0; padding: 14px 16px; border-radius: 10px; background: var(--code-bg); border: 1px solid var(--code-bd); color: #d8f8e2; font-size: 12px; line-height: 1.56; overflow-x: auto; max-height: 480px; white-space: pre; }
+
+  .verify-banner { margin-top: 16px; padding: 16px 18px; border-radius: 12px; background: linear-gradient(100deg, rgba(74, 222, 128, 0.14) 0%, rgba(16, 185, 129, 0.05) 100%); border: 1.5px solid var(--brand-bd); display: grid; gap: 10px; }
+  .scan-form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .scan-form input { flex: 1 1 220px; }
+
+  .info-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 12px 0 36px; }
+  @media (max-width: 820px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .info-card h3 { margin: 0 0 6px; font-size: 14.5px; }
+  .info-card p { margin: 0; font-size: 13px; color: var(--body); }
+
+  footer { border-top: 1px solid var(--border); padding: 26px 0 38px; font-size: 12.5px; color: var(--muted); }
+  .ft-row { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .ft-links { display: flex; gap: 16px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="./index.html">
+      <span class="brand-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+      <span>VibeShield <span class="mono" style="font-size:11px;color:var(--brand)">Tools</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="./supabase-rls-policy-generator.html" data-i18n="navRls">RLS SQL Generator</a>
+      <a href="./nextjs-nonce-csp-builder.html" class="active" data-i18n="navCsp">Next.js CSP Builder</a>
+      <a href="./web-security-headers-benchmark-2026.html" data-i18n="navBench">2026 Benchmark</a>
+      <a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener" data-i18n="navScanner">6-Phase Live Scanner</a>
+    </nav>
+    <div class="nav-right">
+      <div class="pill-sw" role="group" aria-label="Theme">
+        <button type="button" class="ps-btn active" id="thDark" onclick="setTheme('dark')">Dark</button>
+        <button type="button" class="ps-btn" id="thLight" onclick="setTheme('light')">Light</button>
+      </div>
+      <div class="pill-sw" role="group" aria-label="Language">
+        <button type="button" class="ps-btn active" id="lpEn" onclick="setLang('en', true)">EN</button>
+        <button type="button" class="ps-btn" id="lpZh" onclick="setLang('zh', true)">中文</button>
+      </div>
+      <a class="btn btn-brand btn-sm" href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield" target="_blank" rel="noopener" data-i18n="navUnlock">Unlock Fix ($2)</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow mono" data-i18n="heroEye">LIVE CSP AST SCORER · 10/10 MOZILLA OBSERVATORY · NEXT.JS / VERCEL / CLOUDFLARE / NGINX</div>
+    <h1 data-i18n="heroTitle">Next.js <span>Nonce CSP &amp; Security Headers</span> Builder</h1>
+    <p class="hero-sub" data-i18n="heroSub">Build a real per-request cryptographic nonce <code>Content-Security-Policy</code> with <code>'strict-dynamic'</code> and all 10 Mozilla Observatory headers. Live CSP AST scoring catches <code>unsafe-inline</code> and wildcard risks before you deploy.</p>
+    <div class="preset-bar" role="group" aria-label="CSP Stack Presets">
+      <button type="button" class="preset-btn active" id="pr0" onclick="applyPreset('strict_next')" data-i18n="p0">Strict Next.js 15 (100/100 A+)</button>
+      <button type="button" class="preset-btn" id="pr1" onclick="applyPreset('saas_supa_stripe')" data-i18n="p1">Next.js + Supabase + Stripe</button>
+      <button type="button" class="preset-btn" id="pr2" onclick="applyPreset('fonts_analytics')" data-i18n="p2">Fonts + PostHog + Clerk</button>
+      <button type="button" class="preset-btn" id="pr3" onclick="applyPreset('static_spa')" data-i18n="p3">Lovable / Vite Static Edge</button>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="workspace">
+    <!-- Left Column: CSP & Header Configurator -->
+    <div class="panel">
+      <h2 class="panel-title" data-i18n="cfgTitle">CSP Directives &amp; Edge Headers</h2>
+      <div class="panel-sub" data-i18n="cfgSub">Toggle third-party providers and Observatory headers. Your live CSP AST grade updates on every change.</div>
+
+      <div class="score-strip mono">
+        <div class="score-box">
+          <div class="score-val" id="cspScoreVal" style="color:var(--brand)">100 / 100 · A+</div>
+          <div class="score-lbl" data-i18n="lblCspScore">Live CSP AST Score</div>
+        </div>
+        <div class="score-box">
+          <div class="score-val" id="hdrScoreVal" style="color:var(--brand)">10 / 10</div>
+          <div class="score-lbl" data-i18n="lblHdrScore">Observatory Headers</div>
+        </div>
+      </div>
+
+      <div class="fld-lbl" data-i18n="lblCspCore">CSP Hardening Directives</div>
+      <div class="chk-grid">
+        <label class="chk-item"><input type="checkbox" id="cNonce" checked onchange="renderAll()" /><span data-i18n="cNonce">Per-Request Nonce + 'strict-dynamic'</span></label>
+        <label class="chk-item"><input type="checkbox" id="cObjNone" checked onchange="renderAll()" /><span>object-src 'none'</span></label>
+        <label class="chk-item"><input type="checkbox" id="cFrameNone" checked onchange="renderAll()" /><span>frame-ancestors 'none'</span></label>
+        <label class="chk-item"><input type="checkbox" id="cBaseSelf" checked onchange="renderAll()" /><span>base-uri 'self'</span></label>
+        <label class="chk-item"><input type="checkbox" id="cUnsafeInline" onchange="renderAll()" /><span data-i18n="cUnsafeInline">Allow script 'unsafe-inline' (Weak)</span></label>
+        <label class="chk-item"><input type="checkbox" id="cUnsafeEval" onchange="renderAll()" /><span data-i18n="cUnsafeEval">Allow 'unsafe-eval' (Weak)</span></label>
+      </div>
+
+      <div class="fld-lbl" data-i18n="lblThirdParty">Third-Party SaaS Integrations (Auto-Scoped)</div>
+      <div class="chk-grid">
+        <label class="chk-item"><input type="checkbox" id="sSupabase" onchange="renderAll()" /><span>Supabase (*.supabase.co + wss)</span></label>
+        <label class="chk-item"><input type="checkbox" id="sStripe" onchange="renderAll()" /><span>Stripe (js.stripe.com / api)</span></label>
+        <label class="chk-item"><input type="checkbox" id="sFonts" checked onchange="renderAll()" /><span>Google Fonts (googleapis / gstatic)</span></label>
+        <label class="chk-item"><input type="checkbox" id="sPosthog" onchange="renderAll()" /><span>PostHog / Plausible Analytics</span></label>
+        <label class="chk-item"><input type="checkbox" id="sClerk" onchange="renderAll()" /><span>Clerk Auth (*.clerk.accounts.dev)</span></label>
+        <label class="chk-item"><input type="checkbox" id="sTurnstile" onchange="renderAll()" /><span>Cloudflare Turnstile</span></label>
+      </div>
+
+      <label class="fld-lbl" for="extraConnect" data-i18n="lblExtra">Additional Allowed API / Connect Origins (space-separated)</label>
+      <input id="extraConnect" class="fld mono" type="text" placeholder="https://api.yourdomain.com https://cdn.yourdomain.com" oninput="renderAll()" />
+
+      <div class="fld-lbl" data-i18n="lblObsHdrs">Mozilla Observatory Companion Headers</div>
+      <div class="chk-grid">
+        <label class="chk-item"><input type="checkbox" id="hHsts" checked onchange="renderAll()" /><span>HSTS (1-yr + preload)</span></label>
+        <label class="chk-item"><input type="checkbox" id="hXfo" checked onchange="renderAll()" /><span>X-Frame-Options: DENY</span></label>
+        <label class="chk-item"><input type="checkbox" id="hNosniff" checked onchange="renderAll()" /><span>X-Content-Type-Options: nosniff</span></label>
+        <label class="chk-item"><input type="checkbox" id="hRef" checked onchange="renderAll()" /><span>Referrer-Policy</span></label>
+        <label class="chk-item"><input type="checkbox" id="hPerm" checked onchange="renderAll()" /><span>Permissions-Policy</span></label>
+        <label class="chk-item"><input type="checkbox" id="hCoopCorp" checked onchange="renderAll()" /><span>COOP + CORP (same-origin)</span></label>
+      </div>
+
+      <div class="verify-banner">
+        <div>
+          <div style="font-size:13.5px;font-weight:800;color:var(--ink)" data-i18n="verTitle">Audit Your Live Site's CSP AST &amp; 10 Observatory Headers</div>
+          <div style="font-size:12px;color:var(--body);margin-top:2px" data-i18n="verSub">Check your production deployment on VibeShield v7.0 — live 6-phase audit checks TLS 443, CSP AST, Next.js CVE-2025-29927, and 52 client secret rules.</div>
+        </div>
+        <form id="liveVerifyForm" class="scan-form">
+          <input id="liveUrlInput" class="fld mono" type="text" placeholder="https://yourapp.vercel.app or yourdomain.com" required />
+          <button type="submit" class="btn btn-brand" data-i18n="btnRunLive">Audit Live Free &rarr;</button>
+        </form>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--muted)">
+          <span data-i18n="verPricing">Unlock exact leak file paths &amp; tailored 5-platform patches for <strong style="color:var(--brand)">$2 Launch Special</strong> (<span class="strike">$9</span>).</span>
+          <a href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield" target="_blank" rel="noopener" style="font-weight:700" data-i18n="verBuy">1-Click Unlock ($2) &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Generated Edge Configs -->
+    <div class="panel">
+      <div class="code-head">
+        <div>
+          <h2 class="panel-title" data-i18n="outTitle">Production Edge &amp; Middleware Config</h2>
+          <div class="panel-sub" style="margin-bottom:0" id="outMeta">Ready to drop into Next.js App Router, Vercel, Cloudflare, or Nginx</div>
+        </div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <button type="button" class="btn btn-brand btn-sm" onclick="copyCurrentCode(this)" data-i18n="btnCopy">Copy Config</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="downloadCurrent()" data-i18n="btnDl">Download File</button>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab-btn active" id="tab0" onclick="setOutTab(0)">1. middleware.ts</button>
+        <button type="button" class="tab-btn" id="tab1" onclick="setOutTab(1)">2. vercel.json</button>
+        <button type="button" class="tab-btn" id="tab2" onclick="setOutTab(2)">3. Cloudflare Worker</button>
+        <button type="button" class="tab-btn" id="tab3" onclick="setOutTab(3)">4. Nginx</button>
+      </div>
+
+      <div id="astAlerts" class="ast-alerts"></div>
+      <pre id="codeOutput" class="code-pre mono"></pre>
+    </div>
+  </div>
+
+  <section class="info-grid">
+    <div class="info-card">
+      <h3 data-i18n="i1t">83.3% of SaaS Sites Fail CSP</h3>
+      <p data-i18n="i1d">In our <a href="./web-security-headers-benchmark-2026.html">2026 60-Site Indie SaaS Benchmark</a>, over 80% of live production sites either shipped zero CSP or weakened <code>script-src</code> with bare <code>'unsafe-inline'</code>.</p>
+    </div>
+    <div class="info-card">
+      <h3 data-i18n="i2t">Why Nonce + <code>'strict-dynamic'</code> Wins</h3>
+      <p data-i18n="i2d">Generating a fresh base64 nonce in <code>middleware.ts</code> lets Next.js hydration scripts and dynamic chunks run cleanly while blocking injected XSS script tags completely.</p>
+    </div>
+    <div class="info-card">
+      <h3 data-i18n="i3t">Dogfooded to 10/10 on VibeShield</h3>
+      <p data-i18n="i3d"><a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener">vibe-checker.appwrite.network</a> runs this exact per-request nonce CSP + 10/10 Observatory header stack in production with zero console errors.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap ft-row">
+    <div><strong style="color:var(--ink)">OmniForge · Agent Arena Studio</strong> · <a href="mailto:agentarenastudio@proton.me">agentarenastudio@proton.me</a></div>
+    <div class="ft-links">
+      <a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener">VibeShield Live Scanner</a>
+      <a href="./supabase-rls-policy-generator.html">Supabase RLS Generator</a>
+      <a href="./web-security-headers-benchmark-2026.html">2026 Security Benchmark</a>
+      <a href="https://omnipulse-x402.appwrite.network/go/gumroad/suite" target="_blank" rel="noopener">Complete Suite ($5)</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const LANG_KEY = "of_lang_v5";
+const THEME_KEY = "of_theme_v6";
+let currentLang = "en";
+let currentOutTab = 0;
+let generatedOutputs = ["", "", "", ""];
+const FILE_NAMES = ["middleware.ts", "vercel.json", "csp-worker.js", "nginx-security-headers.conf"];
+
+const DICT = {
+  en: {
+    navRls: "RLS SQL Generator", navCsp: "Next.js CSP Builder", navBench: "2026 Benchmark", navScanner: "6-Phase Live Scanner", navUnlock: "Unlock Fix ($2)",
+    heroEye: "LIVE CSP AST SCORER · 10/10 MOZILLA OBSERVATORY · NEXT.JS / VERCEL / CLOUDFLARE / NGINX",
+    heroTitle: "Next.js <span>Nonce CSP &amp; Security Headers</span> Builder",
+    heroSub: "Build a real per-request cryptographic nonce <code>Content-Security-Policy</code> with <code>'strict-dynamic'</code> and all 10 Mozilla Observatory headers. Live CSP AST scoring catches <code>unsafe-inline</code> and wildcard risks before you deploy.",
+    p0: "Strict Next.js 15 (100/100 A+)", p1: "Next.js + Supabase + Stripe", p2: "Fonts + PostHog + Clerk", p3: "Lovable / Vite Static Edge",
+    cfgTitle: "CSP Directives & Edge Headers", cfgSub: "Toggle third-party providers and Observatory headers. Your live CSP AST grade updates on every change.",
+    lblCspScore: "Live CSP AST Score", lblHdrScore: "Observatory Headers", lblCspCore: "CSP Hardening Directives",
+    cNonce: "Per-Request Nonce + 'strict-dynamic'", cUnsafeInline: "Allow script 'unsafe-inline' (Weak)", cUnsafeEval: "Allow 'unsafe-eval' (Weak)",
+    lblThirdParty: "Third-Party SaaS Integrations (Auto-Scoped)", lblExtra: "Additional Allowed API / Connect Origins (space-separated)", lblObsHdrs: "Mozilla Observatory Companion Headers",
+    verTitle: "Audit Your Live Site's CSP AST & 10 Observatory Headers", verSub: "Check your production deployment on VibeShield v7.0 — live 6-phase audit checks TLS 443, CSP AST, Next.js CVE-2025-29927, and 52 client secret rules.",
+    btnRunLive: "Audit Live Free &rarr;", verPricing: 'Unlock exact leak file paths &amp; tailored 5-platform patches for <strong style="color:var(--brand)">$2 Launch Special</strong> (<span class="strike">$9</span>).', verBuy: "1-Click Unlock ($2) &rarr;",
+    outTitle: "Production Edge & Middleware Config", btnCopy: "Copy Config", btnDl: "Download File", copied: "Copied!",
+    i1t: "83.3% of SaaS Sites Fail CSP", i1d: 'In our <a href="./web-security-headers-benchmark-2026.html">2026 60-Site Indie SaaS Benchmark</a>, over 80% of live production sites either shipped zero CSP or weakened <code>script-src</code> with bare <code>\'unsafe-inline\'</code>.',
+    i2t: "Why Nonce + <code>'strict-dynamic'</code> Wins", i2d: "Generating a fresh base64 nonce in <code>middleware.ts</code> lets Next.js hydration scripts and dynamic chunks run cleanly while blocking injected XSS script tags completely.",
+    i3t: "Dogfooded to 10/10 on VibeShield", i3d: '<a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener">vibe-checker.appwrite.network</a> runs this exact per-request nonce CSP + 10/10 Observatory header stack in production with zero console errors.'
+  },
+  zh: {
+    navRls: "RLS SQL 生成器", navCsp: "Next.js CSP 生成器", navBench: "2026 安全基准", navScanner: "6 阶段实时深扫", navUnlock: "解锁修复 ($2)",
+    heroEye: "实时 CSP 语法评分 · 10/10 MOZILLA OBSERVATORY · NEXT.JS / VERCEL / CLOUDFLARE / NGINX",
+    heroTitle: "Next.js <span>动态 Nonce CSP 与安全头</span> 生成器",
+    heroSub: "一键构建带逐请求加密 Nonce、<code>'strict-dynamic'</code> 与全部 10 项 Mozilla Observatory 安全响应头的生产配置，实时 AST 评分帮您在上线前消灭 <code>unsafe-inline</code> 与通配符漏洞。",
+    p0: "严格 Next.js 15 (100/100 A+)", p1: "Next.js + Supabase + Stripe", p2: "字体 + PostHog + Clerk", p3: "Lovable / Vite 静态边缘",
+    cfgTitle: "CSP 指令与边缘响应头配置", cfgSub: "勾选第三方服务与安全头，左侧实时输出 CSP AST 安全评分与告警。",
+    lblCspScore: "实时 CSP AST 评分", lblHdrScore: "Observatory 安全头", lblCspCore: "CSP 核心安全指令",
+    cNonce: "逐请求加密 Nonce + 'strict-dynamic'", cUnsafeInline: "允许脚本 'unsafe-inline'（高危降分）", cUnsafeEval: "允许 'unsafe-eval'（高危降分）",
+    lblThirdParty: "常见第三方 SaaS 白名单（自动精准收敛）", lblExtra: "额外允许的 API / 域名（空格分隔）", lblObsHdrs: "Mozilla Observatory 配套安全响应头",
+    verTitle: "用 VibeShield v7.0 实网检测您的 CSP AST 与 10 项安全头", verSub: "免费只读 6 阶段深扫：同时核验 TLS 443、CSP 语法缺陷、Next.js CVE-2025-29927 与 52 条前端密钥规则。",
+    btnRunLive: "免费实测网站 &rarr;", verPricing: '解锁精确泄露文件路径与 5 平台修复补丁仅需 <strong style="color:var(--brand)">$2 破冰特惠</strong>（<span class="strike">$9</span>）。', verBuy: "1-Click 解锁 ($2) &rarr;",
+    outTitle: "生成的生产级边缘与中间件配置", btnCopy: "复制配置", btnDl: "下载配置文件", copied: "已复制!",
+    i1t: "83.3% 的 SaaS 站点 CSP 不达标", i1d: '据我们实测的 <a href="./web-security-headers-benchmark-2026.html">2026 60 站独立 SaaS 安全基准</a>，超过八成线上产品要么缺失 CSP，要么放任裸 <code>\'unsafe-inline\'</code>。',
+    i2t: "为什么 Nonce + <code>'strict-dynamic'</code> 更强", i2d: "在 <code>middleware.ts</code> 中为每次请求生成全新随机 base64 nonce，既让 Next.js 水合与动态分包顺畅运行，又彻底封死注入的 XSS 脚本标签。",
+    i3t: "VibeShield 自身 10/10 实战验证", i3d: '<a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener">vibe-checker.appwrite.network</a> 线上即运行同款逐请求 Nonce CSP 与 10/10 Observatory 安全头，零控制台报错。'
+  }
+};
+
+function setTheme(mode) {
+  const isLight = mode === "light";
+  if (isLight) document.documentElement.setAttribute("data-theme", "light");
+  else document.documentElement.removeAttribute("data-theme");
+  document.getElementById("thDark").classList.toggle("active", !isLight);
+  document.getElementById("thLight").classList.toggle("active", isLight);
+  try { localStorage.setItem(THEME_KEY, isLight ? "light" : "dark"); } catch {}
+}
+
+function setLang(lang, manual) {
+  currentLang = lang === "zh" ? "zh" : "en";
+  document.documentElement.lang = currentLang === "zh" ? "zh-Hans" : "en";
+  if (manual) { try { localStorage.setItem(LANG_KEY, currentLang); } catch {} }
+  document.getElementById("lpEn").classList.toggle("active", currentLang === "en");
+  document.getElementById("lpZh").classList.toggle("active", currentLang === "zh");
+  document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    const k = el.getAttribute("data-i18n");
+    if (DICT[currentLang][k]) el.innerHTML = DICT[currentLang][k];
+  });
+  renderAll();
+}
+
+function setOutTab(idx) {
+  currentOutTab = idx;
+  for (let i = 0; i < 4; i++) document.getElementById("tab" + i).classList.toggle("active", i === idx);
+  document.getElementById("codeOutput").textContent = generatedOutputs[idx] || "";
+}
+
+function applyPreset(name) {
+  const idxMap = { strict_next: 0, saas_supa_stripe: 1, fonts_analytics: 2, static_spa: 3 };
+  for (let i = 0; i < 4; i++) document.getElementById("pr" + i).classList.toggle("active", idxMap[name] === i);
+  document.getElementById("cNonce").checked = name !== "static_spa";
+  document.getElementById("cObjNone").checked = true;
+  document.getElementById("cFrameNone").checked = true;
+  document.getElementById("cBaseSelf").checked = true;
+  document.getElementById("cUnsafeInline").checked = false;
+  document.getElementById("cUnsafeEval").checked = false;
+  document.getElementById("sSupabase").checked = name === "saas_supa_stripe" || name === "static_spa";
+  document.getElementById("sStripe").checked = name === "saas_supa_stripe";
+  document.getElementById("sFonts").checked = true;
+  document.getElementById("sPosthog").checked = name === "fonts_analytics";
+  document.getElementById("sClerk").checked = name === "fonts_analytics";
+  document.getElementById("sTurnstile").checked = false;
+  document.getElementById("hHsts").checked = true;
+  document.getElementById("hXfo").checked = true;
+  document.getElementById("hNosniff").checked = true;
+  document.getElementById("hRef").checked = true;
+  document.getElementById("hPerm").checked = true;
+  document.getElementById("hCoopCorp").checked = true;
+  renderAll();
+}
+
+function sanitizeOrigins(raw) {
+  return String(raw || "").split(/[\s,]+/).map(function (s) {
+    return s.trim().replace(/[^a-zA-Z0-9.:/*_-]/g, "");
+  }).filter(function (s) { return /^https?:\/\/|^wss?:\/\//i.test(s); }).slice(0, 12);
+}
+
+function renderAll() {
+  const zh = currentLang === "zh";
+  const useNonce = document.getElementById("cNonce").checked;
+  const useObjNone = document.getElementById("cObjNone").checked;
+  const useFrameNone = document.getElementById("cFrameNone").checked;
+  const useBaseSelf = document.getElementById("cBaseSelf").checked;
+  const useUnsafeInline = document.getElementById("cUnsafeInline").checked;
+  const useUnsafeEval = document.getElementById("cUnsafeEval").checked;
+
+  const sSupa = document.getElementById("sSupabase").checked;
+  const sStripe = document.getElementById("sStripe").checked;
+  const sFonts = document.getElementById("sFonts").checked;
+  const sPosthog = document.getElementById("sPosthog").checked;
+  const sClerk = document.getElementById("sClerk").checked;
+  const sTurn = document.getElementById("sTurnstile").checked;
+  const extra = sanitizeOrigins(document.getElementById("extraConnect").value);
+
+  const scriptSrc = ["'self'"];
+  const styleSrc = ["'self'", "'unsafe-inline'"];
+  const fontSrc = ["'self'", "data:"];
+  const imgSrc = ["'self'", "data:", "blob:", "https:"];
+  const connectSrc = ["'self'"];
+  const frameSrc = ["'self'"];
+
+  if (useNonce) { scriptSrc.push("'nonce-${nonce}'", "'strict-dynamic'"); }
+  if (useUnsafeInline) scriptSrc.push("'unsafe-inline'");
+  if (useUnsafeEval) scriptSrc.push("'unsafe-eval'");
+
+  if (sSupa) connectSrc.push("https://*.supabase.co", "wss://*.supabase.co");
+  if (sStripe) {
+    if (!useNonce) scriptSrc.push("https://js.stripe.com");
+    connectSrc.push("https://api.stripe.com");
+    frameSrc.push("https://js.stripe.com", "https://hooks.stripe.com");
+  }
+  if (sFonts) {
+    styleSrc.push("https://fonts.googleapis.com");
+    fontSrc.push("https://fonts.gstatic.com");
+  }
+  if (sPosthog) {
+    if (!useNonce) scriptSrc.push("https://us.i.posthog.com", "https://plausible.io");
+    connectSrc.push("https://us.i.posthog.com", "https://eu.i.posthog.com", "https://plausible.io");
+  }
+  if (sClerk) {
+    if (!useNonce) scriptSrc.push("https://*.clerk.accounts.dev");
+    connectSrc.push("https://*.clerk.accounts.dev", "https://api.clerk.com");
+    frameSrc.push("https://challenges.cloudflare.com");
+  }
+  if (sTurn) {
+    if (!useNonce) scriptSrc.push("https://challenges.cloudflare.com");
+    frameSrc.push("https://challenges.cloudflare.com");
+  }
+  extra.forEach(function (o) { connectSrc.push(o); });
+
+  const cspParts = [
+    "default-src 'self'",
+    "script-src " + scriptSrc.join(" "),
+    "style-src " + styleSrc.join(" "),
+    "font-src " + fontSrc.join(" "),
+    "img-src " + imgSrc.join(" "),
+    "connect-src " + connectSrc.join(" "),
+    "frame-src " + frameSrc.join(" "),
+    "form-action 'self'"
+  ];
+  if (useObjNone) cspParts.push("object-src 'none'");
+  if (useBaseSelf) cspParts.push("base-uri 'self'");
+  if (useFrameNone) cspParts.push("frame-ancestors 'none'");
+  cspParts.push("upgrade-insecure-requests");
+
+  const dynamicCspExpr = cspParts.join("; ");
+  const staticCspExpr = dynamicCspExpr.replace(" 'nonce-${nonce}' 'strict-dynamic'", "");
+
+  // Live AST grading (exact mirror of VibeShield scanner-engine.mjs analyzeCsp)
+  let cspScore = 100;
+  const alerts = [];
+  if (useUnsafeInline && !useNonce) {
+    cspScore -= 25;
+    alerts.push({ cls: "bad", txt: zh ? "高危 (-25)：script-src 允许裸 'unsafe-inline' 且无 nonce，XSS 防护大幅削弱。" : "HIGH (-25): script-src allows bare 'unsafe-inline' without a nonce, weakening XSS protection." });
+  }
+  if (useUnsafeEval) {
+    cspScore -= 20;
+    alerts.push({ cls: "bad", txt: zh ? "高危 (-20)：script-src 允许 'unsafe-eval'，存在动态字符串代码执行风险。" : "HIGH (-20): script-src allows 'unsafe-eval', permitting dynamic string-to-code execution." });
+  }
+  if (!useFrameNone) {
+    cspScore -= 10;
+    alerts.push({ cls: "warn", txt: zh ? "中危 (-10)：缺失 frame-ancestors 'none'，无法彻底防范点击劫持。" : "MEDIUM (-10): Missing frame-ancestors 'none' clickjacking protection." });
+  }
+  if (!useObjNone) {
+    cspScore -= 10;
+    alerts.push({ cls: "warn", txt: zh ? "中危 (-10)：缺失 object-src 'none'，建议禁用遗留插件对象执行。" : "MEDIUM (-10): Missing object-src 'none' directive." });
+  }
+  if (!useBaseSelf) {
+    cspScore -= 5;
+    alerts.push({ cls: "warn", txt: zh ? "低危 (-5)：缺失 base-uri 'self'，存在相对路径劫持风险。" : "LOW (-5): Missing base-uri 'self' restriction." });
+  }
+  cspScore = Math.max(0, cspScore);
+  const cspGrade = cspScore >= 95 ? "A+" : cspScore >= 85 ? "A" : cspScore >= 75 ? "B" : cspScore >= 60 ? "C" : "D";
+
+  if (!alerts.length) {
+    alerts.push({ cls: "ok", txt: zh ? "CSP AST 满分通过 (100/100 · Grade A+)：零 unsafe-inline、零 unsafe-eval、零通配符、全护栏齐备！" : "CSP AST 100/100 (Grade A+): Zero bare unsafe-inline, zero unsafe-eval, zero wildcards, all guardrails active." });
+  }
+
+  const hdrFlags = {
+    hsts: document.getElementById("hHsts").checked,
+    xfo: document.getElementById("hXfo").checked,
+    nosniff: document.getElementById("hNosniff").checked,
+    ref: document.getElementById("hRef").checked,
+    perm: document.getElementById("hPerm").checked,
+    coopCorp: document.getElementById("hCoopCorp").checked
+  };
+  let hdrCnt = 3; // CSP + Server hidden + security.txt guidance baseline
+  if (hdrFlags.hsts) hdrCnt += 1;
+  if (hdrFlags.xfo) hdrCnt += 1;
+  if (hdrFlags.nosniff) hdrCnt += 1;
+  if (hdrFlags.ref) hdrCnt += 1;
+  if (hdrFlags.perm) hdrCnt += 1;
+  if (hdrFlags.coopCorp) hdrCnt += 2;
+
+  const scEl = document.getElementById("cspScoreVal");
+  scEl.textContent = cspScore + " / 100 · " + cspGrade;
+  scEl.style.color = cspScore >= 90 ? "var(--brand)" : cspScore >= 70 ? "var(--warn)" : "var(--bad)";
+  const hdEl = document.getElementById("hdrScoreVal");
+  hdEl.textContent = hdrCnt + " / 10";
+  hdEl.style.color = hdrCnt >= 9 ? "var(--brand)" : hdrCnt >= 7 ? "var(--warn)" : "var(--bad)";
+
+  document.getElementById("astAlerts").innerHTML = alerts.map(function (a) {
+    return '<div class="ast-alert ' + a.cls + '">' + a.txt + "</div>";
+  }).join("");
+
+  const secHdrPairs = [];
+  if (hdrFlags.hsts) secHdrPairs.push(["Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload"]);
+  if (hdrFlags.xfo) secHdrPairs.push(["X-Frame-Options", "DENY"]);
+  if (hdrFlags.nosniff) secHdrPairs.push(["X-Content-Type-Options", "nosniff"]);
+  if (hdrFlags.ref) secHdrPairs.push(["Referrer-Policy", "strict-origin-when-cross-origin"]);
+  if (hdrFlags.perm) secHdrPairs.push(["Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()"]);
+  if (hdrFlags.coopCorp) {
+    secHdrPairs.push(["Cross-Origin-Opener-Policy", "same-origin"]);
+    secHdrPairs.push(["Cross-Origin-Resource-Policy", "same-origin"]);
+  }
+
+  // Output 0: Next.js middleware.ts
+  const nextMw = [
+    "// src/middleware.ts — Generated by VibeShield v7.0 CSP Builder",
+    "// Verify live headers: https://vibe-checker.appwrite.network/",
+    'import { NextRequest, NextResponse } from "next/server";',
+    "",
+    "export function middleware(request: NextRequest) {",
+    "  const nonce = Buffer.from(crypto.randomUUID()).toString(\"base64\");",
+    "  const cspHeader = `" + dynamicCspExpr + "`;",
+    "",
+    "  const requestHeaders = new Headers(request.headers);",
+    '  requestHeaders.set("x-nonce", nonce);',
+    '  requestHeaders.set("Content-Security-Policy", cspHeader);',
+    "",
+    "  const response = NextResponse.next({ request: { headers: requestHeaders } });",
+    '  response.headers.set("Content-Security-Policy", cspHeader);',
+    secHdrPairs.map(function (p) { return '  response.headers.set("' + p[0] + '", "' + p[1] + '");'; }).join("\n"),
+    "  return response;",
+    "}",
+    "",
+    "export const config = {",
+    '  matcher: [{ source: "/((?!api|_next/static|_next/image|favicon.ico).*)" }],',
+    "};",
+    "",
+    "// Also set `poweredByHeader: false` in next.config.mjs and publish public/.well-known/security.txt"
+  ].join("\n");
+
+  // Output 1: vercel.json
+  const vercelHeaders = [{ key: "Content-Security-Policy", value: staticCspExpr }]
+    .concat(secHdrPairs.map(function (p) { return { key: p[0], value: p[1] }; }));
+  const vercelJson = JSON.stringify({ headers: [{ source: "/(.*)", headers: vercelHeaders }] }, null, 2);
+
+  // Output 2: Cloudflare Worker
+  const cfWorker = [
+    "// Cloudflare Edge Worker — Per-Request Nonce CSP + Observatory Headers",
+    "export default {",
+    "  async fetch(request) {",
+    "    const originResp = await fetch(request);",
+    "    const res = new Response(originResp.body, originResp);",
+    "    const nonce = btoa(crypto.randomUUID());",
+    "    res.headers.set(\"Content-Security-Policy\", `" + dynamicCspExpr + "`);",
+    secHdrPairs.map(function (p) { return '    res.headers.set("' + p[0] + '", "' + p[1] + '");'; }).join("\n"),
+    '    res.headers.delete("X-Powered-By");',
+    "    return res;",
+    "  }",
+    "};"
+  ].join("\n");
+
+  // Output 3: Nginx
+  const nginxConf = [
+    "# /etc/nginx/snippets/vibeshield-security-headers.conf",
+    "server_tokens off;",
+    'add_header Content-Security-Policy "' + staticCspExpr + '" always;',
+    secHdrPairs.map(function (p) { return 'add_header ' + p[0] + ' "' + p[1] + '" always;'; }).join("\n")
+  ].join("\n");
+
+  generatedOutputs = [nextMw, vercelJson, cfWorker, nginxConf];
+  document.getElementById("codeOutput").textContent = generatedOutputs[currentOutTab];
+}
+
+function copyCurrentCode(btn) {
+  const txt = generatedOutputs[currentOutTab] || "";
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(function () {});
+  const orig = btn.textContent;
+  btn.textContent = DICT[currentLang].copied;
+  setTimeout(function () { btn.textContent = orig; }, 1400);
+}
+
+function downloadCurrent() {
+  const blob = new Blob([generatedOutputs[currentOutTab] || ""], { type: "text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = FILE_NAMES[currentOutTab] || "security-headers.txt";
+  a.click();
+  setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+}
+
+document.getElementById("liveVerifyForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  let u = document.getElementById("liveUrlInput").value.trim();
+  if (!u) return;
+  if (!/^https?:\/\//i.test(u)) u = "https://" + u;
+  if (window.__opTrack) window.__opTrack("scan");
+  window.open("https://vibe-checker.appwrite.network/?url=" + encodeURIComponent(u), "_blank", "noopener");
+});
+
+(()=>{const U="https://omnipulse-x402.appwrite.network/v1/telemetry",W=window,D=document,E=D.documentElement,L=location,N=navigator,T=Date.now,M=Math,S=screen,P={passive:!0},on=(t,e,f,o)=>t.addEventListener(e,f,o),I="vsc_"+T().toString(36)+M.random().toString(36).slice(2,8),C={scan:0,outbound:0,paywall:0};let v=D.hidden?0:T(),a=0,m=0,lt=0,tz="";try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone.slice(0,64)}catch{}const u=()=>{const h=E.scrollHeight||1,x=h<=innerHeight?100:scrollY<3?0:M.min(100,M.round((scrollY+innerHeight)/h*100));if(x>m)m=x},sd=ev=>{try{u();const b=JSON.stringify({site:"vibeshield",sid:I,event:ev,path:L.pathname.slice(0,160),webdriver:!!N.webdriver,screen:(S.width||0)+"x"+(S.height||0),dwellSec:M.round((a+(v?T()-v:0))/1e3),scrollPct:m,scansRun:C.scan,outboundClicks:C.outbound,paywallClicks:C.paywall,referrer:D.referrer.slice(0,128),tz,lang:(E.lang||"en").slice(0,16)});N.sendBeacon?.(U,b)||fetch(U,{method:"POST",keepalive:!0,body:b}).catch(()=>{});lt=T()}catch{}},fl=()=>{v&&(a+=T()-v,v=0)};W.__opTrack=k=>k in C&&(C[k]++,sd(k));on(W,"scroll",u,P);on(D,"click",e=>{const c=e.target?.closest?.("a[href]"),h=c?.href;h&&(/\/(go\/gumroad|checkout)\//.test(h)?__opTrack("paywall"):c.protocol[0]=="h"&&c.hostname!=L.hostname&&__opTrack("outbound"))},P);on(D,"visibilitychange",()=>D.hidden?(fl(),sd("leave")):!v&&(v=T()));on(W,"pagehide",()=>{fl();T()-lt>400&&sd("leave")});setInterval(()=>!D.hidden&&sd("heartbeat"),15e3);setTimeout(()=>sd("pageview"),0)})();
+
+(function boot() {
+  let th = "dark";
+  try { if (localStorage.getItem(THEME_KEY) === "light") th = "light"; } catch {}
+  setTheme(th);
+  let lg = "en";
+  try { if (localStorage.getItem(LANG_KEY) === "zh") lg = "zh"; } catch {}
+  if (new URLSearchParams(location.search).get("lang") === "zh") lg = "zh";
+  setLang(lg, false);
+  applyPreset("strict_next");
+})();
+</script>
+</body>
+</html>

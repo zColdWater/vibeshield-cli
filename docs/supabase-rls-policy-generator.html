@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Supabase RLS Policy SQL Generator — Production Row Level Security Builder (2026) | VibeShield</title>
+<meta name="description" content="Generate production-ready, transaction-wrapped Supabase Row Level Security (RLS) SQL migrations in seconds. Fix CVE-2025-48757 open PostgREST tables, lock Storage buckets, and verify live with VibeShield v7.0." />
+<link rel="canonical" href="https://zcoldwater.github.io/vibeshield-cli/supabase-rls-policy-generator.html" />
+<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="VibeShield by OmniForge" />
+<meta property="og:title" content="Supabase RLS Policy SQL Generator — Fix Open Tables in 10 Seconds" />
+<meta property="og:description" content="Free interactive Supabase Row Level Security SQL generator for Lovable, Bolt, Cursor &amp; Next.js apps: user-owned, multi-tenant orgs, public read, storage buckets, and batch CVE-2025-48757 lockdown." />
+<meta property="og:url" content="https://zcoldwater.github.io/vibeshield-cli/supabase-rls-policy-generator.html" />
+<meta property="og:image" content="https://brand-checker.appwrite.network/assets/cover-vibeshield-2usd.png" />
+<meta property="og:image:width" content="1280" />
+<meta property="og:image:height" content="720" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@agentarenastudi" />
+<meta name="twitter:title" content="Supabase RLS Policy SQL Generator | VibeShield v7.0" />
+<meta name="twitter:description" content="Build transaction-wrapped ENABLE &amp; FORCE ROW LEVEL SECURITY SQL + verification tests + Cursor/Lovable prompts, then verify live across 20 Supabase tables." />
+<meta name="twitter:image" content="https://brand-checker.appwrite.network/assets/cover-vibeshield-2usd.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script>
+try { if (localStorage.getItem("of_theme_v6") === "light") document.documentElement.setAttribute("data-theme", "light"); } catch (e) {}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://zcoldwater.github.io/vibeshield-cli/supabase-rls-policy-generator.html#app",
+      "name": "Supabase RLS Policy SQL Generator",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "url": "https://zcoldwater.github.io/vibeshield-cli/supabase-rls-policy-generator.html",
+      "image": "https://brand-checker.appwrite.network/assets/cover-vibeshield-2usd.png",
+      "description": "Zero-install interactive SQL builder for Supabase Row Level Security policies, multi-tenant workspace isolation, private storage buckets, and CVE-2025-48757 remediation.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@type": "Organization", "name": "OmniForge · Agent Arena Studio", "url": "https://vibe-checker.appwrite.network/" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "VibeShield", "item": "https://zcoldwater.github.io/vibeshield-cli/" },
+        { "@type": "ListItem", "position": 2, "name": "Supabase RLS Policy SQL Generator", "item": "https://zcoldwater.github.io/vibeshield-cli/supabase-rls-policy-generator.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why is ENABLE ROW LEVEL SECURITY not enough without policies or FORCE?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Enabling RLS blocks anonymous access by default, but adding FORCE ROW LEVEL SECURITY also enforces policies on table owners, and explicitly revoking anon grants plus adding scoped TO authenticated policies prevents accidental exposure through PostgREST." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why wrap auth.uid() in (SELECT auth.uid()) inside Supabase RLS policies?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Wrapping auth.uid() in a scalar subquery lets PostgreSQL cache the result once per statement via initPlan instead of re-evaluating it for every scanned row, improving RLS query speed dramatically." }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I verify my live Supabase tables are actually locked?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Run your deployed URL through VibeShield v7.0 at https://vibe-checker.appwrite.network/. It performs safe read-only PostgREST HEAD probes across up to 20 tables plus 52 client secret checks." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0d0f0d; --bg-alt: #111512; --surface: #141916; --surface-2: #19201c;
+    --border: #232c26; --border-strong: #2f3d34; --ink: #f4f7f5; --ink-2: #d3dfd6;
+    --body: #a4b5a9; --muted: #788b7f; --brand: #4ade80; --brand-ink: #052e16;
+    --brand-soft: rgba(74, 222, 128, 0.12); --brand-bd: rgba(74, 222, 128, 0.34);
+    --warn: #fbbf24; --warn-bg: rgba(251, 191, 36, 0.12); --warn-bd: rgba(251, 191, 36, 0.32);
+    --bad: #fb7185; --bad-bg: rgba(244, 63, 94, 0.12); --bad-bd: rgba(244, 63, 94, 0.32);
+    --code-bg: #080b09; --code-bd: #1e2a22;
+  }
+  [data-theme="light"] {
+    color-scheme: light;
+    --bg: #ffffff; --bg-alt: #f8fafc; --surface: #ffffff; --surface-2: #f1f5f9;
+    --border: #e2e8f0; --border-strong: #cbd5e1; --ink: #0f172a; --ink-2: #1e293b;
+    --body: #475569; --muted: #64748b; --brand: #059669; --brand-ink: #ffffff;
+    --brand-soft: rgba(5, 150, 105, 0.10); --brand-bd: rgba(5, 150, 105, 0.34);
+    --warn: #b45309; --warn-bg: #fffbeb; --warn-bd: #fde68a;
+    --bad: #be123c; --bad-bg: #fff1f2; --bad-bd: #fecdd3;
+    --code-bg: #0f172a; --code-bd: #1e293b;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+  a { color: var(--brand); text-decoration: none; }
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+
+  .topbar { position: sticky; top: 0; z-index: 40; height: 60px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .topbar-in { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 12px; }
+  .brand { display: flex; align-items: center; gap: 9px; color: var(--ink); font-weight: 800; font-size: 15px; letter-spacing: -0.02em; white-space: nowrap; }
+  .brand-mark { width: 28px; height: 28px; border-radius: 7px; background: #0f1712; border: 1px solid rgba(74,222,128,0.45); display: inline-flex; align-items: center; justify-content: center; }
+  .nav-links { display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 600; }
+  .nav-links a { color: var(--body); }
+  .nav-links a:hover, .nav-links a.active { color: var(--brand); }
+  @media (max-width: 820px) { .nav-links { display: none; } }
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .pill-sw { display: inline-flex; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
+  .ps-btn { border: 0; background: transparent; color: var(--muted); font: 700 11.5px/1 inherit; padding: 5px 9px; border-radius: 999px; cursor: pointer; }
+  .ps-btn.active { background: var(--brand); color: var(--brand-ink); }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 15px; border-radius: 9px; font: 700 13px/1.2 inherit; border: 1px solid transparent; cursor: pointer; transition: all 0.14s; white-space: nowrap; }
+  .btn-brand { background: var(--brand); color: var(--brand-ink); }
+  .btn-brand:hover { filter: brightness(1.06); }
+  .btn-outline { background: var(--surface); color: var(--ink); border-color: var(--border-strong); }
+  .btn-outline:hover { border-color: var(--brand); color: var(--brand); }
+  .btn-sm { padding: 6px 11px; font-size: 12px; border-radius: 7px; }
+  .strike { text-decoration: line-through; opacity: 0.72; font-weight: 600; }
+
+  .hero { padding: 36px 0 24px; border-bottom: 1px solid var(--border); background: radial-gradient(circle at 50% -20%, rgba(74, 222, 128, 0.12), transparent 58%); }
+  .eyebrow { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; color: var(--brand); background: var(--brand-soft); border: 1px solid var(--brand-bd); padding: 4px 11px; border-radius: 999px; margin-bottom: 12px; }
+  h1 { margin: 0 0 10px; font-size: clamp(26px, 4vw, 38px); line-height: 1.12; letter-spacing: -0.03em; }
+  h1 span { color: var(--brand); }
+  .hero-sub { margin: 0; font-size: 15px; color: var(--body); max-width: 780px; }
+
+  .preset-bar { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0 0; }
+  .preset-btn { border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink-2); padding: 7px 12px; border-radius: 999px; font: 600 12px/1.2 inherit; cursor: pointer; transition: all 0.14s; }
+  .preset-btn:hover { border-color: var(--brand); color: var(--brand); }
+  .preset-btn.active { background: var(--brand-soft); border-color: var(--brand); color: var(--brand); }
+
+  .workspace { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); gap: 20px; padding: 24px 0 32px; align-items: start; }
+  @media (max-width: 920px) { .workspace { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; min-width: 0; }
+  @media (max-width: 560px) { .topbar-in { gap: 6px; } .nav-right .pill-sw:first-child { display: none; } .panel { padding: 15px; } .btn-sm { padding: 5px 9px; font-size: 11px; } }
+  .panel-title { margin: 0 0 4px; font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
+  .panel-sub { font-size: 12.5px; color: var(--muted); margin-bottom: 16px; }
+
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  @media (max-width: 520px) { .field-grid { grid-template-columns: 1fr; } }
+  .fld-wrap { margin-bottom: 12px; }
+  .fld-lbl { display: block; font-size: 11.5px; font-weight: 700; color: var(--ink-2); margin-bottom: 5px; }
+  .fld, .sel { width: 100%; padding: 9px 11px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--ink); font: 500 13px/1.35 inherit; outline: none; }
+  .fld:focus, .sel:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.14); }
+  .fld-hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  .chk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0 14px; }
+  @media (max-width: 520px) { .chk-grid { grid-template-columns: 1fr; } }
+  .chk-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--ink-2); cursor: pointer; }
+  .chk-item input { accent-color: var(--brand); width: 15px; height: 15px; margin: 0; }
+
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; padding: 4px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; }
+  .tab-btn { flex: 1 1 auto; border: 0; background: transparent; color: var(--muted); padding: 7px 10px; border-radius: 7px; font: 700 12px/1.2 inherit; cursor: pointer; }
+  .tab-btn.active { background: var(--surface-2); color: var(--ink); border: 1px solid var(--border-strong); }
+
+  .code-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .badge { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  .b-ok { background: var(--brand-soft); color: var(--brand); border: 1px solid var(--brand-bd); }
+  .b-warn { background: var(--warn-bg); color: var(--warn); border: 1px solid var(--warn-bd); }
+  .code-pre { margin: 0; padding: 14px 16px; border-radius: 10px; background: var(--code-bg); border: 1px solid var(--code-bd); color: #d8f8e2; font-size: 12px; line-height: 1.58; overflow-x: auto; max-height: 460px; white-space: pre; }
+
+  .verify-banner { margin-top: 16px; padding: 16px 18px; border-radius: 12px; background: linear-gradient(100deg, rgba(74, 222, 128, 0.14) 0%, rgba(16, 185, 129, 0.05) 100%); border: 1.5px solid var(--brand-bd); display: grid; gap: 10px; }
+  .scan-form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .scan-form input { flex: 1 1 220px; }
+
+  .info-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 12px 0 36px; }
+  @media (max-width: 820px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .info-card h3 { margin: 0 0 6px; font-size: 14.5px; }
+  .info-card p { margin: 0; font-size: 13px; color: var(--body); }
+
+  footer { border-top: 1px solid var(--border); padding: 26px 0 38px; font-size: 12.5px; color: var(--muted); }
+  .ft-row { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .ft-links { display: flex; gap: 16px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="./index.html">
+      <span class="brand-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+      <span>VibeShield <span class="mono" style="font-size:11px;color:var(--brand)">Tools</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="./supabase-rls-policy-generator.html" class="active" data-i18n="navRls">RLS SQL Generator</a>
+      <a href="./nextjs-nonce-csp-builder.html" data-i18n="navCsp">Next.js CSP Builder</a>
+      <a href="./web-security-headers-benchmark-2026.html" data-i18n="navBench">2026 Benchmark</a>
+      <a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener" data-i18n="navScanner">6-Phase Live Scanner</a>
+    </nav>
+    <div class="nav-right">
+      <div class="pill-sw" role="group" aria-label="Theme">
+        <button type="button" class="ps-btn active" id="thDark" onclick="setTheme('dark')">Dark</button>
+        <button type="button" class="ps-btn" id="thLight" onclick="setTheme('light')">Light</button>
+      </div>
+      <div class="pill-sw" role="group" aria-label="Language">
+        <button type="button" class="ps-btn active" id="lpEn" onclick="setLang('en', true)">EN</button>
+        <button type="button" class="ps-btn" id="lpZh" onclick="setLang('zh', true)">中文</button>
+      </div>
+      <a class="btn btn-brand btn-sm" href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield" target="_blank" rel="noopener" data-i18n="navUnlock">Unlock Fix ($2)</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow mono" data-i18n="heroEye">FREE ZERO-INSTALL BUILDER · CVE-2025-48757 REMEDIATION · SUPABASE POSTGRES 15+</div>
+    <h1 data-i18n="heroTitle">Supabase <span>RLS Policy SQL</span> Generator</h1>
+    <p class="hero-sub" data-i18n="heroSub">Compile idempotent, transaction-wrapped Row Level Security migrations using cached <code>(SELECT auth.uid())</code> initPlan subqueries, strict <code>FORCE ROW LEVEL SECURITY</code>, and B-Tree indexes — ready to paste into the Supabase SQL Editor.</p>
+    <div class="preset-bar" role="group" aria-label="RLS Policy Presets">
+      <button type="button" class="preset-btn active" id="pr0" onclick="applyPreset('user_owned')" data-i18n="p0">User-Owned Table</button>
+      <button type="button" class="preset-btn" id="pr1" onclick="applyPreset('multi_tenant')" data-i18n="p1">Multi-Tenant SaaS (Org)</button>
+      <button type="button" class="preset-btn" id="pr2" onclick="applyPreset('public_read')" data-i18n="p2">Public Read + Owner Write</button>
+      <button type="button" class="preset-btn" id="pr3" onclick="applyPreset('service_only')" data-i18n="p3">Service-Role Only (Admin)</button>
+      <button type="button" class="preset-btn" id="pr4" onclick="applyPreset('storage_private')" data-i18n="p4">Private Storage Bucket</button>
+      <button type="button" class="preset-btn" id="pr5" onclick="applyPreset('cve_lockdown')" data-i18n="p5">Batch CVE-2025-48757 Lockdown</button>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="workspace">
+    <!-- Left Column: Interactive Policy Configurator -->
+    <div class="panel">
+      <h2 class="panel-title" data-i18n="cfgTitle">Policy Parameters</h2>
+      <div class="panel-sub" data-i18n="cfgSub">Customize schema, tables, ownership pattern, and CRUD permissions. SQL regenerates instantaneously.</div>
+
+      <div class="field-grid">
+        <div>
+          <label class="fld-lbl" for="schemaInput" data-i18n="lblSchema">Schema</label>
+          <input id="schemaInput" class="fld mono" type="text" value="public" oninput="renderAll()" />
+        </div>
+        <div>
+          <label class="fld-lbl" for="patternSelect" data-i18n="lblPattern">Access Pattern</label>
+          <select id="patternSelect" class="sel" onchange="onPatternChange()">
+            <option value="user_owned">User-Owned (auth.uid() = owner_col)</option>
+            <option value="multi_tenant">Multi-Tenant Workspace (org_members)</option>
+            <option value="public_read">Public Read + Owner Write</option>
+            <option value="service_only">Backend / Service-Role Only (Deny Clients)</option>
+            <option value="storage_private">Private Storage Bucket (storage.objects)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="fld-wrap">
+        <label class="fld-lbl" for="tablesInput" data-i18n="lblTables">Table Name(s) (comma-separated for batch lockdown)</label>
+        <input id="tablesInput" class="fld mono" type="text" value="profiles" oninput="renderAll()" />
+        <div class="fld-hint" data-i18n="hintTables">Example: profiles, projects, subscriptions (sanitized to safe SQL identifiers)</div>
+      </div>
+
+      <div id="ownerRow" class="field-grid">
+        <div>
+          <label class="fld-lbl" for="ownerColInput" data-i18n="lblOwnerCol">Owner Column</label>
+          <input id="ownerColInput" class="fld mono" type="text" value="user_id" oninput="renderAll()" />
+        </div>
+        <div id="bucketColWrap" style="display:none">
+          <label class="fld-lbl" for="bucketInput" data-i18n="lblBucket">Storage Bucket ID</label>
+          <input id="bucketInput" class="fld mono" type="text" value="user-uploads" oninput="renderAll()" />
+        </div>
+      </div>
+
+      <div id="orgRow" class="field-grid" style="display:none">
+        <div>
+          <label class="fld-lbl" for="orgColInput" data-i18n="lblOrgCol">Org / Tenant Column</label>
+          <input id="orgColInput" class="fld mono" type="text" value="org_id" oninput="renderAll()" />
+        </div>
+        <div>
+          <label class="fld-lbl" for="memberTblInput" data-i18n="lblMemberTbl">Membership Join Table</label>
+          <input id="memberTblInput" class="fld mono" type="text" value="org_members" oninput="renderAll()" />
+        </div>
+      </div>
+
+      <div class="fld-lbl" style="margin-top:8px" data-i18n="lblOps">Permitted Operations &amp; Hardening Guards</div>
+      <div class="chk-grid">
+        <label class="chk-item"><input type="checkbox" id="opSelect" checked onchange="renderAll()" /><span>SELECT</span></label>
+        <label class="chk-item"><input type="checkbox" id="opInsert" checked onchange="renderAll()" /><span>INSERT (WITH CHECK)</span></label>
+        <label class="chk-item"><input type="checkbox" id="opUpdate" checked onchange="renderAll()" /><span>UPDATE (USING + CHECK)</span></label>
+        <label class="chk-item"><input type="checkbox" id="opDelete" checked onchange="renderAll()" /><span>DELETE</span></label>
+        <label class="chk-item"><input type="checkbox" id="optForce" checked onchange="renderAll()" /><span data-i18n="optForce">FORCE ROW LEVEL SECURITY</span></label>
+        <label class="chk-item"><input type="checkbox" id="optRevokeAnon" checked onchange="renderAll()" /><span data-i18n="optRevoke">REVOKE ALL FROM anon</span></label>
+        <label class="chk-item"><input type="checkbox" id="optIndex" checked onchange="renderAll()" /><span data-i18n="optIndex">Add Performance B-Tree Index</span></label>
+        <label class="chk-item"><input type="checkbox" id="optTx" checked onchange="renderAll()" /><span data-i18n="optTx">Wrap in BEGIN / COMMIT</span></label>
+      </div>
+
+      <div class="verify-banner">
+        <div>
+          <div style="font-size:13.5px;font-weight:800;color:var(--ink)" data-i18n="verTitle">Verify Your Live Supabase App Across 20 Tables &amp; 52 Secret Rules</div>
+          <div style="font-size:12px;color:var(--body);margin-top:2px" data-i18n="verSub">Run a free read-only 6-phase audit on VibeShield v7.0 — checks PostgREST open tables, Storage buckets, leaked <code>service_role</code> JWTs, and 28 Nuclei probes.</div>
+        </div>
+        <form id="liveVerifyForm" class="scan-form">
+          <input id="liveUrlInput" class="fld mono" type="text" placeholder="https://yourapp.lovable.app or yourapp.vercel.app" required />
+          <button type="submit" class="btn btn-brand" data-i18n="btnRunLive">Scan Live Free &rarr;</button>
+        </form>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--muted)">
+          <span data-i18n="verPricing">Need exact leaked JS line numbers &amp; 5-platform fixes? <strong style="color:var(--brand)">$2 Launch Special</strong> (<span class="strike">$9</span>).</span>
+          <a href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield" target="_blank" rel="noopener" style="font-weight:700" data-i18n="verBuy">1-Click Unlock ($2) &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Compiled Production Output -->
+    <div class="panel">
+      <div class="code-head">
+        <div>
+          <h2 class="panel-title" id="outTitle" data-i18n="outTitle">Generated Production SQL Migration</h2>
+          <div class="panel-sub" style="margin-bottom:0" id="outMeta">Idempotent · Postgres 15+ initPlan optimized · Zero unsafe anon reads</div>
+        </div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <button type="button" class="btn btn-brand btn-sm" onclick="copyCurrentCode(this)" data-i18n="btnCopy">Copy Output</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="downloadSql()" data-i18n="btnDl">Download .sql</button>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab-btn active" id="tab0" onclick="setOutTab(0)" data-i18n="t0">1. Supabase SQL Editor</button>
+        <button type="button" class="tab-btn" id="tab1" onclick="setOutTab(1)" data-i18n="t1">2. Verify &amp; Rollback SQL</button>
+        <button type="button" class="tab-btn" id="tab2" onclick="setOutTab(2)" data-i18n="t2">3. Cursor / Lovable Prompt</button>
+      </div>
+
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px" id="guardBadges"></div>
+      <pre id="codeOutput" class="code-pre mono"></pre>
+    </div>
+  </div>
+
+  <section class="info-grid">
+    <div class="info-card">
+      <h3 data-i18n="i1t">Why <code>(SELECT auth.uid())</code> Matters</h3>
+      <p data-i18n="i1d">Calling bare <code>auth.uid()</code> inside a policy forces PostgreSQL to invoke the JWT function per row. Wrapping it in <code>(SELECT auth.uid())</code> triggers an initPlan cache so Postgres evaluates it once per query.</p>
+    </div>
+    <div class="info-card">
+      <h3 data-i18n="i2t">Stop CVE-2025-48757 PostgREST Leaks</h3>
+      <p data-i18n="i2d">Every table created in <code>public</code> is automatically exposed over Supabase PostgREST. Without <code>ENABLE ROW LEVEL SECURITY</code> and explicit role policies, anyone with your browser anon key can read entire tables.</p>
+    </div>
+    <div class="info-card">
+      <h3 data-i18n="i3t">Never Bundle <code>service_role</code></h3>
+      <p data-i18n="i3d">A Supabase <code>service_role</code> JWT bypasses every RLS rule completely. Always audit built JS bundles with <a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener">VibeShield v7.0</a> before shipping to catch accidental <code>NEXT_PUBLIC_</code> leaks.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap ft-row">
+    <div><strong style="color:var(--ink)">OmniForge · Agent Arena Studio</strong> · <a href="mailto:agentarenastudio@proton.me">agentarenastudio@proton.me</a></div>
+    <div class="ft-links">
+      <a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener">VibeShield Live Scanner</a>
+      <a href="./nextjs-nonce-csp-builder.html">Next.js CSP Builder</a>
+      <a href="./web-security-headers-benchmark-2026.html">2026 Security Benchmark</a>
+      <a href="https://omnipulse-x402.appwrite.network/go/gumroad/suite" target="_blank" rel="noopener">Complete Suite ($5)</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const LANG_KEY = "of_lang_v5";
+const THEME_KEY = "of_theme_v6";
+let currentLang = "en";
+let currentOutTab = 0;
+let generatedOutputs = ["", "", ""];
+
+const DICT = {
+  en: {
+    navRls: "RLS SQL Generator", navCsp: "Next.js CSP Builder", navBench: "2026 Benchmark", navScanner: "6-Phase Live Scanner", navUnlock: "Unlock Fix ($2)",
+    heroEye: "FREE ZERO-INSTALL BUILDER · CVE-2025-48757 REMEDIATION · SUPABASE POSTGRES 15+",
+    heroTitle: "Supabase <span>RLS Policy SQL</span> Generator",
+    heroSub: "Compile idempotent, transaction-wrapped Row Level Security migrations using cached <code>(SELECT auth.uid())</code> initPlan subqueries, strict <code>FORCE ROW LEVEL SECURITY</code>, and B-Tree indexes — ready to paste into the Supabase SQL Editor.",
+    p0: "User-Owned Table", p1: "Multi-Tenant SaaS (Org)", p2: "Public Read + Owner Write", p3: "Service-Role Only (Admin)", p4: "Private Storage Bucket", p5: "Batch CVE-2025-48757 Lockdown",
+    cfgTitle: "Policy Parameters", cfgSub: "Customize schema, tables, ownership pattern, and CRUD permissions. SQL regenerates instantaneously.",
+    lblSchema: "Schema", lblPattern: "Access Pattern", lblTables: "Table Name(s) (comma-separated for batch lockdown)", hintTables: "Example: profiles, projects, subscriptions (sanitized to safe SQL identifiers)",
+    lblOwnerCol: "Owner Column", lblBucket: "Storage Bucket ID", lblOrgCol: "Org / Tenant Column", lblMemberTbl: "Membership Join Table",
+    lblOps: "Permitted Operations & Hardening Guards", optForce: "FORCE ROW LEVEL SECURITY", optRevoke: "REVOKE ALL FROM anon", optIndex: "Add Performance B-Tree Index", optTx: "Wrap in BEGIN / COMMIT",
+    verTitle: "Verify Your Live Supabase App Across 20 Tables & 52 Secret Rules", verSub: "Run a free read-only 6-phase audit on VibeShield v7.0 — checks PostgREST open tables, Storage buckets, leaked <code>service_role</code> JWTs, and 28 Nuclei probes.",
+    btnRunLive: "Scan Live Free &rarr;", verPricing: 'Need exact leaked JS line numbers &amp; 5-platform fixes? <strong style="color:var(--brand)">$2 Launch Special</strong> (<span class="strike">$9</span>).', verBuy: "1-Click Unlock ($2) &rarr;",
+    outTitle: "Generated Production SQL Migration", btnCopy: "Copy Output", btnDl: "Download .sql", copied: "Copied!",
+    t0: "1. Supabase SQL Editor", t1: "2. Verify & Rollback SQL", t2: "3. Cursor / Lovable Prompt",
+    i1t: "Why <code>(SELECT auth.uid())</code> Matters", i1d: "Calling bare <code>auth.uid()</code> inside a policy forces PostgreSQL to invoke the JWT function per row. Wrapping it in <code>(SELECT auth.uid())</code> triggers an initPlan cache so Postgres evaluates it once per query.",
+    i2t: "Stop CVE-2025-48757 PostgREST Leaks", i2d: "Every table created in <code>public</code> is automatically exposed over Supabase PostgREST. Without <code>ENABLE ROW LEVEL SECURITY</code> and explicit role policies, anyone with your browser anon key can read entire tables.",
+    i3t: "Never Bundle <code>service_role</code>", i3d: 'A Supabase <code>service_role</code> JWT bypasses every RLS rule completely. Always audit built JS bundles with <a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener">VibeShield v7.0</a> before shipping to catch accidental <code>NEXT_PUBLIC_</code> leaks.'
+  },
+  zh: {
+    navRls: "RLS SQL 生成器", navCsp: "Next.js CSP 生成器", navBench: "2026 安全基准", navScanner: "6 阶段实时深扫", navUnlock: "解锁修复 ($2)",
+    heroEye: "免费免安装在线工具 · 封堵 CVE-2025-48757 裸奔表 · SUPABASE POSTGRES 15+",
+    heroTitle: "Supabase <span>RLS 行级安全 SQL</span> 生成器",
+    heroSub: "一键生成幂等、事务包裹的 Supabase 行级安全策略脚本：内置 <code>(SELECT auth.uid())</code> 查询性能优化、<code>FORCE ROW LEVEL SECURITY</code> 与索引创建，直接粘贴进 SQL Editor 生效。",
+    p0: "用户私有表", p1: "多租户 SaaS (团队隔离)", p2: "公开只读 + 作者可写", p3: "仅限服务端 (禁止前端)", p4: "私有 Storage 存储桶", p5: "批量封堵 CVE-2025-48757",
+    cfgTitle: "策略参数配置", cfgSub: "自定义 Schema、数据表名、归属列与 CRUD 权限，右侧 SQL 实时编译。",
+    lblSchema: "数据库 Schema", lblPattern: "权限隔离模型", lblTables: "数据表名（英文逗号分隔可批量锁定多表）", hintTables: "示例：profiles, projects, subscriptions（自动净化为安全标识符）",
+    lblOwnerCol: "归属用户列", lblBucket: "Storage 存储桶 ID", lblOrgCol: "组织/租户列", lblMemberTbl: "成员关联表",
+    lblOps: "允许操作与安全加固护栏", optForce: "启用 FORCE RLS 强制约束", optRevoke: "回收 anon 匿名角色权限", optIndex: "自动创建 B-Tree 查询索引", optTx: "使用 BEGIN / COMMIT 事务包裹",
+    verTitle: "用 VibeShield v7.0 实网核验 20 张 Supabase 表与 52 类密钥", verSub: "免费只读 6 阶段深扫：自动探测 PostgREST 匿名可读表、公开 Storage 桶、泄露的 <code>service_role</code> JWT 与 28 项敏感端点。",
+    btnRunLive: "免费实测网站 &rarr;", verPricing: '需要定位具体泄露 JS 行号与 5 平台修复补丁？<strong style="color:var(--brand)">$2 破冰特惠</strong>（<span class="strike">$9</span>）。', verBuy: "1-Click 解锁 ($2) &rarr;",
+    outTitle: "生成的生产级 SQL 迁移脚本", btnCopy: "复制代码", btnDl: "下载 .sql", copied: "已复制!",
+    t0: "1. Supabase SQL Editor", t1: "2. 验权与回滚 SQL", t2: "3. Cursor / Lovable 修复指令",
+    i1t: "为何用 <code>(SELECT auth.uid())</code>", i1d: "直接写 <code>auth.uid()</code> 会导致 PostgreSQL 逐行重复解析 JWT；包裹为标量子查询 <code>(SELECT auth.uid())</code> 可触发 initPlan 缓存，单次查询仅计算一次，大幅提升性能。",
+    i2t: "彻底封堵 CVE-2025-48757 泄露", i2d: "Supabase <code>public</code> Schema 下新建的表默认接入 PostgREST 接口。只要未开 RLS，任何持有前端 anon 公钥的人都能直接拉取全表数据。",
+    i3t: "严禁前端打包 <code>service_role</code>", i3d: '<code>service_role</code> JWT 拥有绕过全部 RLS 的超级管理员权限。上线前务必用 <a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener">VibeShield v7.0</a> 扫一遍线上 JS 包拦截 <code>NEXT_PUBLIC_</code> 误泄露。'
+  }
+};
+
+function cleanIdent(raw, fallback) {
+  const s = String(raw || "").trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
+  return s || fallback;
+}
+
+function setTheme(mode) {
+  const isLight = mode === "light";
+  if (isLight) document.documentElement.setAttribute("data-theme", "light");
+  else document.documentElement.removeAttribute("data-theme");
+  document.getElementById("thDark").classList.toggle("active", !isLight);
+  document.getElementById("thLight").classList.toggle("active", isLight);
+  try { localStorage.setItem(THEME_KEY, isLight ? "light" : "dark"); } catch {}
+}
+
+function setLang(lang, manual) {
+  currentLang = lang === "zh" ? "zh" : "en";
+  document.documentElement.lang = currentLang === "zh" ? "zh-Hans" : "en";
+  if (manual) { try { localStorage.setItem(LANG_KEY, currentLang); } catch {} }
+  document.getElementById("lpEn").classList.toggle("active", currentLang === "en");
+  document.getElementById("lpZh").classList.toggle("active", currentLang === "zh");
+  document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    const k = el.getAttribute("data-i18n");
+    if (DICT[currentLang][k]) el.innerHTML = DICT[currentLang][k];
+  });
+  renderAll();
+}
+
+function setOutTab(idx) {
+  currentOutTab = idx;
+  for (let i = 0; i < 3; i++) document.getElementById("tab" + i).classList.toggle("active", i === idx);
+  document.getElementById("codeOutput").textContent = generatedOutputs[idx] || "";
+}
+
+function onPatternChange() {
+  const p = document.getElementById("patternSelect").value;
+  document.getElementById("ownerRow").style.display = (p === "service_only") ? "none" : "grid";
+  document.getElementById("orgRow").style.display = (p === "multi_tenant") ? "grid" : "none";
+  document.getElementById("bucketColWrap").style.display = (p === "storage_private") ? "block" : "none";
+  if (p === "storage_private") {
+    document.getElementById("schemaInput").value = "storage";
+    document.getElementById("tablesInput").value = "objects";
+  } else if (document.getElementById("schemaInput").value === "storage") {
+    document.getElementById("schemaInput").value = "public";
+    if (document.getElementById("tablesInput").value === "objects") document.getElementById("tablesInput").value = "profiles";
+  }
+  renderAll();
+}
+
+function applyPreset(name) {
+  const idxMap = { user_owned: 0, multi_tenant: 1, public_read: 2, service_only: 3, storage_private: 4, cve_lockdown: 5 };
+  for (let i = 0; i < 6; i++) document.getElementById("pr" + i).classList.toggle("active", idxMap[name] === i);
+  document.getElementById("opSelect").checked = true;
+  document.getElementById("opInsert").checked = true;
+  document.getElementById("opUpdate").checked = true;
+  document.getElementById("opDelete").checked = true;
+  document.getElementById("optForce").checked = true;
+  document.getElementById("optRevokeAnon").checked = true;
+  document.getElementById("optIndex").checked = true;
+  document.getElementById("optTx").checked = true;
+
+  if (name === "user_owned") {
+    document.getElementById("schemaInput").value = "public";
+    document.getElementById("tablesInput").value = "profiles";
+    document.getElementById("ownerColInput").value = "id";
+    document.getElementById("patternSelect").value = "user_owned";
+  } else if (name === "multi_tenant") {
+    document.getElementById("schemaInput").value = "public";
+    document.getElementById("tablesInput").value = "projects, invoices";
+    document.getElementById("orgColInput").value = "org_id";
+    document.getElementById("memberTblInput").value = "org_members";
+    document.getElementById("patternSelect").value = "multi_tenant";
+  } else if (name === "public_read") {
+    document.getElementById("schemaInput").value = "public";
+    document.getElementById("tablesInput").value = "posts";
+    document.getElementById("ownerColInput").value = "author_id";
+    document.getElementById("optRevokeAnon").checked = false;
+    document.getElementById("patternSelect").value = "public_read";
+  } else if (name === "service_only") {
+    document.getElementById("schemaInput").value = "public";
+    document.getElementById("tablesInput").value = "billing_events, audit_logs";
+    document.getElementById("patternSelect").value = "service_only";
+  } else if (name === "storage_private") {
+    document.getElementById("schemaInput").value = "storage";
+    document.getElementById("tablesInput").value = "objects";
+    document.getElementById("bucketInput").value = "avatars";
+    document.getElementById("optIndex").checked = false;
+    document.getElementById("patternSelect").value = "storage_private";
+  } else if (name === "cve_lockdown") {
+    document.getElementById("schemaInput").value = "public";
+    document.getElementById("tablesInput").value = "profiles, users, orders, subscriptions, api_keys";
+    document.getElementById("ownerColInput").value = "user_id";
+    document.getElementById("patternSelect").value = "user_owned";
+  }
+  onPatternChange();
+}
+
+function renderAll() {
+  const schema = cleanIdent(document.getElementById("schemaInput").value, "public");
+  const rawTables = String(document.getElementById("tablesInput").value || "profiles").split(",").map(function (t) { return cleanIdent(t, ""); }).filter(Boolean);
+  const tables = rawTables.length ? rawTables.slice(0, 12) : ["profiles"];
+  const pattern = document.getElementById("patternSelect").value;
+  const ownerCol = cleanIdent(document.getElementById("ownerColInput").value, "user_id");
+  const orgCol = cleanIdent(document.getElementById("orgColInput").value, "org_id");
+  const memberTbl = cleanIdent(document.getElementById("memberTblInput").value, "org_members");
+  const bucket = String(document.getElementById("bucketInput").value || "user-uploads").trim().replace(/[^a-zA-Z0-9._-]/g, "") || "user-uploads";
+
+  const ops = {
+    sel: document.getElementById("opSelect").checked,
+    ins: document.getElementById("opInsert").checked,
+    upd: document.getElementById("opUpdate").checked,
+    del: document.getElementById("opDelete").checked
+  };
+  const useForce = document.getElementById("optForce").checked;
+  const useRevoke = document.getElementById("optRevokeAnon").checked;
+  const useIndex = document.getElementById("optIndex").checked && pattern !== "storage_private";
+  const useTx = document.getElementById("optTx").checked;
+
+  const sql = [];
+  sql.push("-- Generated by VibeShield v7.0 Supabase RLS Policy SQL Generator");
+  sql.push("-- Verify live deployment: https://vibe-checker.appwrite.network/");
+  if (useTx) sql.push("BEGIN;");
+  sql.push("");
+
+  tables.forEach(function (tbl) {
+    const fq = schema + "." + tbl;
+    sql.push("-- =============================================================");
+    sql.push("-- Lockdown table: " + fq + " (" + pattern + ")");
+    sql.push("-- =============================================================");
+    sql.push("ALTER TABLE " + fq + " ENABLE ROW LEVEL SECURITY;");
+    if (useForce && schema !== "storage") sql.push("ALTER TABLE " + fq + " FORCE ROW LEVEL SECURITY;");
+
+    if (pattern === "service_only") {
+      sql.push("REVOKE ALL ON TABLE " + fq + " FROM anon, authenticated;");
+      sql.push("-- Zero client policies created: PostgREST returns 0 rows to anon & authenticated.");
+      sql.push("-- Only backend jobs holding SUPABASE_SERVICE_ROLE_KEY can access " + fq + ".");
+    } else if (pattern === "storage_private") {
+      const cond = "bucket_id = '" + bucket + "' AND (storage.foldername(name))[1] = (SELECT auth.uid()::text)";
+      if (ops.sel) {
+        sql.push('DROP POLICY IF EXISTS "' + bucket + '_select_own" ON storage.objects;');
+        sql.push('CREATE POLICY "' + bucket + '_select_own" ON storage.objects');
+        sql.push("  FOR SELECT TO authenticated USING (" + cond + ");");
+      }
+      if (ops.ins) {
+        sql.push('DROP POLICY IF EXISTS "' + bucket + '_insert_own" ON storage.objects;');
+        sql.push('CREATE POLICY "' + bucket + '_insert_own" ON storage.objects');
+        sql.push("  FOR INSERT TO authenticated WITH CHECK (" + cond + ");");
+      }
+      if (ops.upd) {
+        sql.push('DROP POLICY IF EXISTS "' + bucket + '_update_own" ON storage.objects;');
+        sql.push('CREATE POLICY "' + bucket + '_update_own" ON storage.objects');
+        sql.push("  FOR UPDATE TO authenticated USING (" + cond + ") WITH CHECK (" + cond + ");");
+      }
+      if (ops.del) {
+        sql.push('DROP POLICY IF EXISTS "' + bucket + '_delete_own" ON storage.objects;');
+        sql.push('CREATE POLICY "' + bucket + '_delete_own" ON storage.objects');
+        sql.push("  FOR DELETE TO authenticated USING (" + cond + ");");
+      }
+    } else {
+      if (useRevoke && pattern !== "public_read") {
+        sql.push("REVOKE ALL ON TABLE " + fq + " FROM anon;");
+      }
+      const expr = pattern === "multi_tenant"
+        ? "EXISTS (\n    SELECT 1 FROM " + schema + "." + memberTbl + " m\n    WHERE m." + orgCol + " = " + tbl + "." + orgCol + "\n      AND m.user_id = (SELECT auth.uid())\n  )"
+        : ownerCol + " = (SELECT auth.uid())";
+
+      if (ops.sel) {
+        const role = pattern === "public_read" ? "anon, authenticated" : "authenticated";
+        const usingClause = pattern === "public_read" ? "true" : expr;
+        sql.push('DROP POLICY IF EXISTS "' + tbl + '_select_policy" ON ' + fq + ";");
+        sql.push('CREATE POLICY "' + tbl + '_select_policy" ON ' + fq);
+        sql.push("  FOR SELECT TO " + role);
+        sql.push("  USING (" + usingClause + ");");
+      }
+      if (ops.ins) {
+        sql.push('DROP POLICY IF EXISTS "' + tbl + '_insert_policy" ON ' + fq + ";");
+        sql.push('CREATE POLICY "' + tbl + '_insert_policy" ON ' + fq);
+        sql.push("  FOR INSERT TO authenticated");
+        sql.push("  WITH CHECK (" + expr + ");");
+      }
+      if (ops.upd) {
+        sql.push('DROP POLICY IF EXISTS "' + tbl + '_update_policy" ON ' + fq + ";");
+        sql.push('CREATE POLICY "' + tbl + '_update_policy" ON ' + fq);
+        sql.push("  FOR UPDATE TO authenticated");
+        sql.push("  USING (" + expr + ")");
+        sql.push("  WITH CHECK (" + expr + ");");
+      }
+      if (ops.del) {
+        sql.push('DROP POLICY IF EXISTS "' + tbl + '_delete_policy" ON ' + fq + ";");
+        sql.push('CREATE POLICY "' + tbl + '_delete_policy" ON ' + fq);
+        sql.push("  FOR DELETE TO authenticated");
+        sql.push("  USING (" + expr + ");");
+      }
+      if (useIndex) {
+        const idxCol = pattern === "multi_tenant" ? orgCol : ownerCol;
+        sql.push("CREATE INDEX IF NOT EXISTS idx_" + tbl + "_" + idxCol + " ON " + fq + " (" + idxCol + ");");
+      }
+    }
+    sql.push("");
+  });
+  if (useTx) sql.push("COMMIT;");
+
+  // Tab 1: Verification & Rollback SQL
+  const ver = [
+    "-- 1) Confirm rowsecurity = true on all target tables",
+    "SELECT schemaname, tablename, rowsecurity",
+    "FROM pg_tables",
+    "WHERE schemaname = '" + schema + "'",
+    "  AND tablename IN (" + tables.map(function (t) { return "'" + t + "'"; }).join(", ") + ");",
+    "",
+    "-- 2) Inspect active policies",
+    "SELECT schemaname, tablename, policyname, roles, cmd",
+    "FROM pg_policies",
+    "WHERE schemaname = '" + schema + "'",
+    "  AND tablename IN (" + tables.map(function (t) { return "'" + t + "'"; }).join(", ") + ")",
+    "ORDER BY tablename, cmd;",
+    "",
+    "-- 3) Simulate anonymous PostgREST read (must return 0 rows unless public_read)",
+    "BEGIN;",
+    "SET LOCAL ROLE anon;",
+    "SELECT count(*) AS anon_visible_rows FROM " + schema + "." + tables[0] + ";",
+    "ROLLBACK;"
+  ];
+
+  // Tab 2: Cursor / Lovable AI Repair Prompt
+  const prompt = [
+    "Apply strict Supabase Row Level Security (RLS) to my project for table(s): " + tables.map(function (t) { return schema + "." + t; }).join(", ") + ".",
+    "",
+    "1. Add a new Supabase SQL migration in `supabase/migrations/` containing:",
+    "   - ENABLE" + (useForce ? " and FORCE" : "") + " ROW LEVEL SECURITY on each table.",
+    "   - Scoped policies for pattern `" + pattern + "` using `(SELECT auth.uid())` initPlan caching.",
+    useRevoke ? "   - Explicit `REVOKE ALL` from `anon` role so unauthenticated PostgREST queries fail closed." : "   - Explicit read/write separation between `anon` and `authenticated` roles.",
+    "2. Search the entire codebase for `SUPABASE_SERVICE_ROLE_KEY` or `service_role` and verify it NEVER uses `NEXT_PUBLIC_` or `VITE_` prefixes and only runs inside server-only Route Handlers / Edge Functions.",
+    "3. After deploying, verify the live production URL with VibeShield v7.0 (https://vibe-checker.appwrite.network/) to confirm 0 exposed PostgREST tables and 0 leaked secrets."
+  ];
+
+  generatedOutputs = [sql.join("\n"), ver.join("\n"), prompt.join("\n")];
+  document.getElementById("codeOutput").textContent = generatedOutputs[currentOutTab];
+
+  const badges = [];
+  badges.push('<span class="badge b-ok mono">' + tables.length + (currentLang === "zh" ? " 张表" : " Table(s)") + "</span>");
+  badges.push('<span class="badge b-ok mono">initPlan (SELECT auth.uid())</span>');
+  if (useForce) badges.push('<span class="badge b-ok mono">FORCE RLS</span>');
+  if (useRevoke || pattern === "service_only") badges.push('<span class="badge b-ok mono">Anon Revoked</span>');
+  else badges.push('<span class="badge b-warn mono">Anon Read Enabled</span>');
+  document.getElementById("guardBadges").innerHTML = badges.join("");
+}
+
+function copyCurrentCode(btn) {
+  const txt = generatedOutputs[currentOutTab] || "";
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(function () {});
+  const orig = btn.textContent;
+  btn.textContent = DICT[currentLang].copied;
+  setTimeout(function () { btn.textContent = orig; }, 1400);
+}
+
+function downloadSql() {
+  const blob = new Blob([generatedOutputs[0] || ""], { type: "text/sql;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "vibeshield-supabase-rls-lockdown.sql";
+  a.click();
+  setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+}
+
+document.getElementById("liveVerifyForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  let u = document.getElementById("liveUrlInput").value.trim();
+  if (!u) return;
+  if (!/^https?:\/\//i.test(u)) u = "https://" + u;
+  if (window.__opTrack) window.__opTrack("scan");
+  window.open("https://vibe-checker.appwrite.network/?url=" + encodeURIComponent(u), "_blank", "noopener");
+});
+
+(()=>{const U="https://omnipulse-x402.appwrite.network/v1/telemetry",W=window,D=document,E=D.documentElement,L=location,N=navigator,T=Date.now,M=Math,S=screen,P={passive:!0},on=(t,e,f,o)=>t.addEventListener(e,f,o),I="vsr_"+T().toString(36)+M.random().toString(36).slice(2,8),C={scan:0,outbound:0,paywall:0};let v=D.hidden?0:T(),a=0,m=0,lt=0,tz="";try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone.slice(0,64)}catch{}const u=()=>{const h=E.scrollHeight||1,x=h<=innerHeight?100:scrollY<3?0:M.min(100,M.round((scrollY+innerHeight)/h*100));if(x>m)m=x},sd=ev=>{try{u();const b=JSON.stringify({site:"vibeshield",sid:I,event:ev,path:L.pathname.slice(0,160),webdriver:!!N.webdriver,screen:(S.width||0)+"x"+(S.height||0),dwellSec:M.round((a+(v?T()-v:0))/1e3),scrollPct:m,scansRun:C.scan,outboundClicks:C.outbound,paywallClicks:C.paywall,referrer:D.referrer.slice(0,128),tz,lang:(E.lang||"en").slice(0,16)});N.sendBeacon?.(U,b)||fetch(U,{method:"POST",keepalive:!0,body:b}).catch(()=>{});lt=T()}catch{}},fl=()=>{v&&(a+=T()-v,v=0)};W.__opTrack=k=>k in C&&(C[k]++,sd(k));on(W,"scroll",u,P);on(D,"click",e=>{const c=e.target?.closest?.("a[href]"),h=c?.href;h&&(/\/(go\/gumroad|checkout)\//.test(h)?__opTrack("paywall"):c.protocol[0]=="h"&&c.hostname!=L.hostname&&__opTrack("outbound"))},P);on(D,"visibilitychange",()=>D.hidden?(fl(),sd("leave")):!v&&(v=T()));on(W,"pagehide",()=>{fl();T()-lt>400&&sd("leave")});setInterval(()=>!D.hidden&&sd("heartbeat"),15e3);setTimeout(()=>sd("pageview"),0)})();
+
+(function boot() {
+  let th = "dark";
+  try { if (localStorage.getItem(THEME_KEY) === "light") th = "light"; } catch {}
+  setTheme(th);
+  let lg = "en";
+  try { if (localStorage.getItem(LANG_KEY) === "zh") lg = "zh"; } catch {}
+  if (new URLSearchParams(location.search).get("lang") === "zh") lg = "zh";
+  setLang(lg, false);
+  applyPreset("user_owned");
+})();
+</script>
+</body>
+</html>

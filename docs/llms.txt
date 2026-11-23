@@ -4,6 +4,8 @@
 
 - Free 6-Phase Online Scanner: https://vibe-checker.appwrite.network/
 - Documentation & CLI Landing Page: https://zcoldwater.github.io/vibeshield-cli/
+- Interactive Supabase RLS Policy SQL Generator (Free): https://zcoldwater.github.io/vibeshield-cli/supabase-rls-policy-generator.html
+- Interactive Next.js Nonce CSP & Observatory Headers Builder (Free): https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html
 - 2026 Indie SaaS Security Headers & TLS Benchmark (N=60 Passive Study): https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html (Raw JSON: https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.json)
 - 40 AI Agent Skills Pack (Claude Code, Cursor, Codex): https://www.skills.sh/zColdWater/omniforge-skills
 - Open-Source MIT CLI & GitHub Action (`uses: zColdWater/vibeshield-cli@v7`): https://github.com/zColdWater/vibeshield-cli

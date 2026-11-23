@@ -7,6 +7,18 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://zcoldwater.github.io/vibeshield-cli/supabase-rls-policy-generator.html</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>monthly</changefreq>

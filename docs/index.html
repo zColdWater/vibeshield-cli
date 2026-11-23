@@ -134,9 +134,10 @@
       <a class="brand" href="./index.html"><span class="shield-dot"></span><span>VibeShield v7.0</span></a>
       <nav class="nav-links">
         <a href="https://vibe-checker.appwrite.network/" target="_blank" rel="noopener">Live 6-Phase Scanner</a>
+        <a href="./supabase-rls-policy-generator.html">RLS SQL Generator</a>
+        <a href="./nextjs-nonce-csp-builder.html">Next.js CSP Builder</a>
         <a href="./web-security-headers-benchmark-2026.html">2026 Benchmark (N=60)</a>
-        <a href="https://zcoldwater.github.io/omniforge-skills/" target="_blank" rel="noopener">40 Agent Skills</a>
-        <a href="https://github.com/zColdWater/vibeshield-cli" target="_blank" rel="noopener">GitHub CLI &amp; Action (@v7)</a>
+        <a href="https://github.com/zColdWater/vibeshield-cli" target="_blank" rel="noopener">GitHub CLI</a>
         <a class="btn btn-mint" href="https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield" target="_blank" rel="noopener">Unlock Fix Pack $2 <span class="strike">$9</span></a>
       </nav>
     </div>
@@ -177,6 +178,26 @@
         </div>
       </div>
     </section>
+
+    <section style="padding-top:10px">
+      <div class="grid-3">
+        <div class="card">
+          <h3>Supabase RLS Policy SQL Generator</h3>
+          <p style="color:var(--muted);margin:0 0 14px;">Build idempotent, transaction-wrapped <code>ENABLE &amp; FORCE ROW LEVEL SECURITY</code> migrations with cached <code>(SELECT auth.uid())</code> subqueries for user-owned, multi-tenant, and Storage buckets.</p>
+          <a class="btn btn-outline" href="./supabase-rls-policy-generator.html">Open RLS SQL Generator &rarr;</a>
+        </div>
+        <div class="card">
+          <h3>Next.js Nonce CSP &amp; Headers Builder</h3>
+          <p style="color:var(--muted);margin:0 0 14px;">Interactive CSP AST scorer targeting 100/100 Grade A+ and 10/10 Mozilla Observatory headers for <code>middleware.ts</code>, <code>vercel.json</code>, Cloudflare Workers, and Nginx.</p>
+          <a class="btn btn-outline" href="./nextjs-nonce-csp-builder.html">Open CSP Header Builder &rarr;</a>
+        </div>
+        <div class="card">
+          <h3>2026 Indie SaaS Security Benchmark</h3>
+          <p style="color:var(--muted);margin:0 0 14px;">Live empirical passive audit of 60 AI &amp; developer SaaS deployments covering CSP adoption, HSTS preload, TLS 1.3, and exposed SourceMaps.</p>
+          <a class="btn btn-outline" href="./web-security-headers-benchmark-2026.html">Read 60-Site Benchmark &rarr;</a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -199,8 +220,10 @@
       var raw = document.getElementById("targetInput").value.trim();
       if (!raw) return;
       if (!/^https?:\/\//i.test(raw)) raw = "https://" + raw;
+      if (window.__opTrack) window.__opTrack("scan");
       window.open("https://vibe-checker.appwrite.network/?url=" + encodeURIComponent(raw), "_blank", "noopener");
     });
+    (()=>{const U="https://omnipulse-x402.appwrite.network/v1/telemetry",W=window,D=document,E=D.documentElement,L=location,N=navigator,T=Date.now,M=Math,S=screen,P={passive:!0},on=(t,e,f,o)=>t.addEventListener(e,f,o),I="vsd_"+T().toString(36)+M.random().toString(36).slice(2,8),C={scan:0,outbound:0,paywall:0};let v=D.hidden?0:T(),a=0,m=0,lt=0,tz="";try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone.slice(0,64)}catch{}const u=()=>{const h=E.scrollHeight||1,x=h<=innerHeight?100:scrollY<3?0:M.min(100,M.round((scrollY+innerHeight)/h*100));if(x>m)m=x},sd=ev=>{try{u();const b=JSON.stringify({site:"vibeshield",sid:I,event:ev,path:L.pathname.slice(0,160),webdriver:!!N.webdriver,screen:(S.width||0)+"x"+(S.height||0),dwellSec:M.round((a+(v?T()-v:0))/1e3),scrollPct:m,scansRun:C.scan,outboundClicks:C.outbound,paywallClicks:C.paywall,referrer:D.referrer.slice(0,128),tz,lang:(E.lang||"en").slice(0,16)});N.sendBeacon?.(U,b)||fetch(U,{method:"POST",keepalive:!0,body:b}).catch(()=>{});lt=T()}catch{}},fl=()=>{v&&(a+=T()-v,v=0)};W.__opTrack=k=>k in C&&(C[k]++,sd(k));on(W,"scroll",u,P);on(D,"click",e=>{const c=e.target?.closest?.("a[href]"),h=c?.href;h&&(/\/(go\/gumroad|checkout)\//.test(h)?__opTrack("paywall"):c.protocol[0]=="h"&&c.hostname!=L.hostname&&__opTrack("outbound"))},P);on(D,"visibilitychange",()=>D.hidden?(fl(),sd("leave")):!v&&(v=T()));on(W,"pagehide",()=>{fl();T()-lt>400&&sd("leave")});setInterval(()=>!D.hidden&&sd("heartbeat"),15e3);setTimeout(()=>sd("pageview"),0)})();
   </script>
 </body>
 </html>
