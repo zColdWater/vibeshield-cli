@@ -9,6 +9,17 @@
 [![Node.js >= 20](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)](https://nodejs.org)
 [![Dependencies: 0](https://img.shields.io/badge/dependencies-0-success.svg)](./package.json)
 
+
+<!-- shipbastion-hero:start -->
+<p align="center">
+  <a href="https://shipbastion.com/">
+    <img src="./assets/shipbastion-vibeshield-preview.png" alt="ShipBastion VibeShield v7.0 — Live 109-Check Web & AI App Security Scanner" width="100%" />
+  </a>
+</p>
+
+*Live production scanner at [shipbastion.com](https://shipbastion.com/) — zero signup, strictly read-only 6-phase audit.*
+<!-- shipbastion-hero:end -->
+
 - **Free 6-Phase Online Deep Scanner (Live Console, Zero Signup):** [https://shipbastion.com](https://shipbastion.com)
 - **Single-App Fix Unlock ($2 Launch Special, reg. $9 — One-Time — Exact File/Line Evidence + 5-Platform Copy-Paste Patches):** [Gumroad Checkout](https://api.shipbastion.com/go/gumroad/vibeshield) · [Direct Checkout](https://api.shipbastion.com/checkout/vibeshield)
 - **Feature & TCO Comparison (VibeAppScanner $348/yr vs. VibeShield $2 Launch Special):** [https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html](https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html)
