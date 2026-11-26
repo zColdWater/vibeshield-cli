@@ -2,19 +2,19 @@
 
 **Zero-dependency, read-only 6-phase security auditor built for AI-coded web apps (Lovable, Bolt.new, Cursor, v0, Next.js, Vite, Supabase & Firebase).**
 
-[![Live VibeShield Score](https://vibe-checker.appwrite.network/api/badge.svg?url=zcoldwater.github.io)](https://vibe-checker.appwrite.network/?url=https://zcoldwater.github.io/vibeshield-cli/)
-[![AI Search Readiness](https://citeready-checker.appwrite.network/api/badge?url=zcoldwater.github.io/vibeshield-cli)](https://citeready-checker.appwrite.network/?url=https://zcoldwater.github.io/vibeshield-cli/)
+[![Live VibeShield Score](https://shipbastion.com/api/badge.svg?url=zcoldwater.github.io)](https://shipbastion.com/?url=https://zcoldwater.github.io/vibeshield-cli/)
+[![AI Search Readiness](https://cite.shipbastion.com/api/badge?url=zcoldwater.github.io/vibeshield-cli)](https://cite.shipbastion.com/?url=https://zcoldwater.github.io/vibeshield-cli/)
 [![GitHub Action](https://img.shields.io/badge/GitHub%20Action-zColdWater%2Fvibeshield--cli%40v7-16a34a?logo=githubactions&logoColor=white)](./action.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Node.js >= 20](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)](https://nodejs.org)
 [![Dependencies: 0](https://img.shields.io/badge/dependencies-0-success.svg)](./package.json)
 
-- **Free 6-Phase Online Deep Scanner (Live Console, Zero Signup):** [https://vibe-checker.appwrite.network](https://vibe-checker.appwrite.network)
-- **Single-App Fix Unlock ($2 Launch Special, reg. $9 — One-Time — Exact File/Line Evidence + 5-Platform Copy-Paste Patches):** [Gumroad Checkout](https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield) · [Direct Checkout](https://omnipulse-x402.appwrite.network/checkout/vibeshield)
+- **Free 6-Phase Online Deep Scanner (Live Console, Zero Signup):** [https://shipbastion.com](https://shipbastion.com)
+- **Single-App Fix Unlock ($2 Launch Special, reg. $9 — One-Time — Exact File/Line Evidence + 5-Platform Copy-Paste Patches):** [Gumroad Checkout](https://api.shipbastion.com/go/gumroad/vibeshield) · [Direct Checkout](https://api.shipbastion.com/checkout/vibeshield)
 - **Feature & TCO Comparison (VibeAppScanner $348/yr vs. VibeShield $2 Launch Special):** [https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html](https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html)
 - **2026 Empirical Benchmark (N=60 Indie SaaS Security Headers & TLS Study — 46.7% No CSP, 31.7% No Clickjacking Defense, 28.3% Grade F):** [https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html](https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html) · [JSON Dataset](./docs/web-security-headers-benchmark-2026.json)
 - **40 Zero-Dependency AI Agent Skills (`skills.sh`):** `npx skills add zColdWater/omniforge-skills` ([Registry](https://www.skills.sh/zColdWater/omniforge-skills))
-- **Companion Free Tools:** [BrandShield v6.2 (100% Free 78-TLD & Aftermarket Check)](https://brand-checker.appwrite.network) · [InboxShield v7.0 (Email Deliverability & DMARC Linter)](https://inbox-checker.appwrite.network) · [CiteReady (AI Search / llms.txt)](https://citeready-checker.appwrite.network)
+- **Companion Free Tools:** [BrandShield v6.2 (100% Free 78-TLD & Aftermarket Check)](https://brand.shipbastion.com) · [InboxShield v7.0 (Email Deliverability & DMARC Linter)](https://inbox.shipbastion.com) · [CiteReady (AI Search / llms.txt)](https://cite.shipbastion.com)
 
 ---
 
@@ -86,7 +86,7 @@ jobs:
 Show users your app passed a live 6-phase pre-launch security check:
 
 ```markdown
-[![Audited by VibeShield](https://vibe-checker.appwrite.network/api/badge.svg?domain=yourapp.com&score=95&grade=A%2B)](https://vibe-checker.appwrite.network/?url=https://yourapp.com)
+[![Audited by VibeShield](https://shipbastion.com/api/badge.svg?domain=yourapp.com&score=95&grade=A%2B)](https://shipbastion.com/?url=https://yourapp.com)
 ```
 
 ---
@@ -100,9 +100,9 @@ Show users your app passed a live 6-phase pre-launch security check:
 | **5-Platform Copy-Paste Fix Wizard** | Preview only | **Cursor/Lovable Prompt, Vercel, Cloudflare, Nginx, Supabase RLS SQL & Firebase Rules** | **Full Fix Wizards Across All Suites** |
 | **Printable Client A4 PDF Audit Report** | Summary only | **Branded A4 PDF Export** | **Included Across All Suites** |
 
-- **Run Free Deep Scan:** [https://vibe-checker.appwrite.network](https://vibe-checker.appwrite.network)
-- **Unlock Single-App Fix Pack ($2 Launch Special, ~~$9~~, One-Time, $0/mo, 14-Day Refund):** [https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield](https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield)
-- **Need a Clean Domain or Email DNS Check?** [BrandShield v6.2 (100% Free)](https://brand-checker.appwrite.network) · [InboxShield v7.0 ($2 Launch Special)](https://inbox-checker.appwrite.network)
+- **Run Free Deep Scan:** [https://shipbastion.com](https://shipbastion.com)
+- **Unlock Single-App Fix Pack ($2 Launch Special, ~~$9~~, One-Time, $0/mo, 14-Day Refund):** [https://api.shipbastion.com/go/gumroad/vibeshield](https://api.shipbastion.com/go/gumroad/vibeshield)
+- **Need a Clean Domain or Email DNS Check?** [BrandShield v6.2 (100% Free)](https://brand.shipbastion.com) · [InboxShield v7.0 ($2 Launch Special)](https://inbox.shipbastion.com)
 
 ## Ethical Scope
 

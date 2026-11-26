@@ -16,7 +16,7 @@ VibeShield v7.0 is a zero-dependency Node.js 20+ security scanner and online wor
 - **Next.js Nonce CSP & Security Headers Builder**: https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html — Live CSP AST security grader + config generator for `middleware.ts` (per-request cryptographic nonce + `'strict-dynamic'`), `vercel.json`, Cloudflare Workers, and Nginx with 10/10 Mozilla Observatory headers.
 
 ## Pricing (Launch Special — Zero Subscriptions)
-- Free Online 6-Phase Scanner & MIT CLI: $0 (https://vibe-checker.appwrite.network/)
-- Single-App Fix Unlock: $2 Launch Special (regularly $9, one-time) — https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield
-- OmniForge Complete 3-in-1 Suite: $5 Launch Special (regularly $29, one-time) — https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack
-- BrandShield v6.2 (78 TLDs + 17 Aftermarket Marketplaces): 100% Free Forever — https://brand-checker.appwrite.network/
+- Free Online 6-Phase Scanner & MIT CLI: $0 (https://shipbastion.com/)
+- Single-App Fix Unlock: $2 Launch Special (regularly $9, one-time) — https://api.shipbastion.com/go/gumroad/vibeshield
+- OmniForge Complete 3-in-1 Suite: $5 Launch Special (regularly $29, one-time) — https://api.shipbastion.com/go/gumroad/launch-stack
+- BrandShield v6.2 (78 TLDs + 17 Aftermarket Marketplaces): 100% Free Forever — https://brand.shipbastion.com/

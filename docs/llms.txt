@@ -2,13 +2,13 @@
 
 > Strictly read-only 6-phase security auditor for Lovable, Bolt, Cursor, Next.js, Vite, Supabase, and Firebase deployments: TLS 443 & CNAME takeover, up to 24 full JS bundles (2.5MB each) across 52 secret patterns, 28 SPA-filtered sensitive endpoint probes, Supabase (up to 20 tables) & Firebase RTDB/Firestore read checks, 10 Mozilla Observatory headers + CSP AST parser, and passive framework CVE matching (CVE-2025-29927, CVE-2025-48757).
 
-- Free 6-Phase Online Scanner: https://vibe-checker.appwrite.network/
+- Free 6-Phase Online Scanner: https://shipbastion.com/
 - Documentation & CLI Landing Page: https://zcoldwater.github.io/vibeshield-cli/
 - Interactive Supabase RLS Policy SQL Generator (Free): https://zcoldwater.github.io/vibeshield-cli/supabase-rls-policy-generator.html
 - Interactive Next.js Nonce CSP & Observatory Headers Builder (Free): https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html
 - 2026 Indie SaaS Security Headers & TLS Benchmark (N=60 Passive Study): https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html (Raw JSON: https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.json)
 - 40 AI Agent Skills Pack (Claude Code, Cursor, Codex): https://www.skills.sh/zColdWater/omniforge-skills
 - Open-Source MIT CLI & GitHub Action (`uses: zColdWater/vibeshield-cli@v7`): https://github.com/zColdWater/vibeshield-cli
-- Single-App Fix Unlock ($2 Launch Special, regularly $9 — Exact File/Line Evidence + 5-Platform Copy-Paste Patches): https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield
-- OmniForge Complete Suite ($5 Launch Special, regularly $29 — Unlocks VibeShield + InboxShield + CiteReady): https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack
-- Companion Free Tool — BrandShield v6.2 (100% Free 78-TLD & 17 Aftermarket Checker): https://brand-checker.appwrite.network/
+- Single-App Fix Unlock ($2 Launch Special, regularly $9 — Exact File/Line Evidence + 5-Platform Copy-Paste Patches): https://api.shipbastion.com/go/gumroad/vibeshield
+- OmniForge Complete Suite ($5 Launch Special, regularly $29 — Unlocks VibeShield + InboxShield + CiteReady): https://api.shipbastion.com/go/gumroad/launch-stack
+- Companion Free Tool — BrandShield v6.2 (100% Free 78-TLD & 17 Aftermarket Checker): https://brand.shipbastion.com/

@@ -4,7 +4,7 @@
  * (Next.js, Vite, Cursor, Lovable, Bolt, v0, Supabase, Firebase).
  *
  * Runs 100% locally by default (zero external dependencies, Node.js 20+ built-ins)
- * or optionally via --remote against https://vibe-checker.appwrite.network.
+ * or optionally via --remote against https://shipbastion.com.
  *
  * 6 Real Audit Phases:
  *   1. Real TLS Port 443 Handshake + DNS CNAME Subdomain Takeover Audit
@@ -19,9 +19,9 @@ import { appendFileSync, writeFileSync } from "node:fs";
 import { scanApp, ENGINE_VERSION, SECRET_RULES } from "../src/scanner-engine.mjs";
 
 const VERSION = "7.0.0";
-const WEB_APP = "https://vibe-checker.appwrite.network";
-const PRO_GUMROAD = "https://omnipulse-x402.appwrite.network/go/gumroad/vibeshield";
-const STACK_GUMROAD = "https://omnipulse-x402.appwrite.network/go/gumroad/launch-stack";
+const WEB_APP = "https://shipbastion.com";
+const PRO_GUMROAD = "https://api.shipbastion.com/go/gumroad/vibeshield";
+const STACK_GUMROAD = "https://api.shipbastion.com/go/gumroad/launch-stack";
 
 const C = {
   reset: "\x1b[0m",
