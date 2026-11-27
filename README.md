@@ -21,6 +21,7 @@
 <!-- shipbastion-hero:end -->
 
 - **Free 6-Phase Online Deep Scanner (Live Console, Zero Signup):** [https://shipbastion.com](https://shipbastion.com)
+- **Free Browser-Side Hardening Tools:** [10/10 HTTP Security Headers Generator (Next.js/Vercel/Cloudflare/Nginx/Caddy)](https://zcoldwater.github.io/vibeshield-cli/security-headers-config-generator.html) · [Supabase RLS Policy SQL Generator](https://zcoldwater.github.io/vibeshield-cli/supabase-rls-policy-generator.html) · [Next.js Nonce CSP Builder](https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html)
 - **Single-App Fix Unlock ($2 Launch Special, reg. $9 — One-Time — Exact File/Line Evidence + 5-Platform Copy-Paste Patches):** [Gumroad Checkout](https://api.shipbastion.com/go/gumroad/vibeshield) · [Direct Checkout](https://api.shipbastion.com/checkout/vibeshield)
 - **Feature & TCO Comparison (VibeAppScanner $348/yr vs. VibeShield $2 Launch Special):** [https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html](https://zcoldwater.github.io/launch-audit-reports/compare/vibeappscanner-vs-vibeshield.html)
 - **2026 Empirical Benchmark (N=60 Indie SaaS Security Headers & TLS Study — 46.7% No CSP, 31.7% No Clickjacking Defense, 28.3% Grade F):** [https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html](https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html) · [JSON Dataset](./docs/web-security-headers-benchmark-2026.json)

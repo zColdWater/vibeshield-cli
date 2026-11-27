@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>10/10 HTTP Security Headers Config Generator (Next.js, Vercel, Cloudflare, Nginx, Caddy) — VibeShield</title>
+  <meta name="description" content="Free client-side HTTP security headers generator for Next.js, Vercel, Cloudflare Workers/_headers, Nginx, and Caddy. Score 100/100 Grade A+ on Mozilla Observatory with HSTS Preload, CSP, COOP, CORP, Permissions-Policy, and live verification on ShipBastion." />
+  <link rel="canonical" href="https://zcoldwater.github.io/vibeshield-cli/security-headers-config-generator.html" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="10/10 HTTP Security Headers Generator — Next.js, Vercel, Cloudflare, Nginx &amp; Caddy" />
+  <meta property="og:description" content="Generate drop-in A+ Mozilla Observatory security headers for 5 production stacks in seconds, then verify your live deployment at shipbastion.com." />
+  <meta property="og:url" content="https://zcoldwater.github.io/vibeshield-cli/security-headers-config-generator.html" />
+  <meta property="og:image" content="https://brand.shipbastion.com/assets/cover-vibeshield-2usd.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://brand.shipbastion.com/assets/cover-vibeshield-2usd.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "VibeShield 10/10 HTTP Security Headers Config Generator",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web Browser (100% Client-Side)",
+        "url": "https://zcoldwater.github.io/vibeshield-cli/security-headers-config-generator.html",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0.00",
+          "priceCurrency": "USD"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "ShipBastion / VibeShield",
+          "url": "https://shipbastion.com/"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Which HTTP security headers are required for an A+ Mozilla Observatory score?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Achieving 100/100 Grade A+ requires Strict-Transport-Security (max-age>=31536000 with includeSubDomains), a strict Content-Security-Policy without unsafe-inline or unsafe-eval in script-src, X-Content-Type-Options: nosniff, X-Frame-Options: DENY (plus frame-ancestors 'none'), Referrer-Policy: strict-origin-when-cross-origin, Cross-Origin-Opener-Policy: same-origin, Cross-Origin-Resource-Policy: same-origin, and a restrictive Permissions-Policy."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I verify that my deployed headers are active in production?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Run a free 6-phase read-only audit at https://shipbastion.com/ or via curl -sSL https://shipbastion.com/cli.sh. VibeShield inspects all 10 Observatory headers, CSP syntax, TLS 1.3 certificate validity, 52 JS bundle secret patterns, and Supabase/Firebase exposure in under 2 seconds."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #0b0e0c;
+      --surface: #121714;
+      --surface-2: #171e1a;
+      --border: #232d26;
+      --border-hi: #2f4034;
+      --text: #f3f7f4;
+      --muted: #93a399;
+      --mint: #4ade80;
+      --mint-dim: rgba(74, 222, 128, 0.11);
+      --amber: #f59e0b;
+      --rose: #f87171;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; max-width: 100%; overflow-x: hidden; background-color: var(--bg); }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 50% 0%, rgba(74, 222, 128, 0.09) 0%, rgba(11, 14, 12, 0) 48%), var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    a { color: var(--mint); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+
+    header {
+      position: sticky; top: 0; z-index: 20;
+      border-bottom: 1px solid var(--border);
+      background: rgba(11, 14, 12, 0.92);
+      backdrop-filter: blur(8px);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; min-height: 62px; gap: 14px; flex-wrap: wrap; padding: 10px 0; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1rem; color: #fff; letter-spacing: -0.02em; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 10px var(--mint); }
+    .nav-links { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 0.87rem; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); text-decoration: none; }
+    .nav-links a.btn-mint, .nav-links a.btn-mint:hover { color: #052e16; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 9px 15px; border-radius: 8px; font-weight: 700; font-size: 0.86rem;
+      border: 1px solid transparent; cursor: pointer; transition: opacity 0.15s ease, border-color 0.15s ease;
+      font-family: inherit;
+    }
+    .btn:hover { opacity: 0.92; text-decoration: none; }
+    .btn-mint { background: var(--mint); color: #052e16; }
+    .btn-outline { background: var(--surface-2); color: var(--text); border-color: var(--border-hi); }
+
+    .hero { padding: 36px 0 22px; }
+    .eyebrow {
+      display: inline-block; font-family: var(--mono); font-size: 0.74rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 999px;
+      background: var(--mint-dim); border: 1px solid rgba(74, 222, 128, 0.28); color: var(--mint);
+      margin-bottom: 12px;
+    }
+    h1 { margin: 0 0 10px; font-size: clamp(1.65rem, 3.6vw, 2.55rem); line-height: 1.15; letter-spacing: -0.03em; max-width: 860px; }
+    .lead { margin: 0; color: var(--muted); font-size: 0.98rem; max-width: 760px; }
+
+    .bf-bar {
+      margin-top: 18px; padding: 12px 16px; border-radius: 10px;
+      background: linear-gradient(90deg, rgba(74,222,128,0.10), rgba(18,23,20,0.95));
+      border: 1px solid rgba(74,222,128,0.28);
+      display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+      font-size: 0.87rem;
+    }
+    .bf-bar strong { color: #fff; }
+    .strike { text-decoration: line-through; opacity: 0.6; }
+
+    .workspace {
+      display: grid; grid-template-columns: minmax(0, 390px) minmax(0, 1fr);
+      gap: 20px; align-items: start; margin: 22px 0 36px;
+    }
+    @media (max-width: 900px) {
+      .workspace { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    .panel {
+      min-width: 0;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 20px;
+    }
+    .panel-title {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      margin: 0 0 14px; font-size: 0.98rem; font-weight: 700;
+    }
+
+    .score-card {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      padding: 14px 16px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border-hi);
+      margin-bottom: 16px;
+    }
+    .score-num { font-family: var(--mono); font-size: 1.7rem; font-weight: 800; color: var(--mint); line-height: 1; }
+    .score-meta { font-size: 0.82rem; color: var(--muted); }
+    .grade-pill {
+      font-family: var(--mono); font-weight: 800; font-size: 0.92rem;
+      padding: 6px 12px; border-radius: 8px; background: var(--mint-dim); color: var(--mint);
+      border: 1px solid rgba(74, 222, 128, 0.35);
+    }
+    .grade-warn { background: rgba(245, 158, 11, 0.14); color: var(--amber); border-color: rgba(245, 158, 11, 0.35); }
+    .grade-bad { background: rgba(248, 113, 113, 0.14); color: var(--rose); border-color: rgba(248, 113, 113, 0.35); }
+
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+    .input, select {
+      width: 100%; padding: 9px 11px; border-radius: 8px;
+      border: 1px solid var(--border-hi); background: #080b09; color: var(--text);
+      font-size: 0.88rem; font-family: var(--mono);
+    }
+
+    .preset-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .chip {
+      padding: 5px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 600;
+      background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); cursor: pointer;
+    }
+    .chip:hover, .chip.active { border-color: var(--mint); color: var(--mint); background: var(--mint-dim); }
+
+    .toggle-list { display: grid; gap: 9px; }
+    .toggle-item {
+      display: flex; align-items: flex-start; gap: 10px; padding: 9px 11px;
+      border-radius: 8px; background: #0d120f; border: 1px solid var(--border);
+      cursor: pointer; font-size: 0.84rem;
+    }
+    .toggle-item input { margin-top: 3px; accent-color: var(--mint); }
+    .toggle-name { display: block; font-weight: 700; color: var(--text); font-family: var(--mono); font-size: 0.8rem; }
+    .toggle-desc { display: block; font-size: 0.77rem; color: var(--muted); margin-top: 2px; }
+
+    .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+    .tab {
+      padding: 7px 12px; border-radius: 8px; font-size: 0.82rem; font-weight: 700;
+      background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); cursor: pointer;
+    }
+    .tab.active { background: var(--mint); color: #052e16; border-color: var(--mint); }
+
+    .code-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+      padding: 10px 14px; border-radius: 10px 10px 0 0;
+      background: #0d120f; border: 1px solid var(--border); border-bottom: none;
+      font-family: var(--mono); font-size: 0.8rem; color: var(--muted);
+    }
+    pre.code {
+      margin: 0; padding: 16px; border-radius: 0 0 10px 10px;
+      background: #070a08; border: 1px solid var(--border);
+      font-family: var(--mono); font-size: 0.81rem; line-height: 1.55; color: #d8f8e3;
+      overflow-x: auto; max-width: 100%; tab-size: 2;
+    }
+
+    .verify-box {
+      margin-top: 16px; padding: 16px; border-radius: 10px;
+      background: var(--surface-2); border: 1px solid var(--border-hi);
+    }
+    .verify-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .verify-row .input { flex: 1; min-width: 200px; }
+
+    .matrix { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.83rem; }
+    .matrix th, .matrix td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border); }
+    .matrix th { color: var(--muted); font-family: var(--mono); font-size: 0.74rem; text-transform: uppercase; }
+    .tag-ok { color: var(--mint); font-family: var(--mono); font-weight: 700; }
+    .tag-off { color: var(--rose); font-family: var(--mono); font-weight: 700; }
+
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 28px 0 36px; }
+    .tool-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+    .tool-card h3 { margin: 0 0 6px; font-size: 0.95rem; }
+    .tool-card p { margin: 0 0 10px; font-size: 0.84rem; color: var(--muted); }
+
+    footer { border-top: 1px solid var(--border); padding: 26px 0 40px; color: var(--muted); font-size: 0.83rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="./index.html"><span class="dot"></span><span>VibeShield Free Tools</span></a>
+      <nav class="nav-links">
+        <a href="https://shipbastion.com/" target="_blank" rel="noopener">Live 6-Phase Scanner</a>
+        <a href="./security-headers-config-generator.html" class="active">10/10 Headers Generator</a>
+        <a href="./supabase-rls-policy-generator.html">Supabase RLS SQL</a>
+        <a href="./nextjs-nonce-csp-builder.html">Next.js Nonce CSP</a>
+        <a href="https://github.com/zColdWater/vibeshield-cli" target="_blank" rel="noopener">MIT CLI</a>
+        <a class="btn btn-mint" href="https://shipbastion.com/" target="_blank" rel="noopener">Verify Live URL &rarr;</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">100% Client-Side · Zero Signup · 5 Production Stacks</span>
+      <h1>10/10 Mozilla Observatory Security Headers Config Generator</h1>
+      <p class="lead">
+        Generate drop-in A+ HTTP security header configurations for <strong>Next.js</strong>, <strong>Vercel</strong>, <strong>Cloudflare</strong>, <strong>Nginx</strong>, and <strong>Caddy</strong>. Customize API/connect origins, simulate your Observatory score in real time, then verify your live production domain on ShipBastion.
+      </p>
+      <div class="bf-bar">
+        <div>
+          <strong>Black Friday &amp; Cyber Monday 2026 (Nov 23 – Dec 2, 2026):</strong>
+          Full 109-check live security audits are free forever; unlock exact file locations, AI repair prompts &amp; 50-URL batch CSV for <strong>$2 one-time</strong> (<span class="strike">$9</span>, 78% off) or all 3 ShipBastion suites for <strong>$5</strong> (<span class="strike">$29</span>, 83% off).
+        </div>
+        <a class="btn btn-mint" href="https://shipbastion.com/#pricing" target="_blank" rel="noopener">View $2 Offer &rarr;</a>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <aside class="panel">
+        <div class="panel-title">
+          <span>Hardening Controls</span>
+          <span style="font-family:var(--mono);font-size:0.75rem;color:var(--muted)">9 Controls · 100 pts</span>
+        </div>
+
+        <div class="score-card">
+          <div>
+            <div class="score-num" id="scoreNum">100 / 100</div>
+            <div class="score-meta" id="scoreMeta">10 of 10 headers hardened</div>
+          </div>
+          <div class="grade-pill" id="gradePill">Grade A+</div>
+        </div>
+
+        <div class="field">
+          <label>Quick Stack Preset (populates connect-src / img-src)</label>
+          <div class="preset-row" id="presetRow">
+            <button type="button" class="chip active" data-preset="strict">Strict Default</button>
+            <button type="button" class="chip" data-preset="supabase">Next.js + Supabase</button>
+            <button type="button" class="chip" data-preset="stripe">SaaS + Stripe</button>
+            <button type="button" class="chip" data-preset="firebase">Firebase App</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="connectOrigins">Allowed connect-src origins (space-separated)</label>
+          <input id="connectOrigins" class="input" type="text" value="https://api.example.com" />
+        </div>
+
+        <div class="field">
+          <label for="domainInput">Target domain (for Caddy / Nginx &amp; live audit link)</label>
+          <input id="domainInput" class="input" type="text" value="app.example.com" />
+        </div>
+
+        <div class="toggle-list" id="toggleList">
+          <label class="toggle-item">
+            <input type="checkbox" data-key="csp" checked />
+            <span><span class="toggle-name">Content-Security-Policy (+25)</span><span class="toggle-desc">Blocks XSS, inline script injection, clickjacking (frame-ancestors 'none')</span></span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" data-key="hsts" checked />
+            <span><span class="toggle-name">Strict-Transport-Security (+20)</span><span class="toggle-desc">2-year HTTPS enforcement with includeSubDomains; preload</span></span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" data-key="xcto" checked />
+            <span><span class="toggle-name">X-Content-Type-Options (+10)</span><span class="toggle-desc">nosniff prevents MIME-type confusion script execution</span></span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" data-key="xfo" checked />
+            <span><span class="toggle-name">X-Frame-Options (+10)</span><span class="toggle-desc">DENY legacy clickjacking defense alongside frame-ancestors</span></span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" data-key="referrer" checked />
+            <span><span class="toggle-name">Referrer-Policy (+10)</span><span class="toggle-desc">strict-origin-when-cross-origin protects URL tokens &amp; query params</span></span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" data-key="permissions" checked />
+            <span><span class="toggle-name">Permissions-Policy (+10)</span><span class="toggle-desc">Disables unused camera, microphone, geolocation, payment APIs</span></span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" data-key="coop" checked />
+            <span><span class="toggle-name">Cross-Origin-Opener-Policy (+5)</span><span class="toggle-desc">same-origin isolates browsing context group against Spectre/XS-Leaks</span></span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" data-key="corp" checked />
+            <span><span class="toggle-name">Cross-Origin-Resource-Policy (+5)</span><span class="toggle-desc">same-origin blocks unauthorized cross-site resource embedding</span></span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" data-key="stripServer" checked />
+            <span><span class="toggle-name">Hide Server / X-Powered-By (+5)</span><span class="toggle-desc">Removes runtime fingerprinting headers (Next.js / Nginx / Caddy)</span></span>
+          </label>
+        </div>
+      </aside>
+
+      <div class="panel">
+        <div class="panel-title">
+          <span>Production Config Output</span>
+          <button type="button" class="btn btn-mint" id="copyBtn">Copy Config</button>
+        </div>
+
+        <div class="tabs" id="platformTabs" role="tablist">
+          <button type="button" class="tab active" data-platform="nextjs">Next.js (next.config.mjs)</button>
+          <button type="button" class="tab" data-platform="vercel">Vercel (vercel.json)</button>
+          <button type="button" class="tab" data-platform="cloudflare">Cloudflare (_headers)</button>
+          <button type="button" class="tab" data-platform="nginx">Nginx (nginx.conf)</button>
+          <button type="button" class="tab" data-platform="caddy">Caddy (Caddyfile)</button>
+        </div>
+
+        <div class="code-bar">
+          <span id="fileName">next.config.mjs</span>
+          <span id="lineCount">0 lines</span>
+        </div>
+        <pre class="code" id="codeOut"></pre>
+
+        <div class="verify-box">
+          <strong style="font-size:0.93rem;">Verify After Deploying (Free 109-Check Live Production Audit)</strong>
+          <div style="font-size:0.82rem;color:var(--muted);margin-top:4px;">
+            Deploy the config above, then test your live domain with VibeShield to confirm 10/10 Observatory headers, TLS 1.3 validity, 52 client-JS secret rules, and zero exposed <code>.env</code>/<code>.git</code> files:
+          </div>
+          <div class="verify-row">
+            <input id="verifyInput" class="input" type="text" value="https://app.example.com" />
+            <a id="verifyLink" class="btn btn-mint" href="https://shipbastion.com/?url=https%3A%2F%2Fapp.example.com" target="_blank" rel="noopener">Run Free Live Audit on ShipBastion &rarr;</a>
+          </div>
+          <div style="margin-top:10px;font-family:var(--mono);font-size:0.78rem;color:var(--muted);">
+            CLI check: <code id="cliCmd" style="color:var(--mint)">curl -sSL https://shipbastion.com/cli.sh | bash -s -- https://app.example.com</code>
+          </div>
+        </div>
+
+        <table class="matrix" aria-label="Active Header Matrix">
+          <thead>
+            <tr><th>Header</th><th>Weight</th><th>Status</th></tr>
+          </thead>
+          <tbody id="matrixBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="font-size:1.15rem;margin:0 0 12px;">More Free Browser-Side DevSecOps Tools</h2>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <h3>Live 6-Phase Web Security Scanner</h3>
+          <p>Audit any live URL across TLS 1.3, 24 JS bundles, 52 secret rules, Supabase RLS, Firebase, and 10 Observatory headers.</p>
+          <a href="https://shipbastion.com/" target="_blank" rel="noopener">Open shipbastion.com &rarr;</a>
+        </div>
+        <div class="tool-card">
+          <h3>Supabase RLS Policy Generator</h3>
+          <p>Generate tenant-isolated PostgreSQL Row Level Security policies and verify PostgREST anon table access.</p>
+          <a href="./supabase-rls-policy-generator.html">Open RLS Generator &rarr;</a>
+        </div>
+        <div class="tool-card">
+          <h3>Next.js Nonce CSP Builder</h3>
+          <p>Generate per-request cryptographic nonce middleware.ts for Next.js App Router with strict-dynamic.</p>
+          <a href="./nextjs-nonce-csp-builder.html">Open Nonce CSP Builder &rarr;</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      VibeShield · MIT Open-Source CLI (<a href="https://github.com/zColdWater/vibeshield-cli" target="_blank" rel="noopener">zColdWater/vibeshield-cli</a>) · Flagship Scanner: <a href="https://shipbastion.com/" target="_blank" rel="noopener">shipbastion.com</a> · 100% browser-side, zero telemetry stored on inputs.
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const PRESETS = {
+        strict: "https://api.example.com",
+        supabase: "https://*.supabase.co wss://*.supabase.co",
+        stripe: "https://api.stripe.com https://checkout.stripe.com",
+        firebase: "https://*.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com"
+      };
+
+      const META = [
+        { key: "csp", label: "Content-Security-Policy", weight: 25 },
+        { key: "hsts", label: "Strict-Transport-Security", weight: 20 },
+        { key: "xcto", label: "X-Content-Type-Options", weight: 10 },
+        { key: "xfo", label: "X-Frame-Options", weight: 10 },
+        { key: "referrer", label: "Referrer-Policy", weight: 10 },
+        { key: "permissions", label: "Permissions-Policy", weight: 10 },
+        { key: "coop", label: "Cross-Origin-Opener-Policy", weight: 5 },
+        { key: "corp", label: "Cross-Origin-Resource-Policy", weight: 5 },
+        { key: "stripServer", label: "Remove Server / X-Powered-By", weight: 5 }
+      ];
+
+      let platform = "nextjs";
+      const state = {};
+      for (const m of META) state[m.key] = true;
+
+      const connectInput = document.getElementById("connectOrigins");
+      const domainInput = document.getElementById("domainInput");
+      const verifyInput = document.getElementById("verifyInput");
+      const verifyLink = document.getElementById("verifyLink");
+      const cliCmd = document.getElementById("cliCmd");
+      const codeOut = document.getElementById("codeOut");
+      const fileName = document.getElementById("fileName");
+      const lineCount = document.getElementById("lineCount");
+      const scoreNum = document.getElementById("scoreNum");
+      const scoreMeta = document.getElementById("scoreMeta");
+      const gradePill = document.getElementById("gradePill");
+      const matrixBody = document.getElementById("matrixBody");
+      const copyBtn = document.getElementById("copyBtn");
+
+      function cleanOrigins(raw) {
+        return raw.split(/\s+/).map(s => s.trim()).filter(s => /^https?:\/\/|^wss?:\/\//i.test(s)).join(" ");
+      }
+
+      function cleanHost(raw) {
+        return (raw || "app.example.com").trim().replace(/^https?:\/\//i, "").replace(/\/.*$/, "") || "app.example.com";
+      }
+
+      function buildHeaders() {
+        const extraConnect = cleanOrigins(connectInput.value);
+        const connectVal = extraConnect ? "'self' " + extraConnect : "'self'";
+        const list = [];
+        if (state.csp) {
+          list.push([
+            "Content-Security-Policy",
+            "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src " + connectVal + "; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+          ]);
+        }
+        if (state.hsts) list.push(["Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload"]);
+        if (state.xcto) list.push(["X-Content-Type-Options", "nosniff"]);
+        if (state.xfo) list.push(["X-Frame-Options", "DENY"]);
+        if (state.referrer) list.push(["Referrer-Policy", "strict-origin-when-cross-origin"]);
+        if (state.permissions) list.push(["Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()"]);
+        if (state.coop) list.push(["Cross-Origin-Opener-Policy", "same-origin"]);
+        if (state.corp) list.push(["Cross-Origin-Resource-Policy", "same-origin"]);
+        return list;
+      }
+
+      function renderCode(headers) {
+        const host = cleanHost(domainInput.value);
+        if (platform === "nextjs") {
+          fileName.textContent = "next.config.mjs";
+          const rows = headers.map(([k, v]) => "          { key: " + JSON.stringify(k) + ", value: " + JSON.stringify(v) + " }").join(",\n");
+          return [
+            "/** @type {import('next').NextConfig} */",
+            "const nextConfig = {",
+            state.stripServer ? "  poweredByHeader: false," : "  poweredByHeader: true,",
+            "  async headers() {",
+            "    return [",
+            "      {",
+            "        source: '/(.*)',",
+            "        headers: [",
+            rows,
+            "        ],",
+            "      },",
+            "    ];",
+            "  },",
+            "};",
+            "",
+            "export default nextConfig;"
+          ].join("\n");
+        }
+        if (platform === "vercel") {
+          fileName.textContent = "vercel.json";
+          const obj = {
+            headers: [
+              {
+                source: "/(.*)",
+                headers: headers.map(([key, value]) => ({ key, value }))
+              }
+            ]
+          };
+          return JSON.stringify(obj, null, 2);
+        }
+        if (platform === "cloudflare") {
+          fileName.textContent = "public/_headers";
+          return [
+            "/*",
+            ...headers.map(([k, v]) => "  " + k + ": " + v),
+            ...(state.stripServer ? ["  ! Server", "  ! X-Powered-By"] : [])
+          ].join("\n");
+        }
+        if (platform === "nginx") {
+          fileName.textContent = "/etc/nginx/sites-available/" + host;
+          return [
+            "server {",
+            "  listen 443 ssl http2;",
+            "  server_name " + host + ";",
+            ...(state.stripServer ? ["  server_tokens off;"] : []),
+            "",
+            ...headers.map(([k, v]) => "  add_header " + k + " \"" + v.replace(/"/g, "\\\"") + "\" always;"),
+            "}"
+          ].join("\n");
+        }
+        fileName.textContent = "Caddyfile";
+        return [
+          host + " {",
+          "  encode zstd gzip",
+          "  header {",
+          ...headers.map(([k, v]) => "    " + k + " \"" + v.replace(/"/g, "\\\"") + "\""),
+          ...(state.stripServer ? ["    -Server", "    -X-Powered-By"] : []),
+          "  }",
+          "  reverse_proxy 127.0.0.1:3000",
+          "}"
+        ].join("\n");
+      }
+
+      function updateVerify() {
+        const raw = verifyInput.value.trim() || "https://" + cleanHost(domainInput.value);
+        const normalized = /^https?:\/\//i.test(raw) ? raw : "https://" + raw;
+        verifyLink.href = "https://shipbastion.com/?url=" + encodeURIComponent(normalized);
+        cliCmd.textContent = "curl -sSL https://shipbastion.com/cli.sh | bash -s -- " + normalized;
+      }
+
+      function render() {
+        const headers = buildHeaders();
+        const code = renderCode(headers);
+        codeOut.textContent = code;
+        lineCount.textContent = code.split("\n").length + " lines";
+
+        let score = 0;
+        let enabledCount = 0;
+        for (const m of META) {
+          if (state[m.key]) { score += m.weight; enabledCount++; }
+        }
+        scoreNum.textContent = score + " / 100";
+        scoreMeta.textContent = enabledCount + " of " + META.length + " controls enabled";
+
+        let grade = "Grade F", cls = "grade-pill grade-bad";
+        if (score >= 95) { grade = "Grade A+"; cls = "grade-pill"; }
+        else if (score >= 85) { grade = "Grade A"; cls = "grade-pill"; }
+        else if (score >= 70) { grade = "Grade B"; cls = "grade-pill grade-warn"; }
+        else if (score >= 55) { grade = "Grade C"; cls = "grade-pill grade-warn"; }
+        gradePill.textContent = grade;
+        gradePill.className = cls;
+
+        matrixBody.innerHTML = META.map(m =>
+          "<tr><td style=\"font-family:var(--mono)\">" + m.label + "</td><td>+" + m.weight + "</td><td class=\"" +
+          (state[m.key] ? "tag-ok\">ACTIVE" : "tag-off\">MISSING") + "</td></tr>"
+        ).join("");
+      }
+
+      document.getElementById("toggleList").addEventListener("change", function (e) {
+        if (e.target && e.target.dataset && e.target.dataset.key) {
+          state[e.target.dataset.key] = !!e.target.checked;
+          render();
+        }
+      });
+
+      document.getElementById("platformTabs").addEventListener("click", function (e) {
+        const btn = e.target.closest("[data-platform]");
+        if (!btn) return;
+        platform = btn.dataset.platform;
+        document.querySelectorAll("#platformTabs .tab").forEach(t => t.classList.toggle("active", t === btn));
+        render();
+      });
+
+      document.getElementById("presetRow").addEventListener("click", function (e) {
+        const chip = e.target.closest("[data-preset]");
+        if (!chip) return;
+        connectInput.value = PRESETS[chip.dataset.preset] || "";
+        document.querySelectorAll("#presetRow .chip").forEach(c => c.classList.toggle("active", c === chip));
+        render();
+      });
+
+      connectInput.addEventListener("input", render);
+      domainInput.addEventListener("input", function () {
+        verifyInput.value = "https://" + cleanHost(domainInput.value);
+        updateVerify();
+        render();
+      });
+      verifyInput.addEventListener("input", updateVerify);
+
+      copyBtn.addEventListener("click", function () {
+        const text = codeOut.textContent || "";
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            copyBtn.textContent = "Copied!";
+            setTimeout(function () { copyBtn.textContent = "Copy Config"; }, 1600);
+          }).catch(function () {});
+        }
+      });
+
+      updateVerify();
+      render();
+    })();
+  </script>
+</body>
+</html>

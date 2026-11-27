@@ -4,6 +4,7 @@
 
 - Free 6-Phase Online Scanner: https://shipbastion.com/
 - Documentation & CLI Landing Page: https://zcoldwater.github.io/vibeshield-cli/
+- Interactive 10/10 HTTP Security Headers Config Generator (Next.js, Vercel, Cloudflare, Nginx, Caddy — Free): https://zcoldwater.github.io/vibeshield-cli/security-headers-config-generator.html
 - Interactive Supabase RLS Policy SQL Generator (Free): https://zcoldwater.github.io/vibeshield-cli/supabase-rls-policy-generator.html
 - Interactive Next.js Nonce CSP & Observatory Headers Builder (Free): https://zcoldwater.github.io/vibeshield-cli/nextjs-nonce-csp-builder.html
 - 2026 Indie SaaS Security Headers & TLS Benchmark (N=60 Passive Study): https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.html (Raw JSON: https://zcoldwater.github.io/vibeshield-cli/web-security-headers-benchmark-2026.json)
